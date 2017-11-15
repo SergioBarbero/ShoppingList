@@ -28,8 +28,8 @@
       <file leaf-file-name="ChosenProduct.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ChosenProduct.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="74" column="4" lean-forward="true" selection-start-line="74" selection-start-column="4" selection-end-line="74" selection-end-column="4" />
+            <state relative-caret-position="178">
+              <caret line="68" column="18" lean-forward="false" selection-start-line="68" selection-start-column="18" selection-end-line="68" selection-end-column="18" />
               <folding>
                 <element signature="e#961#962#0" expanded="true" />
                 <element signature="e#1003#1004#0" expanded="true" />
@@ -39,12 +39,12 @@
                 <element signature="e#1288#1289#0" expanded="true" />
                 <element signature="e#1321#1322#0" expanded="true" />
                 <element signature="e#1355#1356#0" expanded="true" />
-                <element signature="e#1403#1404#0" expanded="true" />
-                <element signature="e#1439#1440#0" expanded="true" />
-                <element signature="e#1474#1475#0" expanded="true" />
-                <element signature="e#1510#1511#0" expanded="true" />
-                <element signature="e#1558#1559#0" expanded="true" />
-                <element signature="e#1598#1599#0" expanded="true" />
+                <element signature="e#1473#1474#0" expanded="true" />
+                <element signature="e#1509#1510#0" expanded="true" />
+                <element signature="e#1544#1545#0" expanded="true" />
+                <element signature="e#1580#1581#0" expanded="true" />
+                <element signature="e#1628#1629#0" expanded="true" />
+                <element signature="e#1668#1669#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -319,7 +319,14 @@
       <option name="project" value="LOCAL" />
       <updated>1510775032421</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Starting class ChosenProduct (Part 3)">
+      <created>1510775390953</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1510775390953</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -365,7 +372,8 @@
     <MESSAGE value="Supermarket db added" />
     <MESSAGE value="Starting class ChosenProduct" />
     <MESSAGE value="Starting class ChosenProduct (Part 2)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Starting class ChosenProduct (Part 2)" />
+    <MESSAGE value="Starting class ChosenProduct (Part 3)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Starting class ChosenProduct (Part 3)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -460,8 +468,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ChosenProduct.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="74" column="4" lean-forward="true" selection-start-line="74" selection-start-column="4" selection-end-line="74" selection-end-column="4" />
+        <state relative-caret-position="178">
+          <caret line="68" column="18" lean-forward="false" selection-start-line="68" selection-start-column="18" selection-end-line="68" selection-end-column="18" />
           <folding>
             <element signature="e#961#962#0" expanded="true" />
             <element signature="e#1003#1004#0" expanded="true" />
@@ -471,12 +479,12 @@
             <element signature="e#1288#1289#0" expanded="true" />
             <element signature="e#1321#1322#0" expanded="true" />
             <element signature="e#1355#1356#0" expanded="true" />
-            <element signature="e#1403#1404#0" expanded="true" />
-            <element signature="e#1439#1440#0" expanded="true" />
-            <element signature="e#1474#1475#0" expanded="true" />
-            <element signature="e#1510#1511#0" expanded="true" />
-            <element signature="e#1558#1559#0" expanded="true" />
-            <element signature="e#1598#1599#0" expanded="true" />
+            <element signature="e#1473#1474#0" expanded="true" />
+            <element signature="e#1509#1510#0" expanded="true" />
+            <element signature="e#1544#1545#0" expanded="true" />
+            <element signature="e#1580#1581#0" expanded="true" />
+            <element signature="e#1628#1629#0" expanded="true" />
+            <element signature="e#1668#1669#0" expanded="true" />
           </folding>
         </state>
       </provider>
