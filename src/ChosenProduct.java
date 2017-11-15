@@ -61,8 +61,27 @@ public class ChosenProduct{
         return this.product.getId();
     }
 
+    public int getQuantity(){
+        return this.quantity;
+    }
+
     public void setQuantity(int quantity){
         this.quantity = quantity;
     }
 
+    public boolean getBought(){
+        return this.bought;
+    }
+    
+    public void setBought(boolean bought){
+        this.bought = bought;
+    }
+
+    public boolean getFavorite(){
+        return this.favorite;
+    }
+
+    public void setFavorite(boolean favorite){
+        this.favorite = favorite;
+    }
 }
