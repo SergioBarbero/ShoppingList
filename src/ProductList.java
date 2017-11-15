@@ -13,6 +13,24 @@ public class ProductList {
         return myList;
     }
 
+    public boolean addProduct(ChosenProduct product) {
+        boolean added = false;
+        if(!myList.contains(product)){
+            myList.add(product);
+            added = true;
+        }
+        return added;
+    }
+    
+    public boolean deleteProduct(int id){
+        boolean deleted = false;
+        if((myList.get(id).getBought() || myList.get(id).getQuantity() == 0) && !myList.get(id).getFavorite()){
+            myList.remove(id);
+            deleted = true;
+        }
+        return deleted;
+    }
+
     public void increaseQuantity(int id, int quantity){
         int myQuantity = myList.get(id).getQuantity();
         myList.get(id).setQuantity(myQuantity + quantity);

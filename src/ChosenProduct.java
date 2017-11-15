@@ -72,11 +72,7 @@ public class ChosenProduct{
     public boolean getBought(){
         return this.bought;
     }
-/*
-    public boolean deleteProduct(int id){
-        if product
-    }
-  */
+
     public void setBought(boolean bought){
         this.bought = bought;
     }
