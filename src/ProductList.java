@@ -14,12 +14,12 @@ public class ProductList {
     }
 
     public void increaseQuantity(int id, int quantity){
-        int myQuantity = myList.get(id).getQuanty();
+        int myQuantity = myList.get(id).getQuantity();
         myList.get(id).setQuantity(myQuantity + quantity);
     }
 
     public void decreaseQuantity(int id, int quantity){
-        int myQuantity = myList.get(id).getQuanty();
+        int myQuantity = myList.get(id).getQuantity();
         int finalQuantity = myQuantity - quantity;
         if (finalQuantity > 0)
             myList.get(id).setQuantity(finalQuantity);
@@ -32,8 +32,8 @@ public class ProductList {
 
     }
 
-
-
-    public void
+    public void markAsFavourite(int id){
+        myList.get(id).setFavorite(true);
+    }
 
 }
