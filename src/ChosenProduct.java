@@ -6,18 +6,18 @@ public class ChosenProduct{
     private Product product;
 
     /**
-     * Cuantity of this product in list
+     * Quantity of this product in list
      */
-    private int cuantity;
+    private int quantity;
 
     /**
-     * True if this product allready bought
+     * True if this product already bought
      */
 
     private boolean bought;
 
     /**
-     * If we have bought this product, we know ohw much it costed
+     * If we have bought this product, we know how much it cost
      */
 
     private double price;
@@ -31,21 +31,26 @@ public class ChosenProduct{
     /**
      * Product constructor
      * @param product object Product
-     * @param cuantity number of this products
+     * @param quantity number of this products
      */
-    public ChosenProduct(Product product, int cuantity){
+    public ChosenProduct(Product product, int quantity){
+        this.product = product;
         this.bought = false;
         this.favorite = false;
-        this.product = product;
-        this.cuantity = cuantity;
+        this.quantity = quantity;
     }
 
     /**
      * Returns name of my product
      * @return name
      */
-    private String getName(){
+    public String getName(){
         return this.product.getName();
+    }
+
+
+    public void changeName(String name){
+        this.product.setName(name);
     }
 
     /**
@@ -56,9 +61,8 @@ public class ChosenProduct{
         return this.product.getId();
     }
 
-
-    public void increaseCuantity(int id, int c){
-
+    public void setQuantity(int quantity){
+        this.quantity = quantity;
     }
 
 }
