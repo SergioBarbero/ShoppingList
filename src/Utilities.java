@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -64,7 +63,7 @@ public class Utilities {
      */
 
     public static List<ChosenProduct> manageList(List<ChosenProduct> list){
-        return new Tests(list).getList();
+        return new Manager(list).getList();
     }
 
     /**
