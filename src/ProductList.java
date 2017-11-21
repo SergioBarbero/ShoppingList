@@ -4,17 +4,31 @@ import java.util.List;
 public class ProductList {
 
     /**
+     * Instance from singleton
+     */
+
+    private static ProductList instance = null;
+
+    /**
      * List with products
      */
 
-    private static List<ChosenProduct> myList;
+    private static List<ChosenProduct> myList = new ArrayList<>();
 
     /**
      * ProductList Constructor
      */
 
     public ProductList(){
-        myList = new ArrayList<>();
+    }
+
+    /**
+     * Get instance from singleton if exists or create new one
+     * @return instance from singleton
+     */
+
+    public static ProductList getInstance(){
+        return ((instance == null) ? new ProductList() : instance);
     }
 
     /**

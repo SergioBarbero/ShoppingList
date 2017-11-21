@@ -1,6 +1,5 @@
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -26,12 +25,23 @@ public class Utilities {
     }
 
     /**
+     * Ask the user for file format
+     * @return format of the file
+     */
+
+    public static String askFormatFile(){
+        String format = ".tsv";
+        //TODO -- switch con varios formatos
+        return format;
+    }
+
+    /**
      *  Checks if the file for this user already exists to open it, or creates a new list
      * @param fileToWrite file where the list should be
      * @return list with products for this user (read from file or created empty)
      */
 
-    public static List<ChosenProduct> checkList(String fileToWrite){
+    public static List<ChosenProduct> checkList(String fileToWrite) throws IOException {
         File f = new File(fileToWrite);
         return ((f.exists()) ? readList(fileToWrite) : createList());
     }
@@ -51,10 +61,29 @@ public class Utilities {
      * @return list read
      */
 
-    public static List<ChosenProduct> readList(String fileName){
-        //TODO -- leer fichero
-        return null;
+    public static List<ChosenProduct> readList(String fileName) throws IOException {
+        List<ChosenProduct> list = new ArrayList<>();
+        String del = "\t";
+
+        BufferedReader br = new BufferedReader(new FileReader(fileName));
+        String line;
+        String[] aPP;   //allProductParts;
+        int id = -2;
+
+        while((line = br.readLine()) != null) {
+            id++;
+            if(id > 0) {
+                aPP = line.split(del);
+                Product pr = new Product(id, aPP[0]);
+                ChosenProduct cPr = new ChosenProduct(pr, Integer.parseInt(aPP[1]), (aPP[2].equals("YES") ? true : false), Double.parseDouble(aPP[3]), (aPP[4].equals("YES") ? true : false));
+                list.add(cPr);
+            }
+        }
+
+        return list;
     }
+
+
 
     /**
      * Gives the user the control to edit the products of the list (or run a bunch of tests)
@@ -63,7 +92,8 @@ public class Utilities {
      */
 
     public static List<ChosenProduct> manageList(List<ChosenProduct> list){
-        return new Manager(list).getList();
+        Tests t = new Tests(list);
+        return t.getList();
     }
 
     /**
@@ -76,68 +106,71 @@ public class Utilities {
 
     public static void writeList(String writeTo, List<ChosenProduct> list, String user) throws IOException {
 
-        FileWriter pw = new FileWriter(writeTo);
-        StringBuilder sb = new StringBuilder();
         char del = '\t';
         char fln = '\n';
+        Writer pw = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(writeTo), "iso-8859-1"));
 
-        writeHeader(sb, del, fln, user);
-        writeBody(sb, del, fln, list);
+        pw.append(writeHeader(del, fln, user));
+        pw.append(writeBody(del, fln, list));
 
-        pw.write(sb.toString());
+        pw.flush();
         pw.close();
-
     }
 
     /**
      * Writes a header to make things clear in the file
-     * @param sb StringBuilder to makes strings and save them
      * @param del char that separates data
      * @param fln char that ends the line to write a new product
      * @param user String with user name
      */
 
-    public static void writeHeader(StringBuilder sb, char del, char fln, String user){
+    public static String writeHeader(char del, char fln, String user){
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(del);
+        sb.append("Shopping List of " + user);
         sb.append(fln);
+        sb.append( "Product");
         sb.append(del);
-        sb.append("Lista de la Compra de " + user);
+        sb.append( "Quantity");
+        sb.append(del);
+        sb.append( "Bought");
+        sb.append(del);
+        sb.append( "Price");
+        sb.append(del);
+        sb.append( "Favorite");
         sb.append(fln);
-        sb.append( "Nombre");
-        sb.append(del);
-        sb.append( "Cantidad");
-        sb.append(del);
-        sb.append( "Comprado");
-        sb.append(del);
-        sb.append( "Precio");
-        sb.append(del);
-        sb.append( "Favorito");
-        sb.append(fln);
+
+        return sb.toString();
     }
 
     /**
      * Writes all the list lines with all the info available
-     * @param sb StringBuilder to makes strings and save them
      * @param del char that separates data
      * @param fln char that ends the line to write a new product
      * @param list list with products
      */
 
-    public static void writeBody(StringBuilder sb, char del, char fln, List<ChosenProduct> list){
+    public static String writeBody(char del, char fln, List<ChosenProduct> list){
+        StringBuilder sb = new StringBuilder();
         for (ChosenProduct p: list) {
-            sb.append(list.get(p.getId()).getName());
+            int idx = p.getId() - 1;
+            sb.append(list.get(idx).getName());
             sb.append(del);
 
-            sb.append(list.get(p.getId()).getQuantity());
+            sb.append(list.get(idx).getQuantity());
             sb.append(del);
 
-            sb.append(list.get(p.getId()).getBoughtToString());
+            sb.append(list.get(idx).getBoughtToString());
             sb.append(del);
 
-            sb.append(list.get(p.getId()).getPriceToString());
+            sb.append(list.get(idx).getPriceToString());
             sb.append(del);
 
-            sb.append(list.get(p.getId()).getFavoriteToString());
+            sb.append(list.get(idx).getFavoriteToString());
             sb.append(fln);
         }
+        return sb.toString();
     }
 }

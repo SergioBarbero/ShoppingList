@@ -4,31 +4,31 @@ public class ChosenProduct{
      * Product
      */
 
-    private Product product;
+    private Product product = null;
 
     /**
      * Quantity of this product
      */
 
-    private int quantity;
+    private int quantity = 1;
 
     /**
      * True if this product already bought
      */
 
-    private boolean bought;
+    private boolean bought = false;
 
     /**
      * If we have bought this product, we know how much it cost
      */
 
-    private double price;
+    private double price = -1;
 
     /**
      * We can make this product favorite
      */
 
-    private boolean favorite;
+    private boolean favorite = false;
 
     /**
      * Product constructor
@@ -36,12 +36,12 @@ public class ChosenProduct{
      * @param quantity number of this products
      */
 
-    public ChosenProduct(Product product, int quantity){
+    public ChosenProduct(Product product, int quantity, boolean bought, double price, boolean favorite){
         this.product = product;
         this.quantity = quantity;
-        this.bought = false;
-        this.price = -1;
-        this.favorite = false;
+        this.bought = bought;
+        this.price = price;
+        this.favorite = favorite;
     }
 
     /**

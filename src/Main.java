@@ -17,8 +17,8 @@ public class Main {
 
     public static void main(String args[]) throws IOException {
         String user = Utilities.askUser();
-        String fileType = ".tsv";
-        String fileToWrite = user + "List" + fileType;
+        String fileType = Utilities.askFormatFile();
+        String fileToWrite = user + fileType;
 
         List userList = Utilities.checkList(fileToWrite);
 
