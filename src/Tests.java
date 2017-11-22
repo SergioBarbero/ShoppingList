@@ -6,20 +6,20 @@ public class Tests {
      * List with products
      */
 
-    List<ChosenProduct> finalList;
+    ProductList finalList;
 
     /**
      * Tests constructor
      * @param list with all the products
      */
 
-    public Tests(List<ChosenProduct> list){
-        finalList = list;
+    public Tests(ProductList list){
+        this.finalList = list;
         //TODO -- probar métodos varios de añadir, eliminar, etc de una lista
-        Product pr = new Product(3, "producto3");
-        finalList.add(new ChosenProduct(pr, 85, true, 0.99, true));
-        Product pr2 = new Product(4, "producto4");
-        finalList.add(new ChosenProduct(pr2, 188, true, 2, true));
+        Product pr = new Product(finalList.getList().size() + 1, "producto3");
+        finalList.addProduct(new ChosenProduct(pr, 4));
+        Product pr2 = new Product(finalList.getList().size() + 1, "producto4");
+        finalList.addProduct(new ChosenProduct(pr2, 50));
     }
 
     /**
@@ -27,7 +27,7 @@ public class Tests {
      * @return finalList with the modified list of products
      */
 
-    public List<ChosenProduct> getList(){
+    public ProductList getList(){
         return this.finalList;
     }
 }
