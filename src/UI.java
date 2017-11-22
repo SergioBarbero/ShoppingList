@@ -90,16 +90,16 @@ public class UI extends Manager{
 
     @Override
     public void modifyQuantityList(int id, int quantity) {
-
+        ProductList.getInstance().getList().get(id).setQuantity(quantity);
     }
 
     @Override
     public void markAsFavList(int id) {
-
+        ProductList.getInstance().markAsFavourite(id);
     }
 
     @Override
     public void markAsBoughtList(int id) {
-
+        ProductList.getInstance().markAsBought(id);
     }
 }
