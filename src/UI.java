@@ -9,11 +9,19 @@ public class UI extends Manager{
     private int quantity;
 
 
+    /**
+     * Initialize an UI, the initial ID will be the one from the next product to insert into the list
+     * @param mode mode of game, UI or GUI
+     */
     public UI(String mode) {
         super(mode);
         id = ProductList.getInstance().getList().size();
     }
 
+    /**
+     * Gets a String from the user
+     * @return String returned
+     */
     public String getIntroduced(){
         boolean written = false;
         String option = "";
@@ -24,6 +32,9 @@ public class UI extends Manager{
         return  option;
     }
 
+    /**
+     * Ask information to the user
+     */
     public void askInfoProduct(){
         int id = Integer.parseInt(getIntroduced());
         String introducedAction = getIntroduced();
@@ -73,31 +84,60 @@ public class UI extends Manager{
         }
     }
 
+    /**
+     * Adds a product to the list
+     * @param id of the product
+     * @param name of the product
+     * @param price of the product
+     * @param quantity of the product
+     */
     @Override
     public void addToList(int id, String name, double price, int quantity) {
         ProductList.getInstance().addProduct(new ChosenProduct(new Product(id, name),quantity, false, price, false));
     }
 
+    /**
+     * Deletes a product from my list
+     * @param id of the product
+     */
     @Override
     public void deleteFromList(int id) {
         ProductList.getInstance().deleteProduct(id);
     }
 
+    /**
+     * Modifies the price of a product in the list
+     * @param id of the product
+     * @param price new price
+     */
     @Override
     public void modifyPriceList(int id, double price) {
         ProductList.getInstance().getList().get(id).setPrice(id);
     }
 
+    /**
+     * Modifies the quantity of products in the list
+     * @param id of the product
+     * @param quantity new quantity
+     */
     @Override
     public void modifyQuantityList(int id, int quantity) {
         ProductList.getInstance().getList().get(id).setQuantity(quantity);
     }
 
+    /**
+     * It marks the product as favorite
+     * @param id of the product
+     */
     @Override
     public void markAsFavList(int id) {
         ProductList.getInstance().markAsFavourite(id);
     }
 
+    /**
+     * It marks a product as bought
+     * @param id of the product
+     */
     @Override
     public void markAsBoughtList(int id) {
         ProductList.getInstance().markAsBought(id);
