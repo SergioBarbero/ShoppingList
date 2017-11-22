@@ -41,9 +41,13 @@ public class Utilities {
      * @return list with products for this user (read from file or created empty)
      */
 
-    public ProductList checkList(String fileToWrite) throws IOException {
+    public void checkList(String fileToWrite) throws IOException {
         File f = new File(fileToWrite);
-        return ((f.exists()) ? readList(fileToWrite) : createList());
+        if ((f.exists())) {
+            ProductList.getInstance().loadList(readList(fileToWrite));
+        } else {
+            createList();
+        }
     }
 
     /**
@@ -52,6 +56,7 @@ public class Utilities {
      */
 
     public ProductList createList(){
+        System.out.println("Creando nueva lista...");
         return ProductList.getInstance();
     }
 
@@ -62,19 +67,22 @@ public class Utilities {
      */
 
     public ProductList readList(String fileName) throws IOException {
+
+        System.out.println("Leyendo lista desde fichero...");
+
         ProductList list = ProductList.getInstance();
         String del = "\t";
 
         BufferedReader br = new BufferedReader(new FileReader(fileName));
         String line;
         String[] aPP;   //allProductParts;
-        int id = -2;
+        int cabeceras = 2;
 
         while((line = br.readLine()) != null) {
-            id++;
-            if(id > 0) {
+            cabeceras--;
+            if(cabeceras < 0) {
                 aPP = line.split(del);
-                Product pr = new Product(id, aPP[1]);
+                Product pr = new Product(Integer.parseInt(aPP[0]), aPP[1]);
                 ChosenProduct cPr = new ChosenProduct(
                         pr,
                         Integer.parseInt(aPP[2]),
@@ -88,15 +96,13 @@ public class Utilities {
         return list;
     }
 
-
-
     /**
      * Gives the user the control to edit the products of the list (or run a bunch of tests)
      * @param list to be edited
      * @return list when the edit is done
      */
 
-    public ProductList manageList(ProductList list){
+    public ProductList manageTests(ProductList list){
         Tests t = new Tests(list);
         return t.getList();
     }
@@ -110,6 +116,8 @@ public class Utilities {
      */
 
     public void writeList(String writeTo, ProductList list, String user) throws IOException {
+
+        System.out.println("Guardando lista...");
 
         char del = '\t';
         char fln = '\n';
@@ -162,24 +170,25 @@ public class Utilities {
     public String writeBody(char del, char fln, ProductList list){
         StringBuilder sb = new StringBuilder();
         List<ChosenProduct> l = list.getList();
+        int idx = -1;
         for (ChosenProduct p: l) {
-            int idx = p.getId() - 1;
-            sb.append(l.get(idx).getId());
+            idx++;
+            sb.append(idx);
             sb.append(del);
 
-            sb.append(l.get(idx).getName());
+            sb.append(p.getName());
             sb.append(del);
 
-            sb.append(l.get(idx).getQuantity());
+            sb.append(p.getQuantity());
             sb.append(del);
 
-            sb.append(l.get(idx).getBoughtToString());
+            sb.append(p.getBoughtToString());
             sb.append(del);
 
-            sb.append(l.get(idx).getPriceToString());
+            sb.append(p.getPriceToString());
             sb.append(del);
 
-            sb.append(l.get(idx).getFavoriteToString());
+            sb.append(p.getFavoriteToString());
             sb.append(fln);
         }
         return sb.toString();

@@ -1,10 +1,10 @@
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class UI extends Manager{
 
     private int id;
-    private String introducedAction;
 
 
     /**
@@ -13,7 +13,10 @@ public class UI extends Manager{
      */
     public UI(String mode) {
         super(mode);
-        id = ProductList.getInstance().getList().size();
+    }
+
+    public UI(){
+
     }
 
     /**
@@ -33,67 +36,113 @@ public class UI extends Manager{
     /**
      * Ask information to the user
      */
-    public void askInfoProduct(){
-        int id = Integer.parseInt(getIntroduced());
-        String introducedAction = getIntroduced();
+    @Override
+    public void askInfoProduct() throws IOException {
+
+        /*
+        TODO -- sería conveniente borrar la pantalla de comandos en las ocasiones señaladas mediante el comando:
+        Runtime.getRuntime().exec("cls");
+         */
+
+        /*
+        TODO -- solucionar esto que no funciona
+         */
+
         boolean inLoop = true;
+        int quantity;
+        double price;
         while (inLoop) {
-            int quantity;
-            double price;
-            if(Objects.equals(introducedAction, "ADD")){
+            //Runtime.getRuntime().exec("cls");
+            System.out.println("\n\t¿Qué operación desea realizar?");
+            System.out.println("ADD -> añade nuevo producto");
+            System.out.println("DEL -> elimina un producto");
+            System.out.println("MOD -> modifica un producto");
+            System.out.println("BUY -> marcar producto como comprado o no comprado");
+            System.out.println("FAV -> marcar producto como favorito o no favorito");
+            System.out.println("VER -> visualización de la lista");
+            System.out.println("EXIT -> dejar de editar y guardar los cambios");
+
+            if(getIntroduced().equals("ADD")){
+                //Runtime.getRuntime().exec("cls");
                 System.out.print("Introduce el nombre del producto: ");
                 String name = getIntroduced();
-                System.out.print("\n Introduce el precio del producto: ");
-                price = Double.parseDouble(getIntroduced());
-                System.out.print("\n Introduce la cantidad: ");
+                System.out.print("Introduce la cantidad: ");
                 quantity = Integer.parseInt(getIntroduced());
-                addToList(id, name, price, quantity);
-            }else if(introducedAction.equals("DEL")){
+                addToList(name, quantity);
+            }else if(getIntroduced().equals("DEL")){
+                //Runtime.getRuntime().exec("cls");
                 System.out.print("Introduce la id del producto que quieras eliminar: ");
                 id = Integer.parseInt(getIntroduced());
                 deleteFromList(id);
-            }else if(introducedAction.equals("MOD")){
+            }else if(getIntroduced().equals("MOD")){
+                //Runtime.getRuntime().exec("cls");
                 System.out.print("Introduce la id del producto que quieras modificar: ");
                 id = Integer.parseInt(getIntroduced());
-                System.out.print("\nIntroduce \"PRICE\" si quieres modificar el precio; \"QUANTITY\" si quieres modificar la cantidad: ");
-                String option = getIntroduced();
-                System.out.print("");
-                if(option.equals("PRICE")){
-                    System.out.print("\nIntroduce el precio del producto: ");
-                    price = Double.parseDouble(getIntroduced());
-                    modifyPriceList(id, price);
-                }else if(option.equals("QUANTITY")){
-                    System.out.print("Introduce la cantidad: ");
-                    quantity = Integer.parseInt(getIntroduced());
-                    modifyQuantityList(id, quantity);
-                }else{
-                    System.out.println("Opción no soportada");
-                    inLoop = false;
+                boolean innerLoop = true;
+                while(innerLoop) {
+                    System.out.println("¿Qué desea modificar?");
+                    System.out.println("QUANTITY -> modificar cantidad");
+                    System.out.println("PRICE -> modificar precio");
+                    System.out.println("CANCEL -> cancelar modificación");
+                    String option = getIntroduced();
+                    if (option.equals("QUANTITY")) {
+                        System.out.print("Introduce la cantidad: ");
+                        quantity = Integer.parseInt(getIntroduced());
+                        modifyQuantityList(id, quantity);
+                        innerLoop = false;
+                    } else if (option.equals("PRICE")) {
+                        System.out.print("Introduce el precio del producto: ");
+                        price = Double.parseDouble(getIntroduced());
+                        modifyPriceList(id, price);
+                        innerLoop = false;
+                    } else if(option.equals("CANCEL")) {
+                        System.out.println("Cancelando modificación...");
+                        innerLoop = false;
+                    } else {
+                        System.out.println("Opción no soportada");
+                    }
                 }
-            }else if(introducedAction.equals("BOUGHT")){
-                System.out.print("Introduce la id del producto que quieras marcar como comprado: ");
+            }else if(getIntroduced().equals("BUY")){
+                //Runtime.getRuntime().exec("cls");
+                System.out.print("Introduce la id del producto que quieras marcar como comprado/no comprado: ");
                 id = Integer.parseInt(getIntroduced());
                 markAsBoughtList(id);
-            }else if(introducedAction.equals("FAV")){
-                System.out.print("Introduce la id del producto que quieras marcar como favorito: ");
+            }else if(getIntroduced().equals("FAV")) {
+                //Runtime.getRuntime().exec("cls");
+                System.out.print("Introduce la id del producto que quieras marcar como favorito/no favorito: ");
                 id = Integer.parseInt(getIntroduced());
                 markAsFavList(id);
-            }else{
+            }else if(getIntroduced().equals("VER")){
+                //Runtime.getRuntime().exec("cls");
+                printList();
+                new Scanner(System.in).next();
+            }else if(getIntroduced().equals("EXIT")){
+                System.out.println("Finalizando edición de lista...");
                 inLoop = false;
+            } else{
+                System.out.println("Opción no soportada");
             }
+        }
+    }
+
+    @Override
+    public void printList(){
+        System.out.println("ID\tName\tQuantity\tBought\tPrice\tFavorite");
+        for(ChosenProduct cpr: ProductList.getInstance().getList()){
+            System.out.println(cpr.getId() + cpr.getName() + cpr.getQuantity() + cpr.getBoughtToString() + cpr.getPriceToString() + cpr.getFavoriteToString());
         }
     }
 
     /**
      * Adds a product to the list
-     * @param id of the product
      * @param name of the product
-     * @param price of the product
      * @param quantity of the product
      */
     @Override
-    public void addToList(int id, String name, double price, int quantity) {
-        ProductList.getInstance().addProduct(new ChosenProduct(new Product(id, name),quantity, false, price, false));
+    public void addToList(String name, int quantity) {
+        int id = ProductList.getInstance().getList().size();
+        Product pr = new Product(id, name);
+        ProductList.getInstance().addProduct(new ChosenProduct(pr, quantity));
     }
 
     /**
@@ -131,7 +180,8 @@ public class UI extends Manager{
      */
     @Override
     public void markAsFavList(int id) {
-        ProductList.getInstance().markAsFavourite(id);
+        ChosenProduct pr = ProductList.getInstance().getList().get(id);
+        pr.setFavorite(!pr.getFavorite());
     }
 
     /**
@@ -140,7 +190,7 @@ public class UI extends Manager{
      */
     @Override
     public void markAsBoughtList(int id) {
-        ProductList.getInstance().markAsBought(id);
-        //TODO: Good idea ProductList.getInstance().getList().get(id).setBought()
+        ChosenProduct pr = ProductList.getInstance().getList().get(id);
+        pr.setBought(!pr.getBought());
     }
 }

@@ -15,11 +15,20 @@ public class Tests {
 
     public Tests(ProductList list){
         this.finalList = list;
-        //TODO -- probar métodos varios de añadir, eliminar, etc de una lista
-        Product pr = new Product(finalList.getList().size() + 1, "producto3");
-        finalList.addProduct(new ChosenProduct(pr, 4));
-        Product pr2 = new Product(finalList.getList().size() + 1, "producto4");
-        finalList.addProduct(new ChosenProduct(pr2, 50));
+
+        int id = 1;
+        insert();
+        delete(id);
+    }
+
+    public void insert(){
+        int id = finalList.getList().size();
+        Product pr2 = new Product(id, "producto" + id);
+        finalList.addProduct(new ChosenProduct(pr2, 2));
+    }
+
+    public void delete(int id){
+        finalList.deleteProduct(id);
     }
 
     /**

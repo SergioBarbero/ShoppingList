@@ -112,6 +112,27 @@ public class ChosenProduct{
         return this.price;
     }
 
+
+    /**
+     * Increases the quantity of a product by 1
+     */
+
+    public void increaseQuantity(){
+        setQuantity(getQuantity()+1);
+    }
+
+    /**
+     * Decreases the quantity of a product by 1
+     */
+
+    public void decreaseQuantity(){
+        if(getQuantity() > 0) {
+            setQuantity(getQuantity()-1);
+        }else if(!getFavorite()){
+            ProductList.getInstance().deleteProduct(getId());
+        }
+    }
+
     /**
      * Set a new price to the product
      * @param price new price for the product

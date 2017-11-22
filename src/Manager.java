@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.List;
 
 public abstract class Manager {
@@ -12,9 +13,14 @@ public abstract class Manager {
     private String mode;
 
     public Manager(String mode){
+        this.mode = mode;
     }
 
-    public abstract void addToList(int id, String name, double price, int quantity);
+    public Manager() {
+
+    }
+
+    public abstract void addToList(String name, int quantity);
 
     public abstract void deleteFromList(int id);
 
@@ -26,7 +32,9 @@ public abstract class Manager {
 
     public abstract void markAsBoughtList(int id);
 
-    public abstract void askInfoProduct();
+    public abstract void askInfoProduct() throws IOException;
+
+    public abstract void printList();
 
     /**
      * Get the final list

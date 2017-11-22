@@ -16,15 +16,21 @@ public class Main {
      */
 
     public static void main(String args[]) throws IOException {
-        String user = Utilities.askUser();
-        String fileType = Utilities.askFormatFile();
+        Utilities util = new Utilities();
+        Manager managerUI = new UI();
+
+        String user = util.askUser();
+        String fileType = util.askFormatFile();
         String fileToWrite = user + fileType;
 
-        ProductList userList = Utilities.checkList(fileToWrite);
+        util.checkList(fileToWrite);
 
-        userList = Utilities.manageList(userList);
+        //userList = util.manageTests(userList);
+        managerUI.askInfoProduct();
 
-        Utilities.writeList(fileToWrite, userList, user);
+        ProductList userList = ProductList.getInstance();
+
+        util.writeList(fileToWrite, userList, user);
     }
 
 }
