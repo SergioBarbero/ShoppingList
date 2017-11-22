@@ -13,14 +13,13 @@ public class ProductList {
      * List with products
      */
 
-    private static List<ChosenProduct> myList = new ArrayList<>();
+    private List<ChosenProduct> myList = new ArrayList<>();
 
     /**
      * ProductList Constructor
      */
 
-    public ProductList(){
-    }
+    private ProductList(){ }
 
     /**
      * Get instance from singleton if exists or create new one
@@ -36,7 +35,7 @@ public class ProductList {
      * @return myList
      */
 
-    public static List<ChosenProduct> getList(){
+    public List<ChosenProduct> getList(){
         return myList;
     }
 
@@ -73,36 +72,38 @@ public class ProductList {
     /**
      * Increases the quantity of a product from the list
      * @param id of the product
-     * @param quantity to be increased
      */
 
-    public void increaseQuantity(int id, int quantity){
+    public void increaseQuantity(int id){
         int myQuantity = myList.get(id).getQuantity();
-        myList.get(id).setQuantity(myQuantity + quantity);
+        myList.get(id).setQuantity(++myQuantity);
     }
 
     /**
      * Decreases the quantity of a product from the list
      * @param id of the product
-     * @param quantity to be decreased
      */
 
-    public void decreaseQuantity(int id, int quantity){
+    public void decreaseQuantity(int id){
         int myQuantity = myList.get(id).getQuantity();
-        int finalQuantity = myQuantity - quantity;
-        if (finalQuantity > 0)
-            myList.get(id).setQuantity(finalQuantity);
-        else
-            myList.get(id).setQuantity(0);
+        if(myQuantity > 1) {
+            myList.get(id).setQuantity(--myQuantity);
+        }else{
+            //TODO: Check whether it's favorite or not, if it is, let it, otherwise, delete it
+        }
+    }
+
+    public void setQuantity(int id, int quantity){
+        myList.get(id).setQuantity(quantity);
+
     }
 
     /**
      * Marks a product as bought
      * @param id of the product
      */
-
     public void markAsBought(int id){
-        myList.get(id).setBought(true);
+        myList.get(id).setBought(!myList.get(id).getBought());
 
     }
 
@@ -112,7 +113,6 @@ public class ProductList {
      */
 
     public void markAsFavourite(int id){
-        myList.get(id).setFavorite(true);
+        myList.get(id).setBought(!myList.get(id).getFavorite());
     }
-
 }

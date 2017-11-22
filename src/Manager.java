@@ -7,6 +7,7 @@ public abstract class Manager {
     private ProductList myList;
     private double price;
     private String name;
+    private int quantity;
 
     private String mode;
 

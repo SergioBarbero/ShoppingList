@@ -20,7 +20,7 @@ public class Main {
         String fileType = Utilities.askFormatFile();
         String fileToWrite = user + fileType;
 
-        List userList = Utilities.checkList(fileToWrite);
+        ProductList userList = Utilities.checkList(fileToWrite);
 
         userList = Utilities.manageList(userList);
 
