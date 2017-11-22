@@ -1,12 +1,10 @@
+import java.util.Objects;
 import java.util.Scanner;
 
 public class UI extends Manager{
 
     private int id;
     private String introducedAction;
-    private double price;
-    private String name;
-    private int quantity;
 
 
     /**
@@ -39,30 +37,32 @@ public class UI extends Manager{
         int id = Integer.parseInt(getIntroduced());
         String introducedAction = getIntroduced();
         boolean inLoop = true;
-        while (inLoop == true) {
-            if(introducedAction == "ADD"){
+        while (inLoop) {
+            int quantity;
+            double price;
+            if(Objects.equals(introducedAction, "ADD")){
                 System.out.print("Introduce el nombre del producto: ");
-                name = getIntroduced();
+                String name = getIntroduced();
                 System.out.print("\n Introduce el precio del producto: ");
                 price = Double.parseDouble(getIntroduced());
                 System.out.print("\n Introduce la cantidad: ");
                 quantity = Integer.parseInt(getIntroduced());
                 addToList(id, name, price, quantity);
-            }else if(introducedAction == "DEL"){
+            }else if(introducedAction.equals("DEL")){
                 System.out.print("Introduce la id del producto que quieras eliminar: ");
                 id = Integer.parseInt(getIntroduced());
                 deleteFromList(id);
-            }else if(introducedAction == "MOD"){
+            }else if(introducedAction.equals("MOD")){
                 System.out.print("Introduce la id del producto que quieras modificar: ");
                 id = Integer.parseInt(getIntroduced());
                 System.out.print("\nIntroduce \"PRICE\" si quieres modificar el precio; \"QUANTITY\" si quieres modificar la cantidad: ");
                 String option = getIntroduced();
                 System.out.print("");
-                if(option == "PRICE"){
+                if(option.equals("PRICE")){
                     System.out.print("\nIntroduce el precio del producto: ");
                     price = Double.parseDouble(getIntroduced());
                     modifyPriceList(id, price);
-                }else if(option == "QUANTITY"){
+                }else if(option.equals("QUANTITY")){
                     System.out.print("Introduce la cantidad: ");
                     quantity = Integer.parseInt(getIntroduced());
                     modifyQuantityList(id, quantity);
@@ -70,11 +70,11 @@ public class UI extends Manager{
                     System.out.println("Opción no soportada");
                     inLoop = false;
                 }
-            }else if(introducedAction == "BOUGHT"){
+            }else if(introducedAction.equals("BOUGHT")){
                 System.out.print("Introduce la id del producto que quieras marcar como comprado: ");
                 id = Integer.parseInt(getIntroduced());
                 markAsBoughtList(id);
-            }else if(introducedAction == "FAV"){
+            }else if(introducedAction.equals("FAV")){
                 System.out.print("Introduce la id del producto que quieras marcar como favorito: ");
                 id = Integer.parseInt(getIntroduced());
                 markAsFavList(id);

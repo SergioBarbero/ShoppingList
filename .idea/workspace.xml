@@ -89,17 +89,18 @@
       <file leaf-file-name="UI.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/UI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="42" lean-forward="false" selection-start-line="13" selection-start-column="42" selection-end-line="13" selection-end-column="42" />
+            <state relative-caret-position="225">
+              <caret line="15" column="56" lean-forward="true" selection-start-line="15" selection-start-column="56" selection-end-line="15" selection-end-column="56" />
               <folding>
-                <element signature="e#3888#3889#0" expanded="true" />
-                <element signature="e#3947#3948#0" expanded="true" />
-                <element signature="e#4147#4148#0" expanded="true" />
-                <element signature="e#4219#4220#0" expanded="true" />
-                <element signature="e#4654#4655#0" expanded="true" />
-                <element signature="e#4715#4716#0" expanded="true" />
-                <element signature="e#4857#4858#0" expanded="true" />
-                <element signature="e#4915#4916#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#3932#3933#0" expanded="true" />
+                <element signature="e#3991#3992#0" expanded="true" />
+                <element signature="e#4191#4192#0" expanded="true" />
+                <element signature="e#4263#4264#0" expanded="true" />
+                <element signature="e#4698#4699#0" expanded="true" />
+                <element signature="e#4759#4760#0" expanded="true" />
+                <element signature="e#4901#4902#0" expanded="true" />
+                <element signature="e#4959#4960#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -575,7 +576,14 @@
       <option name="project" value="LOCAL" />
       <updated>1511381474259</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Comments of UI">
+      <created>1511381837166</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1511381837166</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TodoView">
@@ -656,7 +664,8 @@
     <MESSAGE value="Add comments&#10;Create class Utilities to manage lists (read from file, save into file, etc)&#10;Create basic structure to start testing our program (class Main and Tests)" />
     <MESSAGE value="User command line implemented" />
     <MESSAGE value="User command line interface completed" />
-    <option name="LAST_COMMIT_MESSAGE" value="User command line interface completed" />
+    <MESSAGE value="Comments of UI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Comments of UI" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1014,17 +1023,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/UI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="42" lean-forward="false" selection-start-line="13" selection-start-column="42" selection-end-line="13" selection-end-column="42" />
+        <state relative-caret-position="225">
+          <caret line="15" column="56" lean-forward="true" selection-start-line="15" selection-start-column="56" selection-end-line="15" selection-end-column="56" />
           <folding>
-            <element signature="e#3888#3889#0" expanded="true" />
-            <element signature="e#3947#3948#0" expanded="true" />
-            <element signature="e#4147#4148#0" expanded="true" />
-            <element signature="e#4219#4220#0" expanded="true" />
-            <element signature="e#4654#4655#0" expanded="true" />
-            <element signature="e#4715#4716#0" expanded="true" />
-            <element signature="e#4857#4858#0" expanded="true" />
-            <element signature="e#4915#4916#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#3932#3933#0" expanded="true" />
+            <element signature="e#3991#3992#0" expanded="true" />
+            <element signature="e#4191#4192#0" expanded="true" />
+            <element signature="e#4263#4264#0" expanded="true" />
+            <element signature="e#4698#4699#0" expanded="true" />
+            <element signature="e#4759#4760#0" expanded="true" />
+            <element signature="e#4901#4902#0" expanded="true" />
+            <element signature="e#4959#4960#0" expanded="true" />
           </folding>
         </state>
       </provider>
