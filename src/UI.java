@@ -141,5 +141,6 @@ public class UI extends Manager{
     @Override
     public void markAsBoughtList(int id) {
         ProductList.getInstance().markAsBought(id);
+        //TODO: Good idea ProductList.getInstance().getList().get(id).setBought()
     }
 }
