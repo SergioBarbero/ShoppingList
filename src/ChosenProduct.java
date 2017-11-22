@@ -36,6 +36,20 @@ public class ChosenProduct{
      * @param quantity number of this products
      */
 
+    public ChosenProduct(Product product, int quantity){
+        this.product = product;
+        this.quantity = quantity;
+    }
+
+    /**
+     * ChosenProduct constructor with overload
+     * @param product pbject Product
+     * @param quantity number of this products
+     * @param bought boolean if product is already bought
+     * @param price price of product
+     * @param favorite boolean if product is marked as favorite
+     */
+
     public ChosenProduct(Product product, int quantity, boolean bought, double price, boolean favorite){
         this.product = product;
         this.quantity = quantity;
