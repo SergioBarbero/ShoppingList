@@ -17,7 +17,8 @@ public class Main {
 
     public static void main(String args[]) throws IOException {
         Utilities util = new Utilities();
-        Manager managerUI = new UI();
+        ProductList userList = ProductList.getInstance();
+        Manager managerUI = new UI(userList);
 
         String user = util.askUser();
         String fileType = util.askFormatFile();
@@ -27,8 +28,6 @@ public class Main {
 
         //userList = util.manageTests(userList);
         managerUI.askInfoProduct();
-
-        ProductList userList = ProductList.getInstance();
 
         util.writeList(fileToWrite, userList, user);
     }

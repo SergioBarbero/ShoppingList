@@ -3,13 +3,7 @@ import java.util.List;
 
 public abstract class Manager {
 
-    private int id;
-    private String introducedAction;
     private ProductList myList;
-    private double price;
-    private String name;
-    private int quantity;
-
     private String mode;
 
     public Manager(String mode){
@@ -20,7 +14,7 @@ public abstract class Manager {
 
     }
 
-    public abstract void addToList(String name, int quantity);
+    public abstract boolean addToList(String name, int quantity);
 
     public abstract void deleteFromList(int id);
 
