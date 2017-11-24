@@ -181,7 +181,7 @@ public class UI extends Manager{
      */
     @Override
     public void modifyPriceList(int id, double price) {
-        pl.getList().get(id).setPrice(id);
+        pl.getList().get(id).setPrice(price);
     }
 
     /**

@@ -70,11 +70,5 @@ public class ProductList {
         //}
         return deleted;
     }
-/*
-    public void loadList(ProductList loadedList){
-        for(ChosenProduct cpr: loadedList.getList()){
-            this.addProduct(cpr);
-        }
-    }
-*/
+
 }

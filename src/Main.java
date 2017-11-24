@@ -24,11 +24,6 @@ public class Main {
         String fileToWrite = user + fileType;
 
         ProductList userList = util.checkList(fileToWrite);
-
-        Product pr = new Product(1, "name2");
-        ChosenProduct cpr = new ChosenProduct(pr, 5465);
-        userList.addProduct(cpr);
-
         managerUI = new UI(userList);
 
         //userList = util.manageTests(userList);

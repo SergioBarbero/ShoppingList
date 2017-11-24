@@ -92,12 +92,14 @@ public class Utilities {
             cabeceras--;
             if(cabeceras < 0) {
                 aPP = line.split(del);
-                Product pr = new Product(Integer.parseInt(aPP[0]), aPP[1]);
+                Product pr = new Product(
+                        Integer.parseInt(aPP[0]),
+                        aPP[1]);
                 ChosenProduct cPr = new ChosenProduct(
                         pr,
                         Integer.parseInt(aPP[2]),
                         (aPP[3].equals("YES") ? true : false),
-                        (aPP[4].toString().equals(" - ") ? -1 : Double.parseDouble(aPP[3])),
+                        (aPP[4].toString().equals(" - ") ? -1 : Double.parseDouble(aPP[4])),
                         (aPP[5].equals("YES") ? true : false));
                 list.addProduct(cPr);
             }
