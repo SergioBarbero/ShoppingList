@@ -24,12 +24,7 @@ public class UI extends Manager{
      * @return String returned
      */
     public String getIntroduced(){
-        //boolean written = false;
-        //String option = "";
-        //while (!written){
         String option = new Scanner(System.in).next();
-            //written = true;
-        //}
         return  option;
     }
 
@@ -44,23 +39,19 @@ public class UI extends Manager{
         Runtime.getRuntime().exec("cls");
          */
 
-        /*
-        TODO -- solucionar esto que no funciona
-         */
-
         boolean inLoop = true;
         int quantity;
         double price;
         while (inLoop) {
             //Runtime.getRuntime().exec("cls");
-            System.out.println("\n\t¿Qué operación desea realizar?");
-            System.out.println("ADD -> añade nuevo producto");
-            System.out.println("DEL -> elimina un producto");
-            System.out.println("MOD -> modifica un producto");
-            System.out.println("BUY -> marcar producto como comprado o no comprado");
-            System.out.println("FAV -> marcar producto como favorito o no favorito");
-            System.out.println("VER -> visualización de la lista");
-            System.out.println("EXIT -> dejar de editar y guardar los cambios");
+            System.out.println("\n\t¿Que operacion desea realizar?");
+            System.out.println("ADD -> Añade nuevo producto");
+            System.out.println("DEL -> Elimina un producto");
+            System.out.println("MOD -> Modifica un producto");
+            System.out.println("BUY -> Marcar producto como comprado o no comprado");
+            System.out.println("FAV -> Marcar producto como favorito o no favorito");
+            System.out.println("VER -> Visualizacion de la lista");
+            System.out.println("EXIT -> Dejar de editar y guardar los cambios");
 
             switch(getIntroduced()){
                 case "ADD":
@@ -85,10 +76,10 @@ public class UI extends Manager{
                     id = Integer.parseInt(getIntroduced());
                     boolean innerLoop = true;
                     while(innerLoop) {
-                        System.out.println("¿Qué desea modificar?");
-                        System.out.println("QUANTITY -> modificar cantidad");
-                        System.out.println("PRICE -> modificar precio");
-                        System.out.println("CANCEL -> cancelar modificación");
+                        System.out.println("¿Que desea modificar?");
+                        System.out.println("QUANTITY -> Modificar cantidad");
+                        System.out.println("PRICE -> Modificar precio");
+                        System.out.println("CANCEL -> Cancelar modificacion");
                         switch(getIntroduced()) {
                             case "QUANTITY":
                                 System.out.print("Introduce la cantidad: ");
@@ -103,11 +94,11 @@ public class UI extends Manager{
                                 innerLoop = false;
                                 break;
                             case "CANCEL":
-                                System.out.println("Cancelando modificación...");
+                                System.out.println("Cancelando modificacion...");
                                 innerLoop = false;
                                 break;
                             default:
-                                System.out.println("Opción no soportada");
+                                System.out.println("Opcion no soportada");
                         }
                     }
                     break;
@@ -134,7 +125,7 @@ public class UI extends Manager{
                     inLoop = false;
                     break;
                 default:
-                    System.out.println("Opción no soportada");
+                    System.out.println("Opcion no soportada");
             }
         }
     }
