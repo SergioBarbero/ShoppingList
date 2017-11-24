@@ -17,14 +17,19 @@ public class Main {
 
     public static void main(String args[]) throws IOException {
         Utilities util = new Utilities();
-        ProductList userList = ProductList.getInstance();
-        Manager managerUI = new UI(userList);
+        Manager managerUI;
 
         String user = util.askUser();
         String fileType = util.askFormatFile();
         String fileToWrite = user + fileType;
 
-        util.checkList(fileToWrite);
+        ProductList userList = util.checkList(fileToWrite);
+
+        Product pr = new Product(1, "name2");
+        ChosenProduct cpr = new ChosenProduct(pr, 5465);
+        userList.addProduct(cpr);
+
+        managerUI = new UI(userList);
 
         //userList = util.manageTests(userList);
         managerUI.askInfoProduct();

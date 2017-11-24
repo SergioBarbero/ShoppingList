@@ -41,13 +41,23 @@ public class Utilities {
      * @return list with products for this user (read from file or created empty)
      */
 
-    public void checkList(String fileToWrite) throws IOException {
+    public ProductList checkList(String fileToWrite) throws IOException {
         File f = new File(fileToWrite);
+        ProductList l = null;
         if ((f.exists())) {
-            ProductList.getInstance().loadList(readList(fileToWrite));
+            l = loadList(readList(fileToWrite));
         } else {
-            createList();
+            l = createList();
         }
+        return l;
+    }
+
+    public ProductList loadList(ProductList pL){
+        ProductList l = ProductList.getInstance();
+        for(ChosenProduct cpr: pL.getList()){
+            l.addProduct(cpr);
+        }
+        return l;
     }
 
     /**
