@@ -1,73 +1,56 @@
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-public class Utilities {
+class Utilities {
 
     /**
      * Utilities constructor
      */
 
-    public Utilities(){
+    Utilities(){
 
-    }
-
-    /**
-     * Ask the user for his name
-     * @return name of the user
-     */
-
-    public String askUser(){
-        System.out.println("Introduzca su nombre de usuario: ");
-        //TODO -- que sean sólo números o letras
-        return new Scanner(System.in).next();
-    }
-
-    /**
-     * Ask the user for file format
-     * @return format of the file
-     */
-
-    public String askFormatFile(){
-        String format = ".tsv";
-        //TODO -- switch con varios formatos
-        return format;
     }
 
     /**
      *  Checks if the file for this user already exists to open it, or creates a new list
      * @param fileToWrite file where the list should be
-     * @return list with products for this user (read from file or created empty)
      */
 
-    public ProductList checkList(String fileToWrite) throws IOException {
+    void checkList(String fileToWrite) throws IOException {
         File f = new File(fileToWrite);
-        ProductList l = null;
         if ((f.exists())) {
-            l = loadList(readList(fileToWrite));
+            loadList(readList(fileToWrite));
         } else {
-            l = createList();
+            createList();
         }
-        return l;
     }
 
-    public ProductList loadList(ProductList pL){
-        ProductList l = ProductList.getInstance();
+    /**
+     * Load list from local variable to singleton ProductList
+     * @param pL product list (empty or dead from file)
+     */
+
+    private void loadList(ProductList pL){
         for(ChosenProduct cpr: pL.getList()){
-            l.addProduct(cpr);
+            ProductList.getInstance().addProduct(cpr);
         }
-        return l;
     }
 
     /**
      * Create a new list
-     * @return list empty
      */
 
-    public ProductList createList(){
+    private void createList(){
         System.out.println("Creando nueva lista...");
-        return ProductList.getInstance();
+        ProductList.getInstance();
+    }
+
+    /**
+     * Clear list
+     */
+
+    void deleteList(){
+        ProductList.getInstance().resetList();
     }
 
     /**
@@ -76,7 +59,7 @@ public class Utilities {
      * @return list read
      */
 
-    public ProductList readList(String fileName) throws IOException {
+    private ProductList readList(String fileName) throws IOException {
 
         System.out.println("Leyendo lista desde fichero...");
 
@@ -98,9 +81,9 @@ public class Utilities {
                 ChosenProduct cPr = new ChosenProduct(
                         pr,
                         Integer.parseInt(aPP[2]),
-                        (aPP[3].equals("YES") ? true : false),
-                        (aPP[4].toString().equals(" - ") ? -1 : Double.parseDouble(aPP[4])),
-                        (aPP[5].equals("YES") ? true : false));
+                        aPP[3].equals("YES"),
+                        (aPP[4].equals(" - ") ? -1 : Double.parseDouble(aPP[4])),
+                        aPP[5].equals("YES"));
                 list.addProduct(cPr);
             }
         }
@@ -109,35 +92,20 @@ public class Utilities {
     }
 
     /**
-     * Gives the user the control to edit the products of the list (or run a bunch of tests)
-     * @param list to be edited
-     * @return list when the edit is done
-     */
-
-    public ProductList manageTests(ProductList list){
-        Tests t = new Tests(list);
-        return t.getList();
-    }
-
-    /**
      * Save the user list to a file
-     * @param writeTo file where the list is gonna be saved
-     * @param list list to be saved
-     * @param user String to make a header and know whos that list
-     * @throws IOException
+     * @param fileName file where the list is gonna be saved
+     * @throws IOException exception management for write/read from files
      */
 
-    public void writeList(String writeTo, ProductList list, String user) throws IOException {
-
-        System.out.println("Guardando lista...");
+    void writeList(String fileName) throws IOException {
 
         char del = '\t';
         char fln = '\n';
         Writer pw = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(writeTo), "iso-8859-1"));
+                new FileOutputStream(fileName), "iso-8859-1"));
 
-        pw.append(writeHeader(del, fln, user));
-        pw.append(writeBody(del, fln, list));
+        pw.append(writeHeader(del, fln, fileName));
+        pw.append(writeBody(del, fln, ProductList.getInstance()));
 
         pw.flush();
         pw.close();
@@ -150,26 +118,23 @@ public class Utilities {
      * @param user String with user name
      */
 
-    public String writeHeader(char del, char fln, String user){
-        StringBuilder sb = new StringBuilder();
-
-        sb.append(del);
-        sb.append("Shopping List of " + user);
-        sb.append(fln);
-        sb.append( "ID");
-        sb.append(del);
-        sb.append( "Product");
-        sb.append(del);
-        sb.append( "Quantity");
-        sb.append(del);
-        sb.append( "Bought");
-        sb.append(del);
-        sb.append( "Price");
-        sb.append(del);
-        sb.append( "Favorite");
-        sb.append(fln);
-
-        return sb.toString();
+    private String writeHeader(char del, char fln, String user){
+        return String.valueOf(del) +
+                "Shopping List of " +
+                user +
+                fln +
+                "ID" +
+                del +
+                "Product" +
+                del +
+                "Quantity" +
+                del +
+                "Bought" +
+                del +
+                "Price" +
+                del +
+                "Favorite" +
+                fln;
     }
 
     /**
@@ -179,7 +144,7 @@ public class Utilities {
      * @param list list with products
      */
 
-    public String writeBody(char del, char fln, ProductList list){
+    private String writeBody(char del, char fln, ProductList list){
         StringBuilder sb = new StringBuilder();
         List<ChosenProduct> l = list.getList();
         int idx = -1;

@@ -1,4 +1,4 @@
-public class ChosenProduct{
+class ChosenProduct{
 
     /**
      * Product
@@ -36,7 +36,7 @@ public class ChosenProduct{
      * @param quantity number of this products
      */
 
-    public ChosenProduct(Product product, int quantity){
+    ChosenProduct(Product product, int quantity){
         this.product = product;
         this.quantity = quantity;
     }
@@ -50,7 +50,7 @@ public class ChosenProduct{
      * @param favorite boolean if product is marked as favorite
      */
 
-    public ChosenProduct(Product product, int quantity, boolean bought, double price, boolean favorite){
+    ChosenProduct(Product product, int quantity, boolean bought, double price, boolean favorite){
         this.product = product;
         this.quantity = quantity;
         this.bought = bought;
@@ -63,7 +63,7 @@ public class ChosenProduct{
      * @return name
      */
 
-    public String getName(){
+    String getName(){
         return this.product.getName();
     }
 
@@ -72,7 +72,7 @@ public class ChosenProduct{
      * @param name new name to this product
      */
 
-    public void changeName(String name){
+    void setName(String name){
         this.product.setName(name);
     }
 
@@ -81,7 +81,7 @@ public class ChosenProduct{
      * @return id
      */
 
-    public int getId(){
+    int getId(){
         return this.product.getId();
     }
 
@@ -90,7 +90,7 @@ public class ChosenProduct{
      * @return quantity
      */
 
-    public int getQuantity(){
+    int getQuantity(){
         return this.quantity;
     }
 
@@ -99,13 +99,19 @@ public class ChosenProduct{
      * @param quantity new quantity for the product
      */
 
-    public void setQuantity(int quantity){
+    void setQuantity(int quantity){
         this.quantity = quantity;
+        if(quantity <= 0){
+            this.quantity = 0;
+            if(!getFavorite()){
+                ProductList.getInstance().deleteProduct(getId());
+            }
+        }
     }
 
     /**
-     * Gets the price of the product
-     * @return price
+     * Get the price of the product
+     * @return price of the product
      */
 
     public double getPrice(){
@@ -114,7 +120,7 @@ public class ChosenProduct{
 
 
     /**
-     * Increases the quantity of a product by 1
+     * Increases the quantity of the product by 1
      */
 
     public void increaseQuantity(){
@@ -128,8 +134,11 @@ public class ChosenProduct{
     public void decreaseQuantity(){
         if(getQuantity() > 0) {
             setQuantity(getQuantity()-1);
-        }else if(!getFavorite()){
-            ProductList.getInstance().deleteProduct(getId());
+        }else if(getQuantity() <= 0){
+            setQuantity(0);
+            if(!getFavorite()){
+                ProductList.getInstance().deleteProduct(getId());
+            }
         }
     }
 
@@ -138,35 +147,35 @@ public class ChosenProduct{
      * @param price new price for the product
      */
 
-    public void setPrice(double price){
+    void setPrice(double price){
         this.price = price;
     }
 
     /**
      * In order to print or save the product price, we convert it,
      *  so if there is no value yet, it desplays " - "
-     * @return
+     * @return price of the product or '-' if has no price
      */
 
-    public String getPriceToString(){
+    String getPriceToString(){
         return ((this.price < 0) ? " - " : String.valueOf(this.price));
     }
 
     /**
      * Gets true if the product has already be bought
-     * @return bought
+     * @return boolean if product is bought or not
      */
 
-    public boolean getBought(){
+    boolean getBought(){
         return this.bought;
     }
 
     /**
      * Sets bought to true/false
-     * @param bought
+     * @param bought if product is bought or not
      */
 
-    public void setBought(boolean bought){
+    void setBought(boolean bought){
         this.bought = bought;
     }
 
@@ -176,25 +185,25 @@ public class ChosenProduct{
      * @return YES/NO as string
      */
 
-    public String getBoughtToString(){
+    String getBoughtToString(){
         return ((this.bought) ? "YES" : "NO");
     }
 
     /**
      * Gets true if the product is a favorite one
-     * @return favorite
+     * @return boolean if favorite is bought or not
      */
 
-    public boolean getFavorite(){
+    boolean getFavorite(){
         return this.favorite;
     }
 
     /**
      * Sets favorite to true/false
-     * @param favorite
+     * @param favorite product is favorite or not
      */
 
-    public void setFavorite(boolean favorite){
+    void setFavorite(boolean favorite){
         this.favorite = favorite;
     }
 
@@ -204,7 +213,7 @@ public class ChosenProduct{
      * @return YES/NO as string
      */
 
-    public String getFavoriteToString(){
+    String getFavoriteToString(){
         return ((this.favorite) ? "YES" : "NO");
     }
 }

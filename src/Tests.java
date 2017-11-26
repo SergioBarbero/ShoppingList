@@ -1,19 +1,18 @@
-import java.util.List;
 
-public class Tests {
+class Tests {
 
     /**
      * List with products
      */
 
-    ProductList finalList;
+    private ProductList finalList;
 
     /**
      * Tests constructor
      * @param list with all the products
      */
 
-    public Tests(ProductList list){
+    Tests(ProductList list){
         this.finalList = list;
 
         int id = 1;
@@ -21,13 +20,13 @@ public class Tests {
         delete(id);
     }
 
-    public void insert(){
+    private void insert(){
         int id = finalList.getList().size();
         Product pr2 = new Product(id, "producto" + id);
         finalList.addProduct(new ChosenProduct(pr2, 2));
     }
 
-    public void delete(int id){
+    private void delete(int id){
         finalList.deleteProduct(id);
     }
 
@@ -36,7 +35,7 @@ public class Tests {
      * @return finalList with the modified list of products
      */
 
-    public ProductList getList(){
+    ProductList getList(){
         return this.finalList;
     }
 }

@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductList {
+class ProductList {
 
     /**
      * Instance from singleton
@@ -26,8 +26,13 @@ public class ProductList {
      * @return instance from singleton
      */
 
-    public static ProductList getInstance(){
-        return ((instance == null) ? new ProductList() : instance);
+    static ProductList getInstance(){
+        if (instance == null) {
+            instance = new ProductList();
+            return instance;
+        } else {
+            return instance;
+        }
     }
 
     /**
@@ -35,7 +40,7 @@ public class ProductList {
      * @return myList
      */
 
-    public List<ChosenProduct> getList(){
+    List<ChosenProduct> getList(){
         return myList;
     }
 
@@ -45,10 +50,10 @@ public class ProductList {
      * @return true if it was added successfully
      */
 
-    public boolean addProduct(ChosenProduct product) {
+    boolean addProduct(ChosenProduct product) {
         boolean added = false;
-        if(!myList.contains(product)){
-            myList.add(product);
+        if(!getList().contains(product)){
+            getList().add(product);
             added = true;
         }
         return added;
@@ -60,15 +65,31 @@ public class ProductList {
      * @return true if it was deleted successfully
      */
 
-    public boolean deleteProduct(int id){
+    boolean deleteProduct(int id){
         boolean deleted = false;
-        //if((myList.get(id).getBought() || myList.get(id).getQuantity() == 0) && !myList.get(id).getFavorite()){
         if(id<getList().size() && id>=0) {
-            myList.remove(id);
+            getList().remove(id);
             deleted = true;
         }
-        //}
         return deleted;
+    }
+
+    /**
+     * Gets product with chosen id from list
+     * @param id of the product
+     * @return ChosenProduct with id
+     */
+
+    ChosenProduct getChosenProduct(int id){
+        return getList().get(id);
+    }
+
+    /**
+     * Clear list
+     */
+
+    void resetList(){
+        this.myList = new ArrayList<>();
     }
 
 }

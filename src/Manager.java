@@ -1,22 +1,16 @@
 import java.io.IOException;
-import java.util.List;
 
 public abstract class Manager {
 
-    private ProductList myList;
-    private String mode;
-
-    public Manager(String mode){
-        this.mode = mode;
-    }
-
-    public Manager() {
+    Manager() {
 
     }
 
     public abstract boolean addToList(String name, int quantity);
 
-    public abstract void deleteFromList(int id);
+    public abstract boolean deleteFromList(int id);
+
+    public abstract void modifyNameList(int id, String name);
 
     public abstract void modifyPriceList(int id, double price);
 
@@ -26,15 +20,12 @@ public abstract class Manager {
 
     public abstract void markAsBoughtList(int id);
 
-    public abstract void askInfoProduct() throws IOException;
+    public abstract String askListName();
+
+    public abstract String askFormatFile();
+
+    public abstract void askInfoProduct(String fileName) throws IOException;
 
     public abstract void printList();
 
-    /**
-     * Get the final list
-     * @return finalList with the modified list of products
-     */
-    public ProductList getList(){
-        return this.myList;
-    }
 }
