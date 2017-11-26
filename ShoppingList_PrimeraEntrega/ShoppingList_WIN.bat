@@ -1,2 +1,0 @@
-
-java -jar "ShoppingList.jar"
