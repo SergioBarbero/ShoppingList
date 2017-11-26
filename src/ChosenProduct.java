@@ -177,6 +177,9 @@ class ChosenProduct{
 
     void setBought(boolean bought){
         this.bought = bought;
+        if(getBought() && !getFavorite()){
+            ProductList.getInstance().deleteProduct(getId());
+        }
     }
 
     /**

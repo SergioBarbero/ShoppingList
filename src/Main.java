@@ -7,11 +7,19 @@ import java.io.IOException;
 
 public class Main {
 
-    /**
-     * TODO -- Feature Switch: allows developers to work with same file and branch on git, while some features are under development
-     */
+    //TODO -- Feature Switch: allows some developers to tests GUI while others work with same file without that GUI
 
     private static boolean fsGUI = false;
+
+    //TODO -- Feature Switch: allows developers to run two versions, one of them for users
+
+    private static boolean fsUserVersion = true;
+
+    /**
+     * Utility object
+     */
+
+    private static Utilities util = null;
 
     /**
      * Main program
@@ -20,43 +28,57 @@ public class Main {
      */
 
     public static void main(String args[]) throws IOException {
-        Utilities util = new Utilities();
-        mainUI(util);
+        util = new Utilities();
+        mainUI();
         if(fsGUI) {
-            mainGUI(util);
+            mainGUI();
         }
     }
 
     /**
      * Function calling text interface
-     * @param util object Utilities
      * @throws IOException exception management for write/read from files
      */
 
-    private static void mainUI(Utilities util) throws IOException {
+    private static void mainUI() throws IOException {
         Manager managerUI = new UI();
-        String fileToWrite = managerUI.askListName() + managerUI.askFormatFile();
+        String folderName = (!fsUserVersion ? "src" + util.getOSseparator(): "") +
+                util.getListsPath(managerUI.askFolderName());
 
-        util.checkList(fileToWrite);
+        if(util.checkFolder(folderName)){
+            System.out.println("Carpeta encontrada.");
+        } else{
+            System.out.println("Nueva carpeta creada.");
+        }
 
-        managerUI.askInfoProduct(fileToWrite);
+        String fullName = folderName +
+                managerUI.askListName() +
+                managerUI.askFormatFile();
+
+        if (util.checkList(fullName)) {
+            System.out.println("Lista leida desde fichero.");
+        } else {
+            System.out.println("Nueva lista creada.");
+        }
+
+        managerUI.askInfoProduct(fullName);
     }
 
-    /*
-    TODO -- Future Feature: implement graphic interface
-     */
+    //TODO -- Future Feature: implement graphic interface
 
     /**
      * Function calling graphic interface
-     * @param util object Utilities
      */
 
-    private static void mainGUI(Utilities util){
+    private static void mainGUI(){
 
         //Manager managerUI = new GUI();
+        //String folderName = managerGUI.askFolderName();
         //String fileToWrite = managerGUI.askListName() + managerGUI.askFormatFile();
 
         //util.checkList(fileToWrite);
+
+        //util.checkList(util.getListsPath(folderName) + fileToWrite);
 
         //managerGUI.askInfoProduct(fileToWrite);
 

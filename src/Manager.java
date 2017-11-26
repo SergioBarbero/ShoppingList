@@ -6,9 +6,9 @@ public abstract class Manager {
 
     }
 
-    public abstract boolean addToList(String name, int quantity);
+    public abstract void addToList(String name, int quantity);
 
-    public abstract boolean deleteFromList(int id);
+    public abstract void deleteFromList(int id);
 
     public abstract void modifyNameList(int id, String name);
 
@@ -20,9 +20,13 @@ public abstract class Manager {
 
     public abstract void markAsBoughtList(int id);
 
+    public abstract String askUser(String question);
+
     public abstract String askListName();
 
     public abstract String askFormatFile();
+
+    public abstract String askFolderName();
 
     public abstract void askInfoProduct(String fileName) throws IOException;
 

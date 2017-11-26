@@ -3,23 +3,25 @@ import java.util.Scanner;
 
 public class UI extends Manager{
 
-    /*
-        TODO -- Future Feature: we should clean cmd window with following line in some parts of the run
-        Runtime.getRuntime().exec("cls");
-    */
+    //TODO -- Future Feature: we should clean cmd window with following line in some parts of the run
+    //Runtime.getRuntime().exec("cls");
 
-    /**
-     * TODO -- Feature Switch: allows developers to work with same file and branch on git, while some features are under development
-     */
+    //TODO -- Feature Switch: allows developers to work with same file and branch on git, while some features are under development
 
     private boolean fSFormat = false;
+
+    /**
+     * Utilities
+     */
+
+    private Utilities util;
 
     /**
      * UI constructor
      */
 
     UI(){
-
+        this.util = new Utilities();
     }
 
     /**
@@ -32,14 +34,25 @@ public class UI extends Manager{
     }
 
     /**
+     * Asks user for something
+     * @param question to tell user what we need
+     * @return answer from user
+     */
+
+    @Override
+    public String askUser(String question){
+        System.out.println(question);
+        return getIntroduced();
+    }
+
+    /**
      * Asks user for list's name
      * @return name of the list
      */
 
     @Override
     public String askListName(){
-        System.out.println("Introduzca en nombre de la lista: ");
-        return getIntroduced();
+        return askUser("Introduzca en nombre de la lista: ");
     }
 
     /**
@@ -57,6 +70,16 @@ public class UI extends Manager{
     }
 
     /**
+     * Ask the user for directory name
+     * @return directory name
+     */
+
+    @Override
+    public String askFolderName(){
+        return askUser("Introduzca el nombre de la carpeta donde desea crear/leer su lista: ");
+    }
+
+    /**
      * Ask information to the user
      * @param fileName name of file to write the data
      * @throws IOException exception management for write/read from files
@@ -66,8 +89,11 @@ public class UI extends Manager{
     public void askInfoProduct(String fileName) throws IOException {
 
         boolean inLoop = true;
+        String name;
+        int id;
         int quantity;
         double price;
+
         while (inLoop) {
             //Runtime.getRuntime().exec(clearWindow);
 
@@ -84,90 +110,100 @@ public class UI extends Manager{
             switch(getIntroduced()){
                 case "ADD":
                     //Runtime.getRuntime().exec(clearWindow);
-
-                    System.out.print("Introduce el nombre del producto: ");
-                    String name = getIntroduced();
-                    System.out.print("Introduce la cantidad: ");
-                    quantity = Integer.parseInt(getIntroduced());
-                    if(!addToList(name, quantity)){
-                        System.out.print("ERROR: Producto ya existente");
+                    name = askUser("Introduce el nombre del producto: ");
+                    if(util.productOnListByName(name)){
+                        System.out.println("ERROR: Producto ya existente");
+                        break;
                     }
+                    quantity = Integer.parseInt(askUser("Introduce la cantidad: "));
+                    String noQuantity = "NO";
+                    if(quantity < 1){
+                        quantity = 0;
+                        noQuantity = askUser("Cantidad insuficiente.\n" +
+                                "¿Desea marcar el producto como favorito para evitar que se elimine? (SI / NO) ");
+                        if (!noQuantity.equals("SI")){
+                            break;
+                        }
+                    }
+                    addToList(name, quantity);
+                    if(noQuantity.equals("SI")){
+                        markAsFavList(ProductList.getInstance().getId(name));
+                    }
+
                     break;
                 case "DEL":
                     //Runtime.getRuntime().exec(clearWindow);
-
-                    System.out.print("Introduce la id del producto que quieras eliminar: ");
-                    int id = Integer.parseInt(getIntroduced());
-                    if(!deleteFromList(id)){
-                        System.out.print("ERROR: Producto no existente");
+                    id = Integer.parseInt(askUser("Introduce la id del producto que quieras eliminar: "));
+                    if(!util.productOnListById(id)){
+                        System.out.println("ERROR: Producto no existente");
+                        break;
                     }
+                    deleteFromList(id);
                     break;
                 case "MOD":
-                    //Runtime.getRuntime().exec(clearWindow);
-
-                    System.out.print("Introduce la id del producto que quieras modificar: ");
-                    id = Integer.parseInt(getIntroduced());
                     boolean innerLoop = true;
+                    id = Integer.parseInt(askUser("Introduce la id del producto que quieras modificar: "));
+                    //Runtime.getRuntime().exec(clearWindow);
+                    if(!util.productOnListById(id)){
+                        innerLoop = false;
+                        System.out.println("ERROR: Producto no existente");
+                    }
+
                     while(innerLoop) {
-                        System.out.println("¿Que desea modificar?");
+                        System.out.println("\n\t¿Qué parámetro desea modificar?");
                         System.out.println("NAME -> Modificar nombre");
                         System.out.println("QUANTITY -> Modificar cantidad");
                         System.out.println("PRICE -> Modificar precio");
-                        System.out.println("CANCEL -> Cancelar modificacion");
+                        System.out.println("CANCEL -> Cancelar modificación");
                         switch(getIntroduced()) {
                             case "NAME":
-                                System.out.print("Introduce el nuevo nombre: ");
-                                name = getIntroduced();
+                                name = askUser("Introduce el nuevo nombre: ");
+                                if(util.productOnListByName(name)){
+                                    System.out.println("ERROR: Producto ya existente");
+                                    break;
+                                }
                                 modifyNameList(id, name);
                                 innerLoop = false;
                                 break;
                             case "QUANTITY":
-                                System.out.print("Introduce la cantidad: ");
-                                quantity = Integer.parseInt(getIntroduced());
+                                quantity = Integer.parseInt(askUser("Introduce la cantidad: "));
                                 modifyQuantityList(id, quantity);
                                 innerLoop = false;
                                 break;
                             case "PRICE":
-                                System.out.print("Introduce el precio del producto: ");
-                                price = Double.parseDouble(getIntroduced());
+                                price = Double.parseDouble(askUser("Introduce el precio del producto: "));
                                 modifyPriceList(id, price);
                                 innerLoop = false;
                                 break;
                             case "CANCEL":
-                                System.out.println("Cancelando modificacion...");
+                                System.out.println("Cancelando modificación...");
                                 innerLoop = false;
                                 break;
                             default:
-                                System.out.println("Opcion no soportada");
+                                System.out.println("Opción no soportada");
                         }
                     }
                     break;
                 case "BUY":
                     //Runtime.getRuntime().exec(clearWindow);
-
-                    System.out.print("Introduce la id del producto que quieras marcar como comprado/no comprado: ");
-                    id = Integer.parseInt(getIntroduced());
+                    id = Integer.parseInt(askUser("Introduce la id del producto que quieras marcar como comprado/no comprado: "));
                     markAsBoughtList(id);
                     break;
                 case "FAV":
                     //Runtime.getRuntime().exec(clearWindow);
-
-                    System.out.print("Introduce la id del producto que quieras marcar como favorito/no favorito: ");
-                    id = Integer.parseInt(getIntroduced());
+                    id = Integer.parseInt(askUser("Introduce la id del producto que quieras marcar como favorito/no favorito: "));
                     markAsFavList(id);
                     break;
                 case "VIEW":
                     //Runtime.getRuntime().exec(clearWindow);
-
                     printList();
                     Scanner scanner = new Scanner(System.in);
                     scanner.nextLine();
                     break;
                 case "SAVE":
                     System.out.println("Guardando lista...");
-                    Utilities util = new Utilities();
                     util.writeList(fileName);
-                    util.deleteList();
+                    ProductList.getInstance().resetList();
                     util.checkList(fileName);
                     break;
                 case "EXIT":
@@ -175,7 +211,7 @@ public class UI extends Manager{
                     inLoop = false;
                     break;
                 default:
-                    System.out.println("Opcion no soportada");
+                    System.out.println("Opción no soportada");
             }
         }
     }
@@ -186,11 +222,11 @@ public class UI extends Manager{
 
     @Override
     public void printList(){
-        System.out.println("\nID\tName\tQuantity\tBought\tPrice\tFavorite");
+        System.out.println("\nID\tName\t\tQuantity\tBought\tPrice\tFavorite");
         for(ChosenProduct cpr: ProductList.getInstance().getList()){
             System.out.println(
                     cpr.getId() + "\t" +
-                    cpr.getName() + "\t" +
+                    cpr.getName() + "\t\t" +
                     cpr.getQuantity() + "\t" +
                     cpr.getBoughtToString() + "\t" +
                     cpr.getPriceToString() + "\t" +
@@ -202,25 +238,23 @@ public class UI extends Manager{
      * Adds a product to the list
      * @param name of the product
      * @param quantity of the product
-     * @return true/false if able to add product
      */
 
     @Override
-    public boolean addToList(String name, int quantity) {
+    public void addToList(String name, int quantity) {
         int id = ProductList.getInstance().getList().size();
         Product pr = new Product(id, name);
-        return ProductList.getInstance().addProduct(new ChosenProduct(pr, quantity));
+        ProductList.getInstance().addProduct(new ChosenProduct(pr, quantity));
     }
 
     /**
      * Deletes a product from my list
      * @param id of the product
-     * @return true/false if able to delete product
      */
 
     @Override
-    public boolean deleteFromList(int id) {
-        return ProductList.getInstance().deleteProduct(id);
+    public void deleteFromList(int id) {
+        ProductList.getInstance().deleteProduct(id);
     }
 
     /**

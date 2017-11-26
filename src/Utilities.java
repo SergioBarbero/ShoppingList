@@ -14,19 +14,24 @@ class Utilities {
     /**
      *  Checks if the file for this user already exists to open it, or creates a new list
      * @param fileToWrite file where the list should be
+     * @return true/false if file already exists or not
      */
 
-    void checkList(String fileToWrite) throws IOException {
+    boolean checkList(String fileToWrite) throws IOException {
         File f = new File(fileToWrite);
+        boolean checked = false;
         if ((f.exists())) {
-            loadList(readList(fileToWrite));
+
+            readList(fileToWrite);
+            checked = true;
         } else {
-            createList();
+            ProductList.getInstance();
         }
+        return checked;
     }
 
     /**
-     * Load list from local variable to singleton ProductList
+     * Load list from variable to singleton ProductList
      * @param pL product list (empty or dead from file)
      */
 
@@ -37,33 +42,12 @@ class Utilities {
     }
 
     /**
-     * Create a new list
-     */
-
-    private void createList(){
-        System.out.println("Creando nueva lista...");
-        ProductList.getInstance();
-    }
-
-    /**
-     * Clear list
-     */
-
-    void deleteList(){
-        ProductList.getInstance().resetList();
-    }
-
-    /**
      * Read a list of products from a file
      * @param fileName with the list
-     * @return list read
      */
 
-    private ProductList readList(String fileName) throws IOException {
+    private void readList(String fileName) throws IOException {
 
-        System.out.println("Leyendo lista desde fichero...");
-
-        ProductList list = ProductList.getInstance();
         String del = "\t";
 
         BufferedReader br = new BufferedReader(new FileReader(fileName));
@@ -84,11 +68,9 @@ class Utilities {
                         aPP[3].equals("YES"),
                         (aPP[4].equals(" - ") ? -1 : Double.parseDouble(aPP[4])),
                         aPP[5].equals("YES"));
-                list.addProduct(cPr);
+                ProductList.getInstance().addProduct(cPr);
             }
         }
-
-        return list;
     }
 
     /**
@@ -102,7 +84,7 @@ class Utilities {
         char del = '\t';
         char fln = '\n';
         Writer pw = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(fileName), "iso-8859-1"));
+                new FileOutputStream(fileName), "iso-8859-1" /*UTF-8*/));
 
         pw.append(writeHeader(del, fln, fileName));
         pw.append(writeBody(del, fln, ProductList.getInstance()));
@@ -170,4 +152,89 @@ class Utilities {
         }
         return sb.toString();
     }
+
+    /**
+     * Gets OS name
+     * @return name of the OS
+     */
+
+    private String getOSname(){
+        return System.getProperty("os.name");
+    }
+
+    /**
+     * Gets the character separator
+     * @return separator character for the OS
+     */
+
+    String getOSseparator(){
+        String sep = "";
+        if (getOSname().startsWith("Windows")){
+            sep = "\\";
+        } else if(getOSname().startsWith("Linux")){
+            sep = "/";
+        }
+        return sep;
+    }
+
+    /**
+     * Gets path to write and read lists
+     * @param folder name of the folder
+     * @return relative path to that folder
+     */
+
+    String getListsPath(String folder) {
+        return folder + getOSseparator();
+    }
+
+    /**
+     * Check if a product with that name is already on the list
+     * @param name of the product
+     * @return true/false
+     */
+
+    boolean productOnListByName(String name){
+        boolean onList = false;
+        for(ChosenProduct cpr: ProductList.getInstance().getList()){
+            if(cpr.getName().equals(name)){
+                onList = true;
+                break;
+            }
+        }
+        return onList;
+    }
+
+    /**
+     * Check if a product with that ID is already on the list
+     * @param id of the product
+     * @return true/false
+     */
+
+    boolean productOnListById(int id){
+        boolean onList = false;
+        for(ChosenProduct cpr: ProductList.getInstance().getList()){
+            if(cpr.getId() == id){
+                onList = true;
+                break;
+            }
+        }
+        return onList;
+    }
+
+    /**
+     * Checks if the folder already exists to create there the file, or creates a new folder
+     * @param folderName folder where the file should be
+     * @return true/false if folder already exists or not
+     */
+
+    boolean checkFolder(String folderName){
+        File dir = new File(folderName);
+        boolean exists = true;
+        if ((!dir.exists()) || (dir.exists() && !dir.isDirectory())) {
+            dir.mkdir();
+            exists = false;
+        }
+        return exists;
+    }
+
 }

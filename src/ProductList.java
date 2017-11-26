@@ -47,31 +47,19 @@ class ProductList {
     /**
      * Adds a new product to the list
      * @param product to be added
-     * @return true if it was added successfully
      */
 
-    boolean addProduct(ChosenProduct product) {
-        boolean added = false;
-        if(!getList().contains(product)){
-            getList().add(product);
-            added = true;
-        }
-        return added;
+    void addProduct(ChosenProduct product) {
+        getList().add(product);
     }
 
     /**
      * Deletes a product from the list
      * @param id of the product to be deleted
-     * @return true if it was deleted successfully
      */
 
-    boolean deleteProduct(int id){
-        boolean deleted = false;
-        if(id<getList().size() && id>=0) {
-            getList().remove(id);
-            deleted = true;
-        }
-        return deleted;
+    void deleteProduct(int id){
+        getList().remove(id);
     }
 
     /**
@@ -90,6 +78,21 @@ class ProductList {
 
     void resetList(){
         this.myList = new ArrayList<>();
+    }
+
+    /**
+     * Gets ID from product with chosen name
+     * @param name of the product
+     * @return Id of the product or -1 if no exists
+     */
+
+    public int getId(String name){
+        for(ChosenProduct cpr: getList()){
+            if(name.equals(cpr.getName())){
+                return cpr.getId();
+            }
+        }
+        return -1;
     }
 
 }
