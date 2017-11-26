@@ -6,7 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68016833-856d-4c0d-89ad-ce875dbf9a04" name="Default" comment="-Executables created&#10;-Instructions completed">
+    <list default="true" id="68016833-856d-4c0d-89ad-ce875dbf9a04" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ShoppingList_Memoria.docx" afterPath="$PROJECT_DIR$/ShoppingList_Memoria.docx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -50,7 +50,7 @@
       <file leaf-file-name="UI.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/UI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1590">
+            <state relative-caret-position="-1716">
               <caret line="182" column="46" lean-forward="false" selection-start-line="182" selection-start-column="46" selection-end-line="182" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -203,6 +203,7 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/ShoppingList_Memoria.docx</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Created" />
@@ -210,7 +211,6 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="CREATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/ShoppingList_Memoria.docx</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Deleted" />
@@ -578,7 +578,14 @@
       <option name="project" value="LOCAL" />
       <updated>1511547433260</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Memoria">
+      <created>1511723996172</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1511723996173</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TodoView">
@@ -689,7 +696,8 @@
     <MESSAGE value="Completed menu functionality and minor bug fixed." />
     <MESSAGE value="Completed menu functionality and minor bug fixed (Changes on lists now available)." />
     <MESSAGE value="-Executables created&#10;-Instructions completed" />
-    <option name="LAST_COMMIT_MESSAGE" value="-Executables created&#10;-Instructions completed" />
+    <MESSAGE value="Memoria" />
+    <option name="LAST_COMMIT_MESSAGE" value="Memoria" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1046,7 +1054,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/UI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1590">
+        <state relative-caret-position="-1716">
           <caret line="182" column="46" lean-forward="false" selection-start-line="182" selection-start-column="46" selection-end-line="182" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
