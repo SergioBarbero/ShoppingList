@@ -64,7 +64,7 @@ public class UI extends Manager{
     public String askFormatFile(){
         String format = ".tsv";
         if(fSFormat){
-            //TODO -- Future Feature: switch with several file types
+            //TODO -- Future Feature: switch with several ways to save the list
         }
         return format;
     }
