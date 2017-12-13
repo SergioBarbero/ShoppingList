@@ -22,13 +22,13 @@ public abstract class Manager {
 
     public abstract String askUser(String question);
 
-    public abstract String askListName();
-
     public abstract String askFormatFile();
 
     public abstract String askFolderName();
 
-    public abstract void askInfoProduct(String fileName) throws IOException;
+    protected abstract String askFileName() throws IOException;
+
+    public abstract void askInfoProduct() throws IOException;
 
     public abstract void printList();
 

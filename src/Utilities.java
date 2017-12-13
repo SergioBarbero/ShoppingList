@@ -235,4 +235,17 @@ class Utilities {
         return exists;
     }
 
+    /**
+     * Read and display info with basic info about the program from help file
+     */
+
+    public void displayHelpFile() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader("src\\HELP.txt"));
+        String line;
+
+        while((line = br.readLine()) != null) {
+            System.out.println(line);
+        }
+    }
+
 }

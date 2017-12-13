@@ -3,13 +3,6 @@ import java.util.Scanner;
 
 public class UI extends Manager{
 
-    //TODO -- Future Feature: we should clean cmd window with following line in some parts of the run
-    //Runtime.getRuntime().exec("cls");
-
-    //TODO -- Feature Switch: allows developers to work with same file and branch on git, while some features are under development
-
-    private boolean fSFormat = false;
-
     /**
      * Utilities
      */
@@ -51,7 +44,7 @@ public class UI extends Manager{
      */
 
     @Override
-    public String askListName(){
+    public String askFileName(){
         return askUser("Introduzca en nombre de la lista: ");
     }
 
@@ -63,10 +56,28 @@ public class UI extends Manager{
     @Override
     public String askFormatFile(){
         String format = ".tsv";
-        if(fSFormat){
-            //TODO -- Future Feature: switch with several ways to save the list
+        boolean formatLoop = true;
+        while (formatLoop) {
+            printFormatsAvailable();
+            switch (getIntroduced()){
+                case "1":
+                    format = ".tsv";
+                    formatLoop = false;
+                    break;
+                default:
+                    System.out.println("Opción no soportada");
+            }
         }
         return format;
+    }
+
+    /**
+     * Displays available formats for the file
+     */
+
+    private void printFormatsAvailable(){
+        System.out.println("Formatos de archivo disponibles:");    //\u00BF
+        System.out.println("1.- '.tsv'");
     }
 
     /**
@@ -76,144 +87,313 @@ public class UI extends Manager{
 
     @Override
     public String askFolderName(){
-        return askUser("Introduzca el nombre de la carpeta donde desea crear/leer su lista: ");
+
+        String fN = askUser("Introduzca el nombre de la carpeta donde desea crear/leer su lista: ");
+        String folderName = util.getListsPath(fN);
+
+        if(util.checkFolder(folderName)){
+            System.out.println("Carpeta encontrada.");
+        } else{
+            System.out.println("Nueva carpeta creada.");
+        }
+        return folderName;
+    }
+
+    /**
+     * Ask the user for file name (within a folder)
+     * @return full path for the file
+     * @throws IOException exception management for write/read from files
+     */
+
+    protected String askFullName() throws IOException {
+        String folderName = askFolderName();
+        return makeFullName(folderName);
+    }
+
+    /**
+     * Creates or read the list within the path given (ask user for name of file and its type)
+     * @param folderName folder where the file is gonna be
+     * @return full path of the file
+     * @throws IOException exception management for write/read from files
+     */
+
+    private String makeFullName(String folderName) throws IOException {
+        String fullName = folderName +
+                askFileName() +
+                askFormatFile();
+
+        if (util.checkList(fullName)) {
+            System.out.println("Lista leida desde fichero.");
+        } else {
+            System.out.println("Nueva lista creada.");
+        }
+        return fullName;
     }
 
     /**
      * Ask information to the user
-     * @param fileName name of file to write the data
      * @throws IOException exception management for write/read from files
      */
 
     @Override
-    public void askInfoProduct(String fileName) throws IOException {
+    public void askInfoProduct() throws IOException {
 
         boolean inLoop = true;
-        String name;
-        int id;
-        int quantity;
-        double price;
+        boolean cambios = false;
+        String nameOfTheList = askFullName();
 
         while (inLoop) {
-            //Runtime.getRuntime().exec(clearWindow);
-
-            System.out.println("\n\t¿Que operación desea realizar?");    //\u00BF
-            System.out.println("ADD -> Añade nuevo producto");  //\u00F1
-            System.out.println("DEL -> Elimina un producto");
-            System.out.println("MOD -> Modifica un producto");
-            System.out.println("BUY -> Marcar producto como comprado o no comprado");
-            System.out.println("FAV -> Marcar producto como favorito o no favorito");
-            System.out.println("VIEW -> Visualización de la lista");
-            System.out.println("SAVE -> Guardar los cambios en el fichero");
-            System.out.println("EXIT -> Dejar de editar la lista y salir (sin guardar)");
-
+            printOptions();
             switch(getIntroduced()){
                 case "ADD":
-                    //Runtime.getRuntime().exec(clearWindow);
-                    name = askUser("Introduce el nombre del producto: ");
-                    if(util.productOnListByName(name)){
-                        System.out.println("ERROR: Producto ya existente");
-                        break;
-                    }
-                    quantity = Integer.parseInt(askUser("Introduce la cantidad: "));
-                    String noQuantity = "NO";
-                    if(quantity < 1){
-                        quantity = 0;
-                        noQuantity = askUser("Cantidad insuficiente.\n" +
-                                "¿Desea marcar el producto como favorito para evitar que se elimine? (SI / NO) ");
-                        if (!noQuantity.equals("SI")){
-                            break;
-                        }
-                    }
-                    addToList(name, quantity);
-                    if(noQuantity.equals("SI")){
-                        markAsFavList(ProductList.getInstance().getId(name));
-                    }
-
+                    cambios = caseAdd();
                     break;
                 case "DEL":
-                    //Runtime.getRuntime().exec(clearWindow);
-                    id = Integer.parseInt(askUser("Introduce la id del producto que quieras eliminar: "));
-                    if(!util.productOnListById(id)){
-                        System.out.println("ERROR: Producto no existente");
-                        break;
-                    }
-                    deleteFromList(id);
+                    caseDel();
+                    cambios = true;
                     break;
                 case "MOD":
-                    boolean innerLoop = true;
-                    id = Integer.parseInt(askUser("Introduce la id del producto que quieras modificar: "));
-                    //Runtime.getRuntime().exec(clearWindow);
-                    if(!util.productOnListById(id)){
-                        innerLoop = false;
-                        System.out.println("ERROR: Producto no existente");
-                    }
-
-                    while(innerLoop) {
-                        System.out.println("\n\t¿Qué parámetro desea modificar?");
-                        System.out.println("NAME -> Modificar nombre");
-                        System.out.println("QUANTITY -> Modificar cantidad");
-                        System.out.println("PRICE -> Modificar precio");
-                        System.out.println("CANCEL -> Cancelar modificación");
-                        switch(getIntroduced()) {
-                            case "NAME":
-                                name = askUser("Introduce el nuevo nombre: ");
-                                if(util.productOnListByName(name)){
-                                    System.out.println("ERROR: Producto ya existente");
-                                    break;
-                                }
-                                modifyNameList(id, name);
-                                innerLoop = false;
-                                break;
-                            case "QUANTITY":
-                                quantity = Integer.parseInt(askUser("Introduce la cantidad: "));
-                                modifyQuantityList(id, quantity);
-                                innerLoop = false;
-                                break;
-                            case "PRICE":
-                                price = Double.parseDouble(askUser("Introduce el precio del producto: "));
-                                modifyPriceList(id, price);
-                                innerLoop = false;
-                                break;
-                            case "CANCEL":
-                                System.out.println("Cancelando modificación...");
-                                innerLoop = false;
-                                break;
-                            default:
-                                System.out.println("Opción no soportada");
-                        }
-                    }
+                    cambios = caseMod();
                     break;
                 case "BUY":
-                    //Runtime.getRuntime().exec(clearWindow);
-                    id = Integer.parseInt(askUser("Introduce la id del producto que quieras marcar como comprado/no comprado: "));
-                    markAsBoughtList(id);
+                    caseBuy();
+                    cambios = true;
                     break;
                 case "FAV":
-                    //Runtime.getRuntime().exec(clearWindow);
-                    id = Integer.parseInt(askUser("Introduce la id del producto que quieras marcar como favorito/no favorito: "));
-                    markAsFavList(id);
+                    caseFav();
+                    cambios = true;
                     break;
                 case "VIEW":
-                    //Runtime.getRuntime().exec(clearWindow);
-                    printList();
-                    Scanner scanner = new Scanner(System.in);
-                    scanner.nextLine();
+                    caseView();
                     break;
                 case "SAVE":
-                    System.out.println("Guardando lista...");
-                    util.writeList(fileName);
-                    ProductList.getInstance().resetList();
-                    util.checkList(fileName);
+                    caseSave(nameOfTheList);
+                    cambios = false;
+                    break;
+                case "HELP":
+                    caseHelp();
                     break;
                 case "EXIT":
-                    System.out.println("Finalizando edición de lista...");
+                    caseExit(cambios, nameOfTheList);
                     inLoop = false;
                     break;
                 default:
                     System.out.println("Opción no soportada");
             }
         }
+    }
+
+    /**
+     * Displays available options from main menu
+     */
+
+    private void printOptions(){
+        System.out.println("\n\t¿Que operación desea realizar?");    //\u00BF
+        System.out.println("ADD -> Añade nuevo producto");  //\u00F1
+        System.out.println("DEL -> Elimina un producto");
+        System.out.println("MOD -> Modifica un producto");
+        System.out.println("BUY -> Marcar producto como comprado o no comprado");
+        System.out.println("FAV -> Marcar producto como favorito o no favorito");
+        System.out.println("VIEW -> Visualización de la lista");
+        System.out.println("SAVE -> Guardar los cambios en el fichero");
+        System.out.println("HELP -> Muestra información básica del programa");
+        System.out.println("EXIT -> Dejar de editar la lista y salir");
+    }
+
+    /**
+     * Add case from main menu
+     */
+
+    private boolean caseAdd(){
+        String name = askUser("Introduce el nombre del producto: ");
+        if(util.productOnListByName(name)){
+            System.out.println("ERROR: Producto ya existente");
+            return false;
+        }
+        int quantity = Integer.parseInt(askUser("Introduce la cantidad: "));
+        String noQuantity = "NO";
+        if(quantity < 1){
+            quantity = 0;
+            noQuantity = askUser("Cantidad insuficiente.\n" +
+                    "¿Desea marcar el producto como favorito para evitar que se elimine? (SI / NO) ");
+            if (!noQuantity.equals("SI")){
+                return false;
+            }
+        }
+        addToList(name, quantity);
+        if(noQuantity.equals("SI")){
+            markAsFavList(ProductList.getInstance().getId(name));
+        }
+        return true;
+    }
+
+    /**
+     * Delete case from main menu
+     */
+
+    private boolean caseDel(){
+        int id = Integer.parseInt(askUser("Introduce la id del producto que quieras eliminar: "));
+        if(!util.productOnListById(id)){
+            System.out.println("ERROR: Producto no existente");
+            return false;
+        }
+        deleteFromList(id);
+        return true;
+    }
+
+    /**
+     * Modify case from main menu
+     */
+
+    private boolean caseMod(){
+        boolean modify = true;
+        boolean innerLoop = true;
+        int id = Integer.parseInt(askUser("Introduce la id del producto que quieras modificar: "));
+        if(!util.productOnListById(id)){
+            innerLoop = false;
+            System.out.println("ERROR: Producto no existente");
+        }
+
+        while(innerLoop) {
+            printModOptions();
+            switch(getIntroduced()) {
+                case "NAME":
+                    innerLoop = caseModName(id);
+                    break;
+                case "QUANTITY":
+                    caseModQuantity(id);
+                    innerLoop = false;
+                    break;
+                case "PRICE":
+                    caseModPrice(id);
+                    innerLoop = false;
+                    break;
+                case "CANCEL":
+                    System.out.println("Cancelando modificación...");
+                    innerLoop = false;
+                    modify = false;
+                    break;
+                default:
+                    System.out.println("Opción no soportada");
+            }
+        }
+        return modify;
+    }
+
+    /**
+     * Displays available parameters to modify
+     */
+
+    private void printModOptions(){
+        System.out.println("\n\t¿Qué parámetro desea modificar?");
+        System.out.println("NAME -> Modificar nombre");
+        System.out.println("QUANTITY -> Modificar cantidad");
+        System.out.println("PRICE -> Modificar precio");
+        System.out.println("CANCEL -> Cancelar modificación");
+    }
+
+    /**
+     * Modify name case from modification menu
+     * @param id of product to modify
+     * @return true/false if could modify name or not
+     */
+
+    private boolean caseModName(int id){
+        String name = askUser("Introduce el nuevo nombre: ");
+        if(util.productOnListByName(name)){
+            System.out.println("ERROR: Producto ya existente");
+            return true;
+        }
+        modifyNameList(id, name);
+        return false;
+    }
+
+    /**
+     * Modify quantity case from modification menu
+     * @param id of product to modify
+     */
+
+    private void caseModQuantity(int id){
+        int quantity = Integer.parseInt(askUser("Introduce la cantidad: "));
+        modifyQuantityList(id, quantity);
+    }
+
+    /**
+     * Modify price case from modification menu
+     * @param id of product to modify
+     */
+
+    private void caseModPrice(int id){
+        Double price = Double.parseDouble(askUser("Introduce el precio del producto: "));
+        modifyPriceList(id, price);
+    }
+
+    /**
+     * Bought case from main menu
+     */
+
+    private void caseBuy(){
+        int id = Integer.parseInt(askUser("Introduce la id del producto que quieras marcar como comprado/no comprado: "));
+        markAsBoughtList(id);
+    }
+
+    /**
+     * Favorite case from main menu
+     */
+
+    private void caseFav(){
+        int id = Integer.parseInt(askUser("Introduce la id del producto que quieras marcar como favorito/no favorito: "));
+        markAsFavList(id);
+    }
+
+    /**
+     * View case from main menu
+     */
+
+    private void caseView(){
+        printList();
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
+    }
+
+    /**
+     * Saves the list in the actual state to the file
+     * @param fileName name of file to be writen
+     * @throws IOException exception management for write/read from files
+     */
+
+    private void caseSave(String fileName) throws IOException {
+        System.out.println("Guardando lista...");
+        util.writeList(fileName);
+        ProductList.getInstance().resetList();
+        util.checkList(fileName);
+    }
+
+    /**
+     * Help case from main menu
+     */
+
+    private void caseHelp() throws IOException {
+        util.displayHelpFile();
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
+    }
+
+    /**
+     * Exit the program, asking the user if wants to save the list in case he/she didn't recently
+     * @param cambios we can know if changes were made
+     * @param nameOfTheList name of file to be writen
+     * @throws IOException exception management for write/read from files
+     */
+
+    private void caseExit(boolean cambios, String nameOfTheList) throws IOException {
+        if(cambios && askUser("Se han producido cambios desde la última vez que guardó la lista.\n" +
+                "¿Desea guardar los cambios antes de salir? (Y/N)").equals("Y")){
+            caseSave(nameOfTheList);
+        }
+        System.out.println("Cerrando programa.\n\nPulse ENTER para finalizar.");
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
     }
 
     /**

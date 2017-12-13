@@ -9,11 +9,7 @@ public class Main {
 
     //TODO -- Feature Switch: allows some developers to tests GUI while others work with same file without that GUI
 
-    private static boolean fsGUI = false;
-
-    //TODO -- Feature Switch: allows developers to run two versions, one of them for users
-
-    private static boolean fsUserVersion = true;
+    private static boolean GUI = false;
 
     /**
      * Utility object
@@ -29,9 +25,10 @@ public class Main {
 
     public static void main(String args[]) throws IOException {
         util = new Utilities();
-        mainUI();
-        if(fsGUI) {
+        if(GUI) {
             mainGUI();
+        } else{
+            mainUI();
         }
     }
 
@@ -42,26 +39,8 @@ public class Main {
 
     private static void mainUI() throws IOException {
         Manager managerUI = new UI();
-        String folderName = (!fsUserVersion ? "src" + util.getOSseparator(): "") +
-                util.getListsPath(managerUI.askFolderName());
 
-        if(util.checkFolder(folderName)){
-            System.out.println("Carpeta encontrada.");
-        } else{
-            System.out.println("Nueva carpeta creada.");
-        }
-
-        String fullName = folderName +
-                managerUI.askListName() +
-                managerUI.askFormatFile();
-
-        if (util.checkList(fullName)) {
-            System.out.println("Lista leida desde fichero.");
-        } else {
-            System.out.println("Nueva lista creada.");
-        }
-
-        managerUI.askInfoProduct(fullName);
+        managerUI.askInfoProduct();
     }
 
     //TODO -- Future Feature: implement graphic interface
