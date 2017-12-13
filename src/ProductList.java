@@ -13,7 +13,7 @@ class ProductList {
      * List with products
      */
 
-    private List<ChosenProduct> myList = new ArrayList<>();
+    private List<Product> myList = new ArrayList<>();
 
     /**
      * ProductList Constructor
@@ -26,7 +26,7 @@ class ProductList {
      * @return instance from singleton
      */
 
-    static ProductList getInstance(){
+    public static ProductList getInstance(){
         if (instance == null) {
             instance = new ProductList();
             return instance;
@@ -40,7 +40,7 @@ class ProductList {
      * @return myList
      */
 
-    List<ChosenProduct> getList(){
+    public List<Product> getList(){
         return myList;
     }
 
@@ -49,7 +49,7 @@ class ProductList {
      * @param product to be added
      */
 
-    void addProduct(ChosenProduct product) {
+    public void addProduct(Product product) {
         getList().add(product);
     }
 
@@ -58,17 +58,17 @@ class ProductList {
      * @param id of the product to be deleted
      */
 
-    void deleteProduct(int id){
+    public void deleteProduct(int id){
         getList().remove(id);
     }
 
     /**
      * Gets product with chosen id from list
      * @param id of the product
-     * @return ChosenProduct with id
+     * @return Product with id
      */
 
-    ChosenProduct getChosenProduct(int id){
+    public Product getProduct(int id){
         return getList().get(id);
     }
 
@@ -76,7 +76,7 @@ class ProductList {
      * Clear list
      */
 
-    void resetList(){
+    public void resetList(){
         this.myList = new ArrayList<>();
     }
 
@@ -87,9 +87,9 @@ class ProductList {
      */
 
     public int getId(String name){
-        for(ChosenProduct cpr: getList()){
-            if(name.equals(cpr.getName())){
-                return cpr.getId();
+        for(Product pr: getList()){
+            if(name.equals(pr.getName())){
+                return pr.getId();
             }
         }
         return -1;

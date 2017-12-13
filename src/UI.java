@@ -20,7 +20,7 @@ public class UI extends Manager{
      * UI constructor
      */
 
-    UI(){
+    public UI(){
         this.util = new Utilities();
     }
 
@@ -223,14 +223,14 @@ public class UI extends Manager{
     @Override
     public void printList(){
         System.out.println("\nID\tName\t\tQuantity\tBought\tPrice\tFavorite");
-        for(ChosenProduct cpr: ProductList.getInstance().getList()){
+        for(Product pr: ProductList.getInstance().getList()){
             System.out.println(
-                    cpr.getId() + "\t" +
-                    cpr.getName() + "\t\t" +
-                    cpr.getQuantity() + "\t" +
-                    cpr.getBoughtToString() + "\t" +
-                    cpr.getPriceToString() + "\t" +
-                    cpr.getFavoriteToString());
+                    pr.getId() + "\t" +
+                    pr.getName() + "\t\t" +
+                    pr.getQuantity() + "\t" +
+                    pr.getBoughtToString() + "\t" +
+                    pr.getPriceToString() + "\t" +
+                    pr.getFavoriteToString());
         }
     }
 
@@ -243,8 +243,7 @@ public class UI extends Manager{
     @Override
     public void addToList(String name, int quantity) {
         int id = ProductList.getInstance().getList().size();
-        Product pr = new Product(id, name);
-        ProductList.getInstance().addProduct(new ChosenProduct(pr, quantity));
+        ProductList.getInstance().addProduct(new Product(id, name, quantity));
     }
 
     /**
@@ -265,7 +264,7 @@ public class UI extends Manager{
 
     @Override
     public void modifyNameList(int id, String name) {
-        ProductList.getInstance().getChosenProduct(id).setName(name);
+        ProductList.getInstance().getProduct(id).setName(name);
     }
 
     /**
@@ -276,7 +275,7 @@ public class UI extends Manager{
 
     @Override
     public void modifyPriceList(int id, double price) {
-        ProductList.getInstance().getChosenProduct(id).setPrice(price);
+        ProductList.getInstance().getProduct(id).setPrice(price);
     }
 
     /**
@@ -287,7 +286,7 @@ public class UI extends Manager{
 
     @Override
     public void modifyQuantityList(int id, int quantity) {
-        ProductList.getInstance().getChosenProduct(id).setQuantity(quantity);
+        ProductList.getInstance().getProduct(id).setQuantity(quantity);
     }
 
     /**
@@ -297,7 +296,7 @@ public class UI extends Manager{
 
     @Override
     public void markAsFavList(int id) {
-        ChosenProduct pr = ProductList.getInstance().getChosenProduct(id);
+        Product pr = ProductList.getInstance().getProduct(id);
         pr.setFavorite(!pr.getFavorite());
     }
 
@@ -308,7 +307,7 @@ public class UI extends Manager{
 
     @Override
     public void markAsBoughtList(int id) {
-        ChosenProduct pr = ProductList.getInstance().getChosenProduct(id);
+        Product pr = ProductList.getInstance().getProduct(id);
         pr.setBought(!pr.getBought());
     }
 }

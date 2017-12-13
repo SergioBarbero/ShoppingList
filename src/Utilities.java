@@ -7,7 +7,7 @@ class Utilities {
      * Utilities constructor
      */
 
-    Utilities(){
+    public Utilities(){
 
     }
 
@@ -17,7 +17,7 @@ class Utilities {
      * @return true/false if file already exists or not
      */
 
-    boolean checkList(String fileToWrite) throws IOException {
+    public boolean checkList(String fileToWrite) throws IOException {
         File f = new File(fileToWrite);
         boolean checked = false;
         if ((f.exists())) {
@@ -36,8 +36,8 @@ class Utilities {
      */
 
     private void loadList(ProductList pL){
-        for(ChosenProduct cpr: pL.getList()){
-            ProductList.getInstance().addProduct(cpr);
+        for(Product pr: pL.getList()){
+            ProductList.getInstance().addProduct(pr);
         }
     }
 
@@ -59,16 +59,14 @@ class Utilities {
             cabeceras--;
             if(cabeceras < 0) {
                 aPP = line.split(del);
-                Product pr = new Product(
+                Product Pr = new Product(
                         Integer.parseInt(aPP[0]),
-                        aPP[1]);
-                ChosenProduct cPr = new ChosenProduct(
-                        pr,
+                        aPP[1],
                         Integer.parseInt(aPP[2]),
                         aPP[3].equals("YES"),
                         (aPP[4].equals(" - ") ? -1 : Double.parseDouble(aPP[4])),
                         aPP[5].equals("YES"));
-                ProductList.getInstance().addProduct(cPr);
+                ProductList.getInstance().addProduct(Pr);
             }
         }
     }
@@ -79,7 +77,7 @@ class Utilities {
      * @throws IOException exception management for write/read from files
      */
 
-    void writeList(String fileName) throws IOException {
+    public void writeList(String fileName) throws IOException {
 
         char del = '\t';
         char fln = '\n';
@@ -128,9 +126,9 @@ class Utilities {
 
     private String writeBody(char del, char fln, ProductList list){
         StringBuilder sb = new StringBuilder();
-        List<ChosenProduct> l = list.getList();
+        List<Product> l = list.getList();
         int idx = -1;
-        for (ChosenProduct p: l) {
+        for (Product p: l) {
             idx++;
             sb.append(idx);
             sb.append(del);
@@ -167,7 +165,7 @@ class Utilities {
      * @return separator character for the OS
      */
 
-    String getOSseparator(){
+    public String getOSseparator(){
         String sep = "";
         if (getOSname().startsWith("Windows")){
             sep = "\\";
@@ -183,7 +181,7 @@ class Utilities {
      * @return relative path to that folder
      */
 
-    String getListsPath(String folder) {
+    public String getListsPath(String folder) {
         return folder + getOSseparator();
     }
 
@@ -193,10 +191,10 @@ class Utilities {
      * @return true/false
      */
 
-    boolean productOnListByName(String name){
+    public boolean productOnListByName(String name){
         boolean onList = false;
-        for(ChosenProduct cpr: ProductList.getInstance().getList()){
-            if(cpr.getName().equals(name)){
+        for(Product pr: ProductList.getInstance().getList()){
+            if(pr.getName().equals(name)){
                 onList = true;
                 break;
             }
@@ -210,10 +208,10 @@ class Utilities {
      * @return true/false
      */
 
-    boolean productOnListById(int id){
+    public boolean productOnListById(int id){
         boolean onList = false;
-        for(ChosenProduct cpr: ProductList.getInstance().getList()){
-            if(cpr.getId() == id){
+        for(Product pr: ProductList.getInstance().getList()){
+            if(pr.getId() == id){
                 onList = true;
                 break;
             }
@@ -227,7 +225,7 @@ class Utilities {
      * @return true/false if folder already exists or not
      */
 
-    boolean checkFolder(String folderName){
+    public boolean checkFolder(String folderName){
         File dir = new File(folderName);
         boolean exists = true;
         if ((!dir.exists()) || (dir.exists() && !dir.isDirectory())) {
