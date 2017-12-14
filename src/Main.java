@@ -39,7 +39,7 @@ public class Main {
 
     private static void mainUI() throws IOException {
         Manager managerUI = new UI();
-
+        managerUI.loadDB();
         managerUI.askInfoProduct();
     }
 
@@ -51,15 +51,7 @@ public class Main {
 
     private static void mainGUI(){
 
-        //Manager managerUI = new GUI();
-        //String folderName = managerGUI.askFolderName();
-        //String fileToWrite = managerGUI.askListName() + managerGUI.askFormatFile();
-
-        //util.checkList(fileToWrite);
-
-        //util.checkList(util.getListsPath(folderName) + fileToWrite);
-
-        //managerGUI.askInfoProduct(fileToWrite);
+        Manager managerUI = new GUI();
 
     }
 

@@ -78,6 +78,8 @@ public class MainWindow extends Application  {
         fav.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         grid.add(fav, 6, 0);
 
+        displayContent(grid);
+
         return grid;
     }
 

@@ -21,7 +21,6 @@ class Utilities {
         File f = new File(fileToWrite);
         boolean checked = false;
         if ((f.exists())) {
-
             readList(fileToWrite);
             checked = true;
         } else {
@@ -177,12 +176,11 @@ class Utilities {
 
     /**
      * Gets path to write and read lists
-     * @param folder name of the folder
      * @return relative path to that folder
      */
 
-    public String getListsPath(String folder) {
-        return folder + getOSseparator();
+    public String getListsPath() {
+        return "data" + getOSseparator();
     }
 
     /**

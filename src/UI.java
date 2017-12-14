@@ -3,18 +3,13 @@ import java.util.Scanner;
 
 public class UI extends Manager{
 
-    /**
-     * Utilities
-     */
-
-    private Utilities util;
 
     /**
      * UI constructor
      */
 
     public UI(){
-        this.util = new Utilities();
+        super();
     }
 
     /**
@@ -88,47 +83,15 @@ public class UI extends Manager{
     @Override
     public String askFolderName(){
 
-        String fN = askUser("Introduzca el nombre de la carpeta donde desea crear/leer su lista: ");
-        String folderName = util.getListsPath(fN);
+        String folderName = getUtil().getListsPath();
 
-        if(util.checkFolder(folderName)){
-            System.out.println("Carpeta encontrada.");
-        } else{
-            System.out.println("Nueva carpeta creada.");
-        }
+        getUtil().checkFolder(folderName);
+
         return folderName;
     }
 
-    /**
-     * Ask the user for file name (within a folder)
-     * @return full path for the file
-     * @throws IOException exception management for write/read from files
-     */
 
-    protected String askFullName() throws IOException {
-        String folderName = askFolderName();
-        return makeFullName(folderName);
-    }
 
-    /**
-     * Creates or read the list within the path given (ask user for name of file and its type)
-     * @param folderName folder where the file is gonna be
-     * @return full path of the file
-     * @throws IOException exception management for write/read from files
-     */
-
-    private String makeFullName(String folderName) throws IOException {
-        String fullName = folderName +
-                askFileName() +
-                askFormatFile();
-
-        if (util.checkList(fullName)) {
-            System.out.println("Lista leida desde fichero.");
-        } else {
-            System.out.println("Nueva lista creada.");
-        }
-        return fullName;
-    }
 
     /**
      * Ask information to the user
@@ -140,7 +103,6 @@ public class UI extends Manager{
 
         boolean inLoop = true;
         boolean cambios = false;
-        String nameOfTheList = askFullName();
 
         while (inLoop) {
             printOptions();
@@ -206,7 +168,7 @@ public class UI extends Manager{
 
     private boolean caseAdd(){
         String name = askUser("Introduce el nombre del producto: ");
-        if(util.productOnListByName(name)){
+        if(getUtil().productOnListByName(name)){
             System.out.println("ERROR: Producto ya existente");
             return false;
         }
@@ -233,7 +195,7 @@ public class UI extends Manager{
 
     private boolean caseDel(){
         int id = Integer.parseInt(askUser("Introduce la id del producto que quieras eliminar: "));
-        if(!util.productOnListById(id)){
+        if(!getUtil().productOnListById(id)){
             System.out.println("ERROR: Producto no existente");
             return false;
         }
@@ -249,7 +211,7 @@ public class UI extends Manager{
         boolean modify = true;
         boolean innerLoop = true;
         int id = Integer.parseInt(askUser("Introduce la id del producto que quieras modificar: "));
-        if(!util.productOnListById(id)){
+        if(!getUtil().productOnListById(id)){
             innerLoop = false;
             System.out.println("ERROR: Producto no existente");
         }
@@ -300,7 +262,7 @@ public class UI extends Manager{
 
     private boolean caseModName(int id){
         String name = askUser("Introduce el nuevo nombre: ");
-        if(util.productOnListByName(name)){
+        if(getUtil().productOnListByName(name)){
             System.out.println("ERROR: Producto ya existente");
             return true;
         }
@@ -364,9 +326,9 @@ public class UI extends Manager{
 
     private void caseSave(String fileName) throws IOException {
         System.out.println("Guardando lista...");
-        util.writeList(fileName);
+        getUtil().writeList(fileName);
         ProductList.getInstance().resetList();
-        util.checkList(fileName);
+        getUtil().checkList(fileName);
     }
 
     /**
@@ -374,7 +336,7 @@ public class UI extends Manager{
      */
 
     private void caseHelp() throws IOException {
-        util.displayHelpFile();
+        getUtil().displayHelpFile();
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
     }

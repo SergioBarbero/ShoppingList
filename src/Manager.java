@@ -2,8 +2,52 @@ import java.io.IOException;
 
 public abstract class Manager {
 
-    Manager() {
 
+    String nameOfTheList;
+    private Utilities util;
+
+    Manager() {
+        this.util = new Utilities();
+    }
+
+
+    public String getNameOfTheList(){
+        return nameOfTheList;
+    }
+
+    public Utilities getUtil() {
+        return util;
+    }
+
+    /**
+     * Creates or read the list within the path given
+     * @param folderName folder where the file is going to be
+     * @return full path of the file
+     * @throws IOException exception management for write/read from files
+     */
+    private String makeFullName(String folderName) throws IOException {
+        String fullName = folderName +
+                "database.tsv";
+
+        util.checkList(fullName);
+
+        return fullName;
+    }
+
+    /**
+     * Ask the user for file name (within a folder)
+     * @return full path for the file
+     * @throws IOException exception management for write/read from files
+     */
+
+    protected String askFullName() throws IOException {
+        String folderName = askFolderName();
+        return makeFullName(folderName);
+    }
+
+
+    public  void loadDB() throws IOException{
+        nameOfTheList = askFullName();
     }
 
     public abstract void addToList(String name, int quantity);
