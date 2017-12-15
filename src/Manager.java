@@ -4,76 +4,82 @@ public abstract class Manager {
 
 
     String nameOfTheList;
-    private Utilities util;
+    private FilesUtilities fUtil;
+    private ListUtilities lUtil;
 
-    Manager() {
-        this.util = new Utilities();
+    public Manager() {
+        this.fUtil = new FilesUtilities();
+        this.lUtil = new ListUtilities();
     }
 
+    /**
+     * Gets name of
+     * @return
+     */
 
     public String getNameOfTheList(){
         return nameOfTheList;
     }
 
-    public Utilities getUtil() {
-        return util;
+    /**
+     * Gets utilities for the files instance
+     * @return files util
+     */
+
+    public FilesUtilities getFilesUtil() {
+        return fUtil;
     }
 
     /**
-     * Creates or read the list within the path given
-     * @param folderName folder where the file is going to be
-     * @return full path of the file
+     * Gets utilities for the list instance
+     * @return list util
+     */
+
+    public ListUtilities getListUtil() {
+        return lUtil;
+    }
+
+    /**
+     * Gets folder location for list
+     * @return directory name
+     */
+
+    protected String askFolderName(){
+        String folderName = getFilesUtil().getDataFolder();
+
+        getFilesUtil().checkFolder(folderName);
+
+        return folderName;
+    }
+
+    /**
+     * Gets full path (folder+file name) for the list location
+     * @return full path for the file
      * @throws IOException exception management for write/read from files
      */
-    private String makeFullName(String folderName) throws IOException {
-        String fullName = folderName +
-                "database.tsv";
 
-        util.checkList(fullName);
+    protected String getDataPath() throws IOException {
+        String folderName = askFolderName();
+        String fullName = folderName + getFilesUtil().getDataFile();
+
+        getFilesUtil().checkFile(fullName);
 
         return fullName;
     }
 
     /**
-     * Ask the user for file name (within a folder)
-     * @return full path for the file
+     * Sets name of the list
      * @throws IOException exception management for write/read from files
      */
 
-    protected String askFullName() throws IOException {
-        String folderName = askFolderName();
-        return makeFullName(folderName);
+    public void loadDB() throws IOException{
+        nameOfTheList = getDataPath();
     }
-
-
-    public  void loadDB() throws IOException{
-        nameOfTheList = askFullName();
-    }
-
-    public abstract void addToList(String name, int quantity);
-
-    public abstract void deleteFromList(int id);
-
-    public abstract void modifyNameList(int id, String name);
-
-    public abstract void modifyPriceList(int id, double price);
-
-    public abstract void modifyQuantityList(int id, int quantity);
-
-    public abstract void markAsFavList(int id);
-
-    public abstract void markAsBoughtList(int id);
 
     public abstract String askUser(String question);
 
-    public abstract String askFormatFile();
-
-    public abstract String askFolderName();
-
-    protected abstract String askFileName() throws IOException;
-
     public abstract void askInfoProduct() throws IOException;
 
-    public abstract void printList();
+    public abstract void displayList();
 
 }

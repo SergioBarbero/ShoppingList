@@ -7,7 +7,9 @@ import java.io.IOException;
 
 public class Main {
 
-    //TODO -- Feature Switch: allows some developers to tests GUI while others work with same file without that GUI
+    /**
+     * Allows to change between UI and GUI more easy
+     */
 
     private static boolean GUI = false;
 
@@ -15,7 +17,7 @@ public class Main {
      * Utility object
      */
 
-    private static Utilities util = null;
+    private static ListUtilities util = null;
 
     /**
      * Main program
@@ -24,7 +26,7 @@ public class Main {
      */
 
     public static void main(String args[]) throws IOException {
-        util = new Utilities();
+        util = new ListUtilities();
         if(GUI) {
             mainGUI();
         } else{
@@ -51,7 +53,7 @@ public class Main {
 
     private static void mainGUI(){
 
-        Manager managerUI = new GUI();
+        Manager managerGUI = new GUI();
 
     }
 

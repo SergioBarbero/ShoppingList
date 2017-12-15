@@ -2,58 +2,16 @@ import java.io.IOException;
 
 public class GUI extends Manager {
 
-    @Override
-    public void addToList(String name, int quantity) {
+    /**
+     * GUI constructor
+     */
 
-    }
-
-    @Override
-    public void deleteFromList(int id) {
-
-    }
-
-    @Override
-    public void modifyNameList(int id, String name) {
-
-    }
-
-    @Override
-    public void modifyPriceList(int id, double price) {
-
-    }
-
-    @Override
-    public void modifyQuantityList(int id, int quantity) {
-
-    }
-
-    @Override
-    public void markAsFavList(int id) {
-
-    }
-
-    @Override
-    public void markAsBoughtList(int id) {
-
+    public GUI(){
+        super();
     }
 
     @Override
     public String askUser(String question) {
-        return null;
-    }
-
-    @Override
-    public String askFormatFile() {
-        return null;
-    }
-
-    @Override
-    public String askFolderName() {
-        return null;
-    }
-
-    @Override
-    protected String askFileName() throws IOException {
         return null;
     }
 
@@ -63,7 +21,7 @@ public class GUI extends Manager {
     }
 
     @Override
-    public void printList() {
+    public void displayList() {
 
     }
 }

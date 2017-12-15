@@ -1,14 +1,30 @@
 import java.io.*;
 import java.util.List;
 
-class Utilities {
+public class FilesUtilities {
 
     /**
-     * Utilities constructor
+     * Files utilities constructor
      */
 
-    public Utilities(){
+    public FilesUtilities(){
 
+    }
+
+    /**
+     * Checks if the folder already exists to create there the file, or creates a new folder
+     * @param folderName folder where the file should be
+     * @return true/false if folder already exists or not
+     */
+
+    public boolean checkFolder(String folderName){
+        File dir = new File(folderName);
+        boolean exists = true;
+        if ((!dir.exists()) || (dir.exists() && !dir.isDirectory())) {
+            dir.mkdir();
+            exists = false;
+        }
+        return exists;
     }
 
     /**
@@ -17,11 +33,11 @@ class Utilities {
      * @return true/false if file already exists or not
      */
 
-    public boolean checkList(String fileToWrite) throws IOException {
+    public boolean checkFile(String fileToWrite) throws IOException {
         File f = new File(fileToWrite);
         boolean checked = false;
         if ((f.exists())) {
-            readList(fileToWrite);
+            readFile(fileToWrite);
             checked = true;
         } else {
             ProductList.getInstance();
@@ -30,22 +46,11 @@ class Utilities {
     }
 
     /**
-     * Load list from variable to singleton ProductList
-     * @param pL product list (empty or dead from file)
-     */
-
-    private void loadList(ProductList pL){
-        for(Product pr: pL.getList()){
-            ProductList.getInstance().addProduct(pr);
-        }
-    }
-
-    /**
      * Read a list of products from a file
      * @param fileName with the list
      */
 
-    private void readList(String fileName) throws IOException {
+    private void readFile(String fileName) throws IOException {
 
         String del = "\t";
 
@@ -76,7 +81,7 @@ class Utilities {
      * @throws IOException exception management for write/read from files
      */
 
-    public void writeList(String fileName) throws IOException {
+    public void writeFile(String fileName) throws IOException {
 
         char del = '\t';
         char fln = '\n';
@@ -175,75 +180,21 @@ class Utilities {
     }
 
     /**
-     * Gets path to write and read lists
-     * @return relative path to that folder
+     * Gets folder name for the file list
+     * @return folder name
      */
 
-    public String getListsPath() {
+    public String getDataFolder() {
         return "data" + getOSseparator();
     }
 
     /**
-     * Check if a product with that name is already on the list
-     * @param name of the product
-     * @return true/false
+     * Gets file name for the list
+     * @return file name
      */
 
-    public boolean productOnListByName(String name){
-        boolean onList = false;
-        for(Product pr: ProductList.getInstance().getList()){
-            if(pr.getName().equals(name)){
-                onList = true;
-                break;
-            }
-        }
-        return onList;
-    }
-
-    /**
-     * Check if a product with that ID is already on the list
-     * @param id of the product
-     * @return true/false
-     */
-
-    public boolean productOnListById(int id){
-        boolean onList = false;
-        for(Product pr: ProductList.getInstance().getList()){
-            if(pr.getId() == id){
-                onList = true;
-                break;
-            }
-        }
-        return onList;
-    }
-
-    /**
-     * Checks if the folder already exists to create there the file, or creates a new folder
-     * @param folderName folder where the file should be
-     * @return true/false if folder already exists or not
-     */
-
-    public boolean checkFolder(String folderName){
-        File dir = new File(folderName);
-        boolean exists = true;
-        if ((!dir.exists()) || (dir.exists() && !dir.isDirectory())) {
-            dir.mkdir();
-            exists = false;
-        }
-        return exists;
-    }
-
-    /**
-     * Read and display info with basic info about the program from help file
-     */
-
-    public void displayHelpFile() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("src\\HELP.txt"));
-        String line;
-
-        while((line = br.readLine()) != null) {
-            System.out.println(line);
-        }
+    public String getDataFile(){
+        return "database.tsv";
     }
 
 }
