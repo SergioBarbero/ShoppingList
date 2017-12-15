@@ -1,12 +1,9 @@
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -17,12 +14,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 
 public class MainWindow extends Application  {
 
-    HashMap<String, Button> actions;
+    Button actions[];
     private Button buttonNew;
     private Button buttonDel;
     private Button buttonModify;
@@ -149,16 +144,37 @@ public class MainWindow extends Application  {
                     selected[i].setSelected(false);
                     if(list.get(i).getFavorite()) {
                         selected[i].setSelected(true);
+
                     }
                 }
             }
-        });
 
+        });
 
         grid.add(selection, 1, 0);
         displayContent(grid);
 
+
         return grid;
+    }
+
+    public void disableEnableButtons(){
+        boolean unique = true;
+        int counter = 0;
+        for(int i = 0; i <selected.length; i++){
+            if(selected[i].isSelected()) {
+                counter++;
+            }
+        }
+        for(int i= 0; i < actions.length; i++){
+            actions[i].setDisable(false);
+        }
+        if(counter == 0){
+            onlyNewButtonEnabled();
+        }else if(counter > 1){
+            actions[2].setDisable(true);
+        }
+
     }
 
     public void addHeader(GridPane grid){
@@ -182,7 +198,6 @@ public class MainWindow extends Application  {
         Text fav = new Text("Favorito");
         fav.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         grid.add(fav, 6, 0);
-
     }
 
 
@@ -195,30 +210,36 @@ public class MainWindow extends Application  {
         title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         vbox.getChildren().add(title);
 
-        Button actions[] = new Button[] {
+        actions = new Button[] {
                 buttonNew = new Button("Nuevo"),
                 buttonDel = new Button("Eliminar"),
                 buttonModify = new Button("Modificar"),
                 buttonBought = new Button("Marcar como comprado"),
                 buttonFav = new Button("Marcar como favorito")
         };
-
-        for (int i=0; i<5; i++) {
-            if (i != 0) {
-                actions[i].setDisable(true);
-            }
-            VBox.setMargin(actions[i], new Insets(0, 0, 0, 8));
-            vbox.getChildren().add(actions[i]);
-        }
+        vbox.getChildren().addAll(actions);
 
 
+        onlyNewButtonEnabled();
 
         return vbox;
 
     }
 
+    private void onlyNewButtonEnabled(){
+        for (int i=0; i<5; i++) {
+            if (i != 0) {
+                actions[i].setDisable(true);
+            }
+
+
+        }
+    }
+
     public void displayContent(GridPane grid){
         selected = new CheckBox[list.size()];
+
+
 
         for(int i=0,row=1; i < list.size(); i++,row++ ){
             Text name = new Text(list.get(i).getName());
@@ -234,6 +255,16 @@ public class MainWindow extends Application  {
             grid.add(price, 5, row, 2, 1);
             grid.add(fav, 6, row, 2, 1);
         }
+
+       for(int i= 0; i < selected.length; i++){
+            selected[i].setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    disableEnableButtons();
+                }
+            });
+        }
+
     }
 
     public static void main(String[] args) throws IOException {
