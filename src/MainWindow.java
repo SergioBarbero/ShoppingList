@@ -1,6 +1,7 @@
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -28,6 +29,7 @@ public class MainWindow extends Application  {
     private Button buttonBought;
     private Button buttonFav;
     private List<Product> list = ProductList.getInstance().getList();
+    CheckBox[] selected;
 
 
 
@@ -49,8 +51,6 @@ public class MainWindow extends Application  {
         buttonNew.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
-
                 Stage newProductStage = new Stage();
                 GridPane newProductPane = new GridPane();
 
@@ -58,6 +58,7 @@ public class MainWindow extends Application  {
                 newProductStage.initModality(Modality.WINDOW_MODAL);
                 newProductStage.initOwner(primaryStage);
 
+                //New Window
                 Scene scene = new Scene(newProductPane, 500, 200);
 
                 newProductStage.setTitle("New Product");
@@ -100,10 +101,61 @@ public class MainWindow extends Application  {
 
         addHeader(grid);
 
-        MenuButton menuButton = new MenuButton("Seleccionar");
-        menuButton.getItems().addAll(new MenuItem("Todo"), new MenuItem("Nada"), new MenuItem("Favoritos"), new MenuItem("Comprados"));
-        grid.add(menuButton, 1, 0);
+        MenuButton selection = new MenuButton("Seleccionar");
 
+
+        MenuItem itemAll = new MenuItem("Todo");
+        MenuItem itemNothing =  new MenuItem("Nada");
+        MenuItem itemFav = new MenuItem("Favoritos");
+        MenuItem itemBought = new MenuItem("Comprados");
+
+        selection.getItems().addAll(itemAll, itemNothing, itemFav, itemBought);
+
+
+        itemAll.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                for(int i = 0; i <selected.length; i++){
+                    selected[i].setSelected(true);
+                }
+            }
+        });
+
+        itemNothing.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                for(int i = 0; i <selected.length; i++){
+                    selected[i].setSelected(false);
+                }
+            }
+        });
+
+        itemBought.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                for(int i = 0; i <selected.length; i++){
+                    selected[i].setSelected(false);
+                    if(list.get(i).getBought()) {
+                        selected[i].setSelected(true);
+                    }
+                }
+            }
+        });
+
+        itemFav.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                for(int i = 0; i <selected.length; i++){
+                    selected[i].setSelected(false);
+                    if(list.get(i).getFavorite()) {
+                        selected[i].setSelected(true);
+                    }
+                }
+            }
+        });
+
+
+        grid.add(selection, 1, 0);
         displayContent(grid);
 
         return grid;
@@ -143,7 +195,7 @@ public class MainWindow extends Application  {
         title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         vbox.getChildren().add(title);
 
-        Button acciones[] = new Button[] {
+        Button actions[] = new Button[] {
                 buttonNew = new Button("Nuevo"),
                 buttonDel = new Button("Eliminar"),
                 buttonModify = new Button("Modificar"),
@@ -153,10 +205,10 @@ public class MainWindow extends Application  {
 
         for (int i=0; i<5; i++) {
             if (i != 0) {
-                acciones[i].setDisable(true);
+                actions[i].setDisable(true);
             }
-            VBox.setMargin(acciones[i], new Insets(0, 0, 0, 8));
-            vbox.getChildren().add(acciones[i]);
+            VBox.setMargin(actions[i], new Insets(0, 0, 0, 8));
+            vbox.getChildren().add(actions[i]);
         }
 
 
@@ -166,6 +218,7 @@ public class MainWindow extends Application  {
     }
 
     public void displayContent(GridPane grid){
+        selected = new CheckBox[list.size()];
 
         for(int i=0,row=1; i < list.size(); i++,row++ ){
             Text name = new Text(list.get(i).getName());
@@ -173,8 +226,8 @@ public class MainWindow extends Application  {
             Text bought = new Text(list.get(i).getBoughtToString());
             Text price = new Text(list.get(i).getPriceToString());
             Text fav = new Text(list.get(i).getFavoriteToString());
-            CheckBox selected = new CheckBox("");
-            grid.add(selected, 1, row, 2, 1);
+            selected[i] = new CheckBox("");
+            grid.add(selected[i], 1, row, 2, 1);
             grid.add(name, 2, row, 2, 1);
             grid.add(quantity, 3, row, 2, 1);
             grid.add(bought, 4, row, 2, 1);
