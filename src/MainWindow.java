@@ -58,7 +58,7 @@ public class MainWindow extends Application  {
                 newProductStage.initModality(Modality.WINDOW_MODAL);
                 newProductStage.initOwner(primaryStage);
 
-                Scene scene = new Scene(newProductPane, 900, 200);
+                Scene scene = new Scene(newProductPane, 500, 200);
 
                 newProductStage.setTitle("New Product");
                 newProductStage.setScene(scene);
@@ -68,20 +68,20 @@ public class MainWindow extends Application  {
                 newProductPane.setVgap(10);
                 newProductPane.setPadding(new Insets(10, 10, 10, 10));
 
-                addHeader(newProductPane);
+                Text nameLab = new Text("Nombre");
+                nameLab.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+                newProductPane.add(nameLab, 2, 0);
+
+                Text quantityLab = new Text("Cantidad");
+                quantityLab.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+                newProductPane.add(quantityLab, 3, 0);
 
                 TextField name = new TextField ();
                 TextField quantity = new TextField ();
-                TextField bought = new TextField ();
-                TextField price = new TextField ();
-                TextField fav = new TextField ();
-                Button submit = new Button("Guardar");
+                Button submit = new Button("Añadir");
 
                 newProductPane.add(name, 2,1);
                 newProductPane.add(quantity, 3,1);
-                newProductPane.add(bought, 4,1);
-                newProductPane.add(price, 5,1);
-                newProductPane.add(fav, 6,1);
                 newProductPane.add(submit, 7,1);
 
 
@@ -111,8 +111,6 @@ public class MainWindow extends Application  {
 
     public void addHeader(GridPane grid){
         //Header
-
-
         Text name = new Text("Nombre");
         name.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         grid.add(name, 2, 0);
