@@ -1,13 +1,15 @@
-class Product{
+package Products;
+
+public class Product{
 
     /**
-     * Product id
+     * Products.Product id
      */
 
     private int id;
 
     /**
-     * Product name
+     * Products.Product name
      */
 
     private String name;
@@ -37,7 +39,7 @@ class Product{
     private boolean favorite = false;
 
     /**
-     * Product constructor
+     * Products.Product constructor
      * @param id identifier of the product
      * @param name of the product
      */
@@ -47,6 +49,13 @@ class Product{
         this.name =  name;
     }
 
+    /**
+     * Products.Product constructor with overload
+     * @param id id of the product
+     * @param name name of the product
+     * @param quantity number of this product
+     */
+
     public Product(int id, String name, int quantity){
         this.id = id;
         this.name = name;
@@ -54,7 +63,7 @@ class Product{
     }
 
     /**
-     * Product constructor with overload
+     * Products.Product constructor with overload
      * @param id id of the product
      * @param name name of this product
      * @param quantity number of this product
@@ -97,6 +106,15 @@ class Product{
 
     public int getId(){
         return this.id;
+    }
+
+    /**
+     * Set the id of the product
+     * @param id of the product
+     */
+
+    public void setId(int id){
+        this.id = id;
     }
 
     /**

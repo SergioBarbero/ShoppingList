@@ -1,3 +1,6 @@
+package UserInterface;
+import Persistence.FilePersistence;
+import Persistence.PersistanceManager;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,9 +13,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.List;
+import Products.*;
 
 public class MainWindow extends Application  {
 
@@ -55,7 +58,7 @@ public class MainWindow extends Application  {
                 //New Window
                 Scene scene = new Scene(newProductPane, 500, 200);
 
-                newProductStage.setTitle("New Product");
+                newProductStage.setTitle("New Products.Product");
                 newProductStage.setScene(scene);
                 newProductStage.show();
 
@@ -267,8 +270,9 @@ public class MainWindow extends Application  {
     }
 
     public static void main(String[] args) throws IOException {
-        Manager managerGUI = new GUI();
-        managerGUI.loadDB();
+        UIManager managerGUI = new GUI();
+        PersistanceManager per = new FilePersistence();
+        per.loadDB();
         launch(args);
     }
 }

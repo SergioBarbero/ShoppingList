@@ -1,12 +1,13 @@
+package UserInterface;
 import java.io.IOException;
 
-public class GUI extends Manager {
+public class GUI extends UIManager {
 
     /**
-     * GUI constructor
+     * UserInterface.GUI constructor
      */
 
-    public GUI(){
+    public GUI() throws IOException {
         super();
     }
 

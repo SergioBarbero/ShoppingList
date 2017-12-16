@@ -1,15 +1,17 @@
+package UserInterface;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
+import Products.*;
 
-public class UI extends Manager{
+public class UI extends UIManager {
 
     /**
-     * UI constructor
+     * UserInterface.UI constructor
      */
 
-    public UI(){
+    public UI() throws IOException {
         super();
     }
 
@@ -118,8 +120,8 @@ public class UI extends Manager{
         if(quantity < 1){
             quantity = 0;
             noQuantity = askUser("Cantidad insuficiente.\n" +
-                    "¿Desea marcar el producto como favorito para evitar que se elimine? (SI / NO) ");
-            if (!noQuantity.equals("SI")){
+                    "¿Desea marcar el producto como favorito para evitar que se elimine? (Y / N) ");
+            if (!noQuantity.equals("Y")){
                 return false;
             }
         }
@@ -134,15 +136,14 @@ public class UI extends Manager{
      * Delete case from main menu
      */
 
-    private boolean caseDel(){
+    private void caseDel(){
         String name = askUser("Introduce el nombre del producto que quieras eliminar: ");
         int id = getListUtil().productIDByName(name);
         if(id==-1){
             System.out.println("ERROR: Producto no existente");
-            return false;
+            return;
         }
         getListUtil().deleteFromList(id);
-        return true;
     }
 
     /**
@@ -278,10 +279,7 @@ public class UI extends Manager{
 
     private void caseSave() throws IOException {
         System.out.println("Guardando lista...");
-        String fileName = getNameOfTheList();
-        getFilesUtil().writeFile(fileName);
-        ProductList.getInstance().resetList();
-        getFilesUtil().checkFile(fileName);
+        getPersistence().writeDB();
     }
 
     /**
@@ -332,8 +330,8 @@ public class UI extends Manager{
      * Read and display info with basic info about the program from help file
      */
 
-    public void displayHelpFile() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("src"+getFilesUtil().getOSseparator()+"HELP.txt"));
+    private void displayHelpFile() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader("src"+getGeneralUtil().getOSseparator()+"HELP.txt"));
         String line;
 
         while((line = br.readLine()) != null) {

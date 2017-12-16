@@ -1,8 +1,10 @@
+package Utilities;
+import Products.*;
 
-class ListUtilities {
+public class ListUtilities {
 
     /**
-     * ListUtilities constructor
+     * Utilities.ListUtilities constructor
      */
 
     public ListUtilities(){
@@ -16,7 +18,7 @@ class ListUtilities {
      */
 
     public boolean productByNameExist(String name){
-        return (productIDByName(name)==-1) ? false: true;
+        return productIDByName(name) > -1;
     }
 
     /**
@@ -51,7 +53,11 @@ class ListUtilities {
      */
 
     public void deleteFromList(int id) {
-        ProductList.getInstance().deleteProduct(id);
+        ProductList pLI = ProductList.getInstance();
+        pLI.deleteProduct(id);
+        for(int i = id; i < pLI.getList().size(); i++){
+            pLI.getProduct(i).setId(pLI.getProduct(i).getId()-1);
+        }
     }
 
     /**
