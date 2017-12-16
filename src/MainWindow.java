@@ -12,7 +12,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 public class MainWindow extends Application  {
@@ -113,6 +112,7 @@ public class MainWindow extends Application  {
                 for(int i = 0; i <selected.length; i++){
                     selected[i].setSelected(true);
                 }
+                disableEnableButtons();
             }
         });
 
@@ -122,6 +122,7 @@ public class MainWindow extends Application  {
                 for(int i = 0; i <selected.length; i++){
                     selected[i].setSelected(false);
                 }
+                disableEnableButtons();
             }
         });
 
@@ -134,6 +135,7 @@ public class MainWindow extends Application  {
                         selected[i].setSelected(true);
                     }
                 }
+                disableEnableButtons();
             }
         });
 
@@ -144,11 +146,10 @@ public class MainWindow extends Application  {
                     selected[i].setSelected(false);
                     if(list.get(i).getFavorite()) {
                         selected[i].setSelected(true);
-
                     }
                 }
+                disableEnableButtons();
             }
-
         });
 
         grid.add(selection, 1, 0);
@@ -238,8 +239,6 @@ public class MainWindow extends Application  {
 
     public void displayContent(GridPane grid){
         selected = new CheckBox[list.size()];
-
-
 
         for(int i=0,row=1; i < list.size(); i++,row++ ){
             Text name = new Text(list.get(i).getName());
