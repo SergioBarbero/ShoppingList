@@ -80,19 +80,4 @@ class ProductList {
         this.myList = new ArrayList<>();
     }
 
-    /**
-     * Gets ID from product with chosen name
-     * @param name of the product
-     * @return Id of the product or -1 if no exists
-     */
-
-    public int getId(String name){
-        for(Product pr: getList()){
-            if(name.equals(pr.getName())){
-                return pr.getId();
-            }
-        }
-        return -1;
-    }
-
 }

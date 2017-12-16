@@ -1,6 +1,60 @@
 
-Fichero de ayuda.
-La opción ADD significa...
-etc...
+    -   Lista de la Compra Interactiva  -
 
-Las listas se guardan en la ruta: "data/database.tsv" de forma automática.
+                        Víctor de Castro Hurtado
+                        Sergio Barbero Báscones
+
+    Fichero de Ayuda Básico.
+
+
+1.- Menú Principal:
+
+    -   ADD  - Nos permite añadir un nuevo producto a nuestra lista.
+               Se le solicita al usuario un nombre de producto y una cantidad.
+               El resto de campos del producto se deberán modificar más tarde manualmente.
+
+    -   DEL  - Nos permite eliminar un producto de la lista.
+               Esta eliminación es mediante nombre, el cual se le pregunta al usuario.
+
+    -   MOD  - Nos permite modificar ciertos parámetros del producto, con un menú propio.
+
+    -   BUY  - Nos permite marcar el producto que queramos como comprado/no comprado.
+               CUIDADO: si el producto no está marcado como favorito y se marca como comprado, se eliminará de la lista.
+
+    -   FAV  - Nos permite marcar el producto que queramos como favorito/no favorito.
+               Cuando un producto está marcado como favorito, no se eliminará cuando le marquemos como comprado,
+                ni cuando pongamos su cantidad a 0.
+               Para eliminarle deberemos hacerlo explícitamente.
+
+    -   VIEW - Nos permite visualizar la lista en su estado actual (antes de guardarla).
+               Los campos que veremos serán su ID, su nombre, su cantidad, si está comprado o no,
+                el precio (en caso de que no tenga asociado uno, se mostrará un guión),
+                y si está marcado como favorito o no.
+
+    -   SAVE - Nos permite guardar la lista en su estado actual en el fichero, haciendo los cambios permanentes.
+
+    -   HELP - Muestra la información de este fichero de ayuda básico.
+               Para más información contactar con los desarrolladores.
+
+    -   EXIT - Nos permite salir del programa, preguntándonos si queremos guardar la lista,
+                en caso de que no lo hayamos hecho manualmente antes.
+               Si salimos sin guardar, los cambios que hayamos hecho se perderán y no quedarán reflejados en el fichero.
+
+2.- Menú de Modificaciones:
+
+    -   NAME        - Nos permite cambiar el nombre de un determinado producto.
+                      Si el nuevo nombre ya está en la lista, no nos dejará cambiarlo.
+
+    -   QUANTITY    - Nos permite cambiar la cantidad asociada a un producto.
+                      Si la cantidad es 0 o menos, nos preguntará si queremos marcar el producto como favorito,
+                       en caso contrario, dicho producto se eliminará de la lista.
+
+    -   PRICE       - Nos permite cambiar el precio asociado a un producto.
+                      En caso de asignar un precio negativo, se tomará como que no tiene precio asignado,
+                       mostrando un guión en el campo correspondiente.
+
+    -   CANCEL      - Salimos del menú de modificaciones al menú principal sin realizar cambios.
+
+
+  NOTA: La lista de la compra guardada se encuentra en la siguiente ruta: "data\database.tsv"
+

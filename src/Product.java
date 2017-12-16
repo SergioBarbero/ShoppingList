@@ -171,7 +171,7 @@ class Product{
      */
 
     public String getPriceToString(){
-        return ((this.price < 0) ? " - " : String.valueOf(this.price));
+        return ((this.price <= 0) ? " - " : String.valueOf(this.price));
     }
 
     /**
