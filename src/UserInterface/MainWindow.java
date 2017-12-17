@@ -25,12 +25,8 @@ import java.util.Map;
 
 public class MainWindow extends Application  {
 
-    Button actions[];
+    private Button actions[];
     private Button buttonNew;
-    private Button buttonDel;
-    private Button buttonModify;
-    private Button buttonBought;
-    private Button buttonFav;
     private List<Product> list = ProductList.getInstance().getList();
     CheckBox[] selected;
     private GUI operation;
@@ -46,8 +42,6 @@ public class MainWindow extends Application  {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-
         root = new BorderPane();
 
         root.setLeft(actions());
@@ -104,7 +98,6 @@ public class MainWindow extends Application  {
                         operation.getListUtil().addToList(name.getText(),q);
                         root.setCenter(content());
                     }
-
                 });
 
             }
@@ -237,6 +230,10 @@ public class MainWindow extends Application  {
         title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         vbox.getChildren().add(title);
 
+        Button buttonBought;
+        Button buttonFav;
+        Button buttonModify;
+        Button buttonDel;
         actions = new Button[] {
                 buttonNew = new Button("Nuevo"),
                 buttonDel = new Button("Eliminar"),
