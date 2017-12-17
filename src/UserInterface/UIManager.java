@@ -69,7 +69,7 @@ public abstract class UIManager {
 
     public abstract String askUser(String question);
 
-    public abstract void askInfoProduct() throws IOException;
+    public abstract void askInfoProduct(String[] args) throws IOException;
 
     public abstract void displayList();
 

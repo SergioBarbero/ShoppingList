@@ -1,3 +1,7 @@
+package UserInterface;
+
+import Products.Product;
+import Products.ProductList;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -24,7 +28,6 @@ public class MainWindow extends Application  {
     private Button buttonFav;
     private List<Product> list = ProductList.getInstance().getList();
     CheckBox[] selected;
-
 
 
     @Override
@@ -96,7 +99,6 @@ public class MainWindow extends Application  {
         addHeader(grid);
 
         MenuButton selection = new MenuButton("Seleccionar");
-
 
         MenuItem itemAll = new MenuItem("Todo");
         MenuItem itemNothing =  new MenuItem("Nada");
@@ -220,19 +222,28 @@ public class MainWindow extends Application  {
         };
         vbox.getChildren().addAll(actions);
 
+        buttonDel.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                for(int i=0; i < list.size(); i++){
+
+                }
+            }
+        });
+
+
+
 
         onlyNewButtonEnabled();
 
         return vbox;
-
     }
+
 
     private void onlyNewButtonEnabled(){
         for (int i=0; i<5; i++) {
-            if (i != 0) {
+            if (i != 0)
                 actions[i].setDisable(true);
-            }
-
 
         }
     }
@@ -267,8 +278,8 @@ public class MainWindow extends Application  {
     }
 
     public static void main(String[] args) throws IOException {
-        Manager managerGUI = new GUI();
-        managerGUI.loadDB();
+        UIManager managerGUI = new GUI();
+        managerGUI.getPersistence().loadDB();
         launch(args);
     }
 }

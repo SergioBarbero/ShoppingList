@@ -3,6 +3,7 @@ import java.io.IOException;
 import Persistence.FilePersistence;
 import Persistence.PersistanceManager;
 import UserInterface.*;
+import javafx.application.Application;
 
 /**
  * @author Sergio Barbero Bascones
@@ -15,7 +16,7 @@ public class Main {
      * Allows to change between UserInterface.UI and UserInterface.GUI more easy
      */
 
-    private static boolean GUI = false;
+    private static boolean GUI = true;
 
     /**
      * Main program
@@ -25,9 +26,9 @@ public class Main {
 
     public static void main(String args[]) throws IOException {
         if(GUI) {
-            mainGUI();
+            mainGUI(args);
         } else{
-            mainUI();
+            mainUI(args);
         }
     }
 
@@ -36,19 +37,21 @@ public class Main {
      * @throws IOException exception management for write/read from files
      */
 
-    private static void mainUI() throws IOException {
+    private static void mainUI(String[] args) throws IOException {
         UIManager managerUI = new UI();
         managerUI.getPersistence().loadDB();
-        managerUI.askInfoProduct();
+        managerUI.askInfoProduct(args);
     }
 
     /**
      * Function calling graphic interface
      */
 
-    private static void mainGUI() throws IOException {
+    private static void mainGUI(String[] args) throws IOException {
 
         UIManager managerGUI = new GUI();
+        managerGUI.getPersistence().loadDB();
+        managerGUI.askInfoProduct(args);
 
     }
 

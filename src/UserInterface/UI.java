@@ -42,7 +42,7 @@ public class UI extends UIManager {
      */
 
     @Override
-    public void askInfoProduct() throws IOException {
+    public void askInfoProduct(String[] args) throws IOException {
 
         boolean inLoop = true;
         boolean cambios = false;

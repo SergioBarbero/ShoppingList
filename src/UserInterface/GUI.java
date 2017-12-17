@@ -1,4 +1,7 @@
 package UserInterface;
+import javafx.application.Application;
+import sun.applet.Main;
+
 import java.io.IOException;
 
 public class GUI extends UIManager {
@@ -7,8 +10,11 @@ public class GUI extends UIManager {
      * UserInterface.GUI constructor
      */
 
+    MainWindow userGUI;
+
     public GUI() throws IOException {
         super();
+        userGUI = new MainWindow();
     }
 
     @Override
@@ -16,9 +22,10 @@ public class GUI extends UIManager {
         return null;
     }
 
-    @Override
-    public void askInfoProduct() throws IOException {
 
+    @Override
+    public void askInfoProduct(String[] args) throws IOException {
+        Application.launch(MainWindow.class, args);
     }
 
     @Override
