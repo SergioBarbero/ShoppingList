@@ -16,7 +16,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainWindow extends Application  {
 
@@ -28,13 +30,22 @@ public class MainWindow extends Application  {
     private Button buttonFav;
     private List<Product> list = ProductList.getInstance().getList();
     CheckBox[] selected;
+    private GUI operation;
+    BorderPane root;
+    HashMap<String, CheckBox> selectedNames = new HashMap<>();
+
+    public MainWindow() throws IOException {
+        operation = new GUI();
+    }
+
+
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
 
-        BorderPane root = new BorderPane();
+        root = new BorderPane();
 
         root.setLeft(actions());
         root.setCenter(content());
@@ -225,13 +236,44 @@ public class MainWindow extends Application  {
         buttonDel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                for(int i=0; i < list.size(); i++){
-
+                for(Map.Entry<String, CheckBox> entry : selectedNames.entrySet()) {
+                    String name = entry.getKey();
+                    if(entry.getValue().isSelected()) {
+                        int id = operation.getListUtil().productIDByName(name);
+                        operation.getListUtil().deleteFromList(operation.getListUtil().productIDByName(name));
+                    }
                 }
+                root.setCenter(content());
             }
         });
 
+        buttonFav.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                for(int i=0; i < list.size(); i++){
+                    if(selected[i].isSelected()) {
+                        operation.getListUtil().markAsFavList(i);
+                        selected[i].setSelected(false);
+                        --i;
+                    }
+                }
+                root.setCenter(content());
+            }
+        });
 
+        buttonBought.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                for(int i=0; i < list.size(); i++) {
+                    if (selected[i].isSelected()){
+                        operation.getListUtil().markAsBoughtList(i);
+                        selected[i].setSelected(false);
+                        --i;
+                    }
+                }
+                root.setCenter(content());
+            }
+        });
 
 
         onlyNewButtonEnabled();
@@ -250,7 +292,6 @@ public class MainWindow extends Application  {
 
     public void displayContent(GridPane grid){
         selected = new CheckBox[list.size()];
-
         for(int i=0,row=1; i < list.size(); i++,row++ ){
             Text name = new Text(list.get(i).getName());
             Text quantity = new Text(list.get(i).getQuantity() + "");
@@ -264,6 +305,7 @@ public class MainWindow extends Application  {
             grid.add(bought, 4, row, 2, 1);
             grid.add(price, 5, row, 2, 1);
             grid.add(fav, 6, row, 2, 1);
+            selectedNames.put(name.getText(), selected[i]);
         }
 
        for(int i= 0; i < selected.length; i++){
@@ -275,11 +317,5 @@ public class MainWindow extends Application  {
             });
         }
 
-    }
-
-    public static void main(String[] args) throws IOException {
-        UIManager managerGUI = new GUI();
-        managerGUI.getPersistence().loadDB();
-        launch(args);
     }
 }

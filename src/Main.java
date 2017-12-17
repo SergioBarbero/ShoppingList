@@ -48,11 +48,9 @@ public class Main {
      */
 
     private static void mainGUI(String[] args) throws IOException {
-
-        UIManager managerGUI = new GUI();
-        managerGUI.getPersistence().loadDB();
-        managerGUI.askInfoProduct(args);
-
+        UIManager managerUI = new GUI();
+        managerUI.getPersistence().loadDB();
+        Application.launch(MainWindow.class, args);
     }
 
 }

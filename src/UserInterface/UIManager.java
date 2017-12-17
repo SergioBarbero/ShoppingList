@@ -40,6 +40,8 @@ public abstract class UIManager {
         return file ? new FilePersistence(): new DBPersistence();
     }
 
+
+
     /**
      * Gets persistence system
      * @return persistence system
