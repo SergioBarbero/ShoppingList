@@ -24,4 +24,9 @@ public class GUI extends Manager {
     public void displayList() {
 
     }
+
+    private boolean caseDel(int id){
+        getListUtil().deleteFromList(id);
+        return true;
+    }
 }
