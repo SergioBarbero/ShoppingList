@@ -1,5 +1,9 @@
 import java.io.IOException;
 
+import Persistence.FilePersistence;
+import Persistence.PersistanceManager;
+import UserInterface.*;
+
 /**
  * @author Sergio Barbero Bascones
  * @author Víctor de Castro Hurtado
@@ -8,16 +12,10 @@ import java.io.IOException;
 public class Main {
 
     /**
-     * Allows to change between UI and GUI more easy
+     * Allows to change between UserInterface.UI and UserInterface.GUI more easy
      */
 
     private static boolean GUI = false;
-
-    /**
-     * Utility object
-     */
-
-    private static ListUtilities util = null;
 
     /**
      * Main program
@@ -26,7 +24,6 @@ public class Main {
      */
 
     public static void main(String args[]) throws IOException {
-        util = new ListUtilities();
         if(GUI) {
             mainGUI();
         } else{
@@ -40,20 +37,18 @@ public class Main {
      */
 
     private static void mainUI() throws IOException {
-        Manager managerUI = new UI();
-        managerUI.loadDB();
+        UIManager managerUI = new UI();
+        managerUI.getPersistence().loadDB();
         managerUI.askInfoProduct();
     }
-
-    //TODO -- Future Feature: implement graphic interface
 
     /**
      * Function calling graphic interface
      */
 
-    private static void mainGUI(){
+    private static void mainGUI() throws IOException {
 
-        Manager managerGUI = new GUI();
+        UIManager managerGUI = new GUI();
 
     }
 

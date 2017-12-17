@@ -1,7 +1,8 @@
+package Products;
 import java.util.ArrayList;
 import java.util.List;
 
-class ProductList {
+public class ProductList {
 
     /**
      * Instance from singleton
@@ -16,7 +17,7 @@ class ProductList {
     private List<Product> myList = new ArrayList<>();
 
     /**
-     * ProductList Constructor
+     * Products.ProductList Constructor
      */
 
     private ProductList(){ }
@@ -65,7 +66,7 @@ class ProductList {
     /**
      * Gets product with chosen id from list
      * @param id of the product
-     * @return Product with id
+     * @return Products.Product with id
      */
 
     public Product getProduct(int id){
@@ -78,21 +79,6 @@ class ProductList {
 
     public void resetList(){
         this.myList = new ArrayList<>();
-    }
-
-    /**
-     * Gets ID from product with chosen name
-     * @param name of the product
-     * @return Id of the product or -1 if no exists
-     */
-
-    public int getId(String name){
-        for(Product pr: getList()){
-            if(name.equals(pr.getName())){
-                return pr.getId();
-            }
-        }
-        return -1;
     }
 
 }

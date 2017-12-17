@@ -2,7 +2,6 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -12,10 +11,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.print.DocFlavor;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainWindow extends Application  {
@@ -26,15 +22,8 @@ public class MainWindow extends Application  {
     private Button buttonModify;
     private Button buttonBought;
     private Button buttonFav;
-    private GridPane content;
-    BorderPane root = new BorderPane();
     private List<Product> list = ProductList.getInstance().getList();
     CheckBox[] selected;
-    Manager session = new GUI();
-
-    public MainWindow() throws IOException {
-        session.loadDB();
-    }
 
 
 
@@ -42,6 +31,7 @@ public class MainWindow extends Application  {
     public void start(Stage primaryStage) throws Exception {
 
 
+        BorderPane root = new BorderPane();
 
         root.setLeft(actions());
         root.setCenter(content());
@@ -88,78 +78,26 @@ public class MainWindow extends Application  {
                 newProductPane.add(name, 2,1);
                 newProductPane.add(quantity, 3,1);
                 newProductPane.add(submit, 7,1);
+
+
             }
         });
     }
 
 
     public GridPane content() {
-        content = new GridPane();
-        content.setHgap(10);
-        content.setVgap(10);
-        content.setPadding(new Insets(10, 10, 10, 10));
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(10, 10, 10, 10));
 
-        addHeader();
-        displayContent();
-        return content;
-    }
+        //grid.setGridLinesVisible(true);
 
-    public void disableEnableButtons(){
-        int counter = 0;
-        for(int i = 0; i <selected.length; i++){
-            if(selected[i].isSelected()) {
-                counter++;
-            }
-        }
-        for(int i= 0; i < actions.length; i++){
-            actions[i].setDisable(false);
-        }
-        if(counter == 0){
-            onlyNewButtonEnabled();
-        }else if(counter > 1){
-            actions[2].setDisable(true);
-        }
-    }
-
-    /**
-     * Returns the id of the selected row whether it's unique, otherwise returns -1
-     * @return
-     */
-    public int idUnique(){
-        int counter = 0;
-        boolean unique = true;
-        int i = 0;
-        int index = 0;
-        while(unique){
-            if(selected[i].isSelected()){
-                counter++;
-                index = i;
-                if(counter > 1){
-                    unique = false;
-                }
-            }
-            i++;
-        }
-        if(!unique)
-            index = -1;
-        return index;
-    }
-
-    public List<String> namesSelected(){
-        List<String> listNames = new ArrayList<String>();
-        for(int i = 0; i <selected.length; i++){
-            if(selected[i].isSelected()) {
-                listNames.add(list.get(i).getName());
-            }
-        }
-        return listNames;
-    }
-
-
-
-    public void addHeader(){
+        addHeader(grid);
 
         MenuButton selection = new MenuButton("Seleccionar");
+
+
         MenuItem itemAll = new MenuItem("Todo");
         MenuItem itemNothing =  new MenuItem("Nada");
         MenuItem itemFav = new MenuItem("Favoritos");
@@ -214,28 +152,53 @@ public class MainWindow extends Application  {
             }
         });
 
-        content.add(selection, 1, 0);
+        grid.add(selection, 1, 0);
+        displayContent(grid);
 
+
+        return grid;
+    }
+
+    public void disableEnableButtons(){
+        boolean unique = true;
+        int counter = 0;
+        for(int i = 0; i <selected.length; i++){
+            if(selected[i].isSelected()) {
+                counter++;
+            }
+        }
+        for(int i= 0; i < actions.length; i++){
+            actions[i].setDisable(false);
+        }
+        if(counter == 0){
+            onlyNewButtonEnabled();
+        }else if(counter > 1){
+            actions[2].setDisable(true);
+        }
+
+    }
+
+    public void addHeader(GridPane grid){
         //Header
         Text name = new Text("Nombre");
         name.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        content.add(name, 2, 0);
+        grid.add(name, 2, 0);
 
         Text quantity = new Text("Cantidad");
         quantity.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        content.add(quantity, 3, 0);
+        grid.add(quantity, 3, 0);
 
         Text bought = new Text("Comprado");
         bought.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        content.add(bought, 4, 0);
+        grid.add(bought, 4, 0);
 
         Text price = new Text("Precio");
         price.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        content.add(price, 5, 0);
+        grid.add(price, 5, 0);
 
         Text fav = new Text("Favorito");
         fav.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        content.add(fav, 6, 0);
+        grid.add(fav, 6, 0);
     }
 
 
@@ -257,44 +220,8 @@ public class MainWindow extends Application  {
         };
         vbox.getChildren().addAll(actions);
 
+
         onlyNewButtonEnabled();
-
-        buttonDel.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                for(String name : namesSelected()){
-                    session.getListUtil().deleteFromList(session.getListUtil().product);
-                }
-                root.setCenter(content());
-            }
-        });
-
-        buttonFav.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                List<Integer> ids = idsSelected();
-                for(Integer id : ids){
-                    if(id != 0)
-                        --id;
-                    session.getListUtil().markAsFavList(id);
-                }
-                root.setCenter(content());
-            }
-        });
-
-        buttonBought.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                List<Integer> ids = idsSelected();
-                for(Integer id : ids){
-                    if(id != 0)
-                        --id;
-                    session.getListUtil().markAsBoughtList(id);
-                }
-                root.setCenter(content());
-                System.out.println(list.toString());
-            }
-        });
 
         return vbox;
 
@@ -302,27 +229,30 @@ public class MainWindow extends Application  {
 
     private void onlyNewButtonEnabled(){
         for (int i=0; i<5; i++) {
-            if (i != 0)
+            if (i != 0) {
                 actions[i].setDisable(true);
+            }
+
+
         }
     }
 
-    public void displayContent(){
-
+    public void displayContent(GridPane grid){
         selected = new CheckBox[list.size()];
+
         for(int i=0,row=1; i < list.size(); i++,row++ ){
             Text name = new Text(list.get(i).getName());
             Text quantity = new Text(list.get(i).getQuantity() + "");
             Text bought = new Text(list.get(i).getBoughtToString());
             Text price = new Text(list.get(i).getPriceToString());
             Text fav = new Text(list.get(i).getFavoriteToString());
-            selected[i] = new CheckBox();
-            content.add(selected[i], 1, row, 2, 1);
-            content.add(name, 2, row, 2, 1);
-            content.add(quantity, 3, row, 2, 1);
-            content.add(bought, 4, row, 2, 1);
-            content.add(price, 5, row, 2, 1);
-            content.add(fav, 6, row, 2, 1);
+            selected[i] = new CheckBox("");
+            grid.add(selected[i], 1, row, 2, 1);
+            grid.add(name, 2, row, 2, 1);
+            grid.add(quantity, 3, row, 2, 1);
+            grid.add(bought, 4, row, 2, 1);
+            grid.add(price, 5, row, 2, 1);
+            grid.add(fav, 6, row, 2, 1);
         }
 
        for(int i= 0; i < selected.length; i++){
@@ -337,8 +267,8 @@ public class MainWindow extends Application  {
     }
 
     public static void main(String[] args) throws IOException {
-        //Manager managerGUI = new GUI();
-        //managerGUI.loadDB();
+        Manager managerGUI = new GUI();
+        managerGUI.loadDB();
         launch(args);
     }
 }

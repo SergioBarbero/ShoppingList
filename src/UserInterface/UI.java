@@ -1,15 +1,17 @@
+package UserInterface;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
+import Products.*;
 
-public class UI extends Manager{
+public class UI extends UIManager {
 
     /**
-     * UI constructor
+     * UserInterface.UI constructor
      */
 
-    public UI(){
+    public UI() throws IOException {
         super();
     }
 
@@ -109,7 +111,7 @@ public class UI extends Manager{
 
     private boolean caseAdd(){
         String name = askUser("Introduce el nombre del producto: ");
-        if(getListUtil().productOnListByName(name)){
+        if(getListUtil().productByNameExist(name)){
             System.out.println("ERROR: Producto ya existente");
             return false;
         }
@@ -118,14 +120,14 @@ public class UI extends Manager{
         if(quantity < 1){
             quantity = 0;
             noQuantity = askUser("Cantidad insuficiente.\n" +
-                    "¿Desea marcar el producto como favorito para evitar que se elimine? (SI / NO) ");
-            if (!noQuantity.equals("SI")){
+                    "¿Desea marcar el producto como favorito para evitar que se elimine? (Y / N) ");
+            if (!noQuantity.equals("Y")){
                 return false;
             }
         }
         getListUtil().addToList(name, quantity);
         if(noQuantity.equals("SI")){
-            getListUtil().markAsFavList(ProductList.getInstance().getId(name));
+            getListUtil().markAsFavList(getListUtil().productIDByName(name));
         }
         return true;
     }
@@ -134,14 +136,14 @@ public class UI extends Manager{
      * Delete case from main menu
      */
 
-    private boolean caseDel(){
-        int id = Integer.parseInt(askUser("Introduce la id del producto que quieras eliminar: "));
-        if(!getListUtil().productOnListById(id)){
+    private void caseDel(){
+        String name = askUser("Introduce el nombre del producto que quieras eliminar: ");
+        int id = getListUtil().productIDByName(name);
+        if(id==-1){
             System.out.println("ERROR: Producto no existente");
-            return false;
+            return;
         }
         getListUtil().deleteFromList(id);
-        return true;
     }
 
     /**
@@ -151,8 +153,9 @@ public class UI extends Manager{
     private boolean caseMod(){
         boolean modify = true;
         boolean innerLoop = true;
-        int id = Integer.parseInt(askUser("Introduce la id del producto que quieras modificar: "));
-        if(!getListUtil().productOnListById(id)){
+        String name = askUser("Introduce el nombre del producto que quieras modificar: ");
+        int id = getListUtil().productIDByName(name);
+        if(id==-1){
             innerLoop = false;
             System.out.println("ERROR: Producto no existente");
         }
@@ -203,12 +206,12 @@ public class UI extends Manager{
 
     private boolean caseModName(int id){
         String name = askUser("Introduce el nuevo nombre: ");
-        if(getListUtil().productOnListByName(name)){
+        if(getListUtil().productByNameExist(name)){
             System.out.println("ERROR: Producto ya existente");
-            return true;
+            return false;
         }
         getListUtil().modifyNameList(id, name);
-        return false;
+        return true;
     }
 
     /**
@@ -236,7 +239,12 @@ public class UI extends Manager{
      */
 
     private void caseBuy(){
-        int id = Integer.parseInt(askUser("Introduce la id del producto que quieras marcar como comprado/no comprado: "));
+        String name = askUser("Introduce el nombre del producto que quieras marcar como comprado: ");
+        int id = getListUtil().productIDByName(name);
+        if(id==-1){
+            System.out.println("ERROR: Producto no existente");
+            return;
+        }
         getListUtil().markAsBoughtList(id);
     }
 
@@ -245,7 +253,12 @@ public class UI extends Manager{
      */
 
     private void caseFav(){
-        int id = Integer.parseInt(askUser("Introduce la id del producto que quieras marcar como favorito/no favorito: "));
+        String name = askUser("Introduce el nombre del producto que quieras marcar como favorito: ");
+        int id = getListUtil().productIDByName(name);
+        if(id==-1){
+            System.out.println("ERROR: Producto no existente");
+            return;
+        }
         getListUtil().markAsFavList(id);
     }
 
@@ -266,10 +279,7 @@ public class UI extends Manager{
 
     private void caseSave() throws IOException {
         System.out.println("Guardando lista...");
-        String fileName = getNameOfTheList();
-        getFilesUtil().writeFile(fileName);
-        ProductList.getInstance().resetList();
-        getFilesUtil().checkFile(fileName);
+        getPersistence().writeDB();
     }
 
     /**
@@ -320,8 +330,8 @@ public class UI extends Manager{
      * Read and display info with basic info about the program from help file
      */
 
-    public void displayHelpFile() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("src"+getFilesUtil().getOSseparator()+"HELP.txt"));
+    private void displayHelpFile() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader("src"+getGeneralUtil().getOSseparator()+"HELP.txt"));
         String line;
 
         while((line = br.readLine()) != null) {

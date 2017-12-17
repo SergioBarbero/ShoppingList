@@ -1,8 +1,10 @@
+package Utilities;
+import Products.*;
 
-class ListUtilities {
+public class ListUtilities {
 
     /**
-     * ListUtilities constructor
+     * Utilities.ListUtilities constructor
      */
 
     public ListUtilities(){
@@ -10,37 +12,28 @@ class ListUtilities {
     }
 
     /**
-     * Check if a product with that name is already on the list
+     * Know if a product exists by his name
      * @param name of the product
      * @return true/false
      */
 
-    public boolean productOnListByName(String name){
-        boolean onList = false;
-        for(Product pr: ProductList.getInstance().getList()){
-            if(pr.getName().equals(name)){
-                onList = true;
-                break;
-            }
-        }
-        return onList;
+    public boolean productByNameExist(String name){
+        return productIDByName(name) > -1;
     }
 
     /**
-     * Check if a product with that ID is already on the list
-     * @param id of the product
-     * @return true/false
+     * Gets id of a product by his name
+     * @param name of the product
+     * @return id of the product
      */
 
-    public boolean productOnListById(int id){
-        boolean onList = false;
+    public int productIDByName(String name){
         for(Product pr: ProductList.getInstance().getList()){
-            if(pr.getId() == id){
-                onList = true;
-                break;
+            if(pr.getName().equals(name)){
+                return pr.getId();
             }
         }
-        return onList;
+        return -1;
     }
 
     /**
@@ -60,7 +53,11 @@ class ListUtilities {
      */
 
     public void deleteFromList(int id) {
-        ProductList.getInstance().deleteProduct(id);
+        ProductList pLI = ProductList.getInstance();
+        pLI.deleteProduct(id);
+        for(int i = id; i < pLI.getList().size(); i++){
+            pLI.getProduct(i).setId(pLI.getProduct(i).getId()-1);
+        }
     }
 
     /**
