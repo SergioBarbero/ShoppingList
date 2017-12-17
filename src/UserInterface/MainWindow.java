@@ -3,6 +3,8 @@ package UserInterface;
 import Products.Product;
 import Products.ProductList;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -14,6 +16,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.converter.NumberStringConverter;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -32,7 +35,7 @@ public class MainWindow extends Application  {
     CheckBox[] selected;
     private GUI operation;
     BorderPane root;
-    HashMap<String, CheckBox> selectedNames = new HashMap<>();
+    HashMap<Product, CheckBox> selectedProducts;
 
     public MainWindow() throws IOException {
         operation = new GUI();
@@ -89,10 +92,20 @@ public class MainWindow extends Application  {
                 TextField quantity = new TextField ();
                 Button submit = new Button("Añadir");
 
+
                 newProductPane.add(name, 2,1);
                 newProductPane.add(quantity, 3,1);
                 newProductPane.add(submit, 7,1);
 
+                submit.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        Integer q = Integer.parseInt(quantity.getText());
+                        operation.getListUtil().addToList(name.getText(),q);
+                        root.setCenter(content());
+                    }
+
+                });
 
             }
         });
@@ -236,11 +249,12 @@ public class MainWindow extends Application  {
         buttonDel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                for(Map.Entry<String, CheckBox> entry : selectedNames.entrySet()) {
-                    String name = entry.getKey();
+                for(Map.Entry<Product, CheckBox> entry : selectedProducts.entrySet()) {
+                    Product myProd = entry.getKey();
+                    String name = myProd.getName();
                     if(entry.getValue().isSelected()) {
                         int id = operation.getListUtil().productIDByName(name);
-                        operation.getListUtil().deleteFromList(operation.getListUtil().productIDByName(name));
+                        operation.getListUtil().deleteFromList(id);
                     }
                 }
                 root.setCenter(content());
@@ -250,11 +264,12 @@ public class MainWindow extends Application  {
         buttonFav.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                for(int i=0; i < list.size(); i++){
-                    if(selected[i].isSelected()) {
-                        operation.getListUtil().markAsFavList(i);
-                        selected[i].setSelected(false);
-                        --i;
+                for(Map.Entry<Product, CheckBox> entry : selectedProducts.entrySet()) {
+                    Product myProd = entry.getKey();
+                    String name = myProd.getName();
+                    if(entry.getValue().isSelected()) {
+                        int id = operation.getListUtil().productIDByName(name);
+                        operation.getListUtil().markAsFavList(id);
                     }
                 }
                 root.setCenter(content());
@@ -264,20 +279,19 @@ public class MainWindow extends Application  {
         buttonBought.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                for(int i=0; i < list.size(); i++) {
-                    if (selected[i].isSelected()){
-                        operation.getListUtil().markAsBoughtList(i);
-                        selected[i].setSelected(false);
-                        --i;
+                for(Map.Entry<Product, CheckBox> entry : selectedProducts.entrySet()) {
+                    Product myProd = entry.getKey();
+                    String name = myProd.getName();
+                    if(entry.getValue().isSelected()) {
+                        int id = operation.getListUtil().productIDByName(name);
+                        operation.getListUtil().markAsBoughtList(id);
                     }
                 }
                 root.setCenter(content());
             }
         });
 
-
         onlyNewButtonEnabled();
-
         return vbox;
     }
 
@@ -286,26 +300,30 @@ public class MainWindow extends Application  {
         for (int i=0; i<5; i++) {
             if (i != 0)
                 actions[i].setDisable(true);
-
         }
     }
 
     public void displayContent(GridPane grid){
         selected = new CheckBox[list.size()];
+        selectedProducts = new HashMap<>();
+
         for(int i=0,row=1; i < list.size(); i++,row++ ){
+            //Getting texts
+            selected[i] = new CheckBox("");
             Text name = new Text(list.get(i).getName());
             Text quantity = new Text(list.get(i).getQuantity() + "");
             Text bought = new Text(list.get(i).getBoughtToString());
             Text price = new Text(list.get(i).getPriceToString());
             Text fav = new Text(list.get(i).getFavoriteToString());
-            selected[i] = new CheckBox("");
+            //Adding text to the grid
             grid.add(selected[i], 1, row, 2, 1);
             grid.add(name, 2, row, 2, 1);
             grid.add(quantity, 3, row, 2, 1);
             grid.add(bought, 4, row, 2, 1);
             grid.add(price, 5, row, 2, 1);
             grid.add(fav, 6, row, 2, 1);
-            selectedNames.put(name.getText(), selected[i]);
+            //Adding the product to our hashmap
+            selectedProducts.put(list.get(i), selected[i]);
         }
 
        for(int i= 0; i < selected.length; i++){

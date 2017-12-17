@@ -55,9 +55,9 @@ public class ListUtilities {
     public void deleteFromList(int id) {
         ProductList pLI = ProductList.getInstance();
         pLI.deleteProduct(id);
-  /*      for(int i = id; i < pLI.getList().size(); i++){
+        for(int i = id; i < pLI.getList().size(); i++){
             pLI.getProduct(i).setId(pLI.getProduct(i).getId()-1);
-        }*/
+        }
     }
 
     /**
