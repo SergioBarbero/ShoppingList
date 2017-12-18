@@ -79,7 +79,7 @@ public class MainWindow extends Application  {
                 quantityLab.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 
                 Text priceLab = new Text("Precio");
-                quantityLab.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+                priceLab.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 
                 Text[] labs = new Text[]{
                         nameLab, quantityLab, priceLab
@@ -303,21 +303,26 @@ public class MainWindow extends Application  {
         vbox.setSpacing(8);
 
         Text title = new Text("Acciones");
-        title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        title.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         vbox.getChildren().add(title);
 
         Button buttonBought;
         Button buttonFav;
         Button buttonDel;
+        Button buttonSave;
+
+
 
         actions = new Button[] {
                 buttonNew = new Button("Nuevo"),
                 buttonDel = new Button("Eliminar"),
                 buttonModify = new Button("Modificar"),
                 buttonBought = new Button("Marcar como comprado"),
-                buttonFav = new Button("Marcar como favorito")
+                buttonFav = new Button("Marcar como favorito"),
+                buttonSave = new Button("Guardar")
         };
         vbox.getChildren().addAll(actions);
+        buttonSave.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 
 
 
@@ -365,6 +370,20 @@ public class MainWindow extends Application  {
                 root.setCenter(content());
             }
         });
+
+        buttonSave.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    operation.getPersistence().writeDB();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+
 
         onlyNewButtonEnabled();
         return vbox;
