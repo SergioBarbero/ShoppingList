@@ -36,6 +36,7 @@ public class MainWindow extends Application  {
 
     public MainWindow() throws IOException {
         operation = new GUI();
+        operation.getPersistence().loadDB();
     }
 
     @Override
@@ -45,7 +46,7 @@ public class MainWindow extends Application  {
         root.setLeft(actions());
         root.setCenter(content());
 
-        Scene scene = new Scene(root, 900, 900);
+        Scene scene = new Scene(root, 900, 600);
 
         primaryStage.setTitle("Shopping List");
         primaryStage.setScene(scene);

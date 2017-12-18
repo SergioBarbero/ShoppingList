@@ -20,7 +20,7 @@ Como cliente quiero poder añadir y quitar productos de la lista
 Como cliente quiero poder aumentar y reducir la cantidad de cada producto de la lista
 Como cliente quiero poder marcar elementos de la lista como comprados
 Como cliente quiero que la lista se mantenga cuando vuelva a abrir la aplicación
-Como cliente quiero que al menos se pueda interactuar con un GUI
+Como cliente quiero que al menos se pueda interactuar con un UserInterface.GUI
 Como cliente quiero poder marcar productos como favoritos, para que no tenga que volver a escribir su nombre
 Como cliente quiero que la aplicación pueda tener nuevas formas de guardar la lista en el futuro
 Como cliente quiero que la aplicación pueda tener nuevas formas de interacción en el futuro

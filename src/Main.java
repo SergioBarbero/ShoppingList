@@ -48,8 +48,6 @@ public class Main {
      */
 
     private static void mainGUI(String[] args) throws IOException {
-        UIManager managerUI = new GUI();
-        managerUI.getPersistence().loadDB();
         Application.launch(MainWindow.class, args);
     }
 
