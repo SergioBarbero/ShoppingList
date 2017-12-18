@@ -173,6 +173,10 @@ public class Product{
         return this.price;
     }
 
+    public String getQuantityToString(){
+        return ((this.quantity <= 0) ? " - " : String.valueOf(this.quantity));
+    }
+
     /**
      * Set a new price to the product
      * @param price new price for the product

@@ -27,6 +27,7 @@ public class MainWindow extends Application  {
 
     private Button actions[];
     private Button buttonNew;
+    private Button buttonModify;
     private List<Product> list = ProductList.getInstance().getList();
     CheckBox[] selected;
     private GUI operation;
@@ -36,9 +37,6 @@ public class MainWindow extends Application  {
     public MainWindow() throws IOException {
         operation = new GUI();
     }
-
-
-
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -53,6 +51,83 @@ public class MainWindow extends Application  {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+        buttonModify.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Stage modProductStage = new Stage();
+                GridPane modProductPane = new GridPane();
+
+                //Blocking our parent Stage until this one is closed
+                modProductStage.initModality(Modality.WINDOW_MODAL);
+                modProductStage.initOwner(primaryStage);
+
+                //New Window
+                Scene scene = new Scene(modProductPane, 700, 100);
+
+                modProductStage.setTitle("New Product");
+                modProductStage.setScene(scene);
+                modProductStage.show();
+
+                modProductPane.setHgap(10);
+                modProductPane.setVgap(10);
+                modProductPane.setPadding(new Insets(10, 10, 10, 10));
+
+                Text nameLab = new Text("Nombre");
+                nameLab.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+
+                Text quantityLab = new Text("Cantidad");
+                quantityLab.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+
+                Text priceLab = new Text("Precio");
+                quantityLab.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+
+                Text[] labs = new Text[]{
+                        nameLab, quantityLab, priceLab
+                };
+
+                //Adding labels to our grid
+                for(int i = 2, index=0; i <= 4; i++, index++){
+                    modProductPane.add(labs[index], i, 0);
+                }
+
+                TextField name = new TextField ();
+                TextField quantity = new TextField ();
+                TextField price = new TextField();
+                Button submit = new Button("Modificar");
+
+
+                modProductPane.add(name, 2,1);
+                modProductPane.add(quantity, 3,1);
+                modProductPane.add(price, 4,1);
+                modProductPane.add(submit, 7,1);
+
+
+                for(Map.Entry<Product, CheckBox> entry : selectedProducts.entrySet()){
+                    if(entry.getValue().isSelected()){
+                        Product prodToMod = entry.getKey();
+                        name.setText(prodToMod.getName());
+                        quantity.setText(prodToMod.getQuantityToString());
+                        price.setText(prodToMod.getPriceToString());
+
+                        submit.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                operation.getListUtil().modifyNameList(prodToMod.getId(),name.getText());
+                                operation.getListUtil().modifyQuantityList(prodToMod.getId(),Integer.parseInt(quantity.getText()));
+                                String a = price.getText();
+                                if(!price.getText().equals(" - "))
+                                    operation.getListUtil().modifyPriceList(prodToMod.getId(),Double.parseDouble(price.getText()));
+                                root.setCenter(content());
+                                modProductStage.close();
+                                disableEnableButtons();
+                            }
+                        });
+                    }
+
+                }
+            }
+        });
+
         buttonNew.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -64,9 +139,9 @@ public class MainWindow extends Application  {
                 newProductStage.initOwner(primaryStage);
 
                 //New Window
-                Scene scene = new Scene(newProductPane, 500, 200);
+                Scene scene = new Scene(newProductPane, 500, 100);
 
-                newProductStage.setTitle("New Product");
+                newProductStage.setTitle("Nuevo producto");
                 newProductStage.setScene(scene);
                 newProductStage.show();
 
@@ -123,6 +198,7 @@ public class MainWindow extends Application  {
         MenuItem itemBought = new MenuItem("Comprados");
 
         selection.getItems().addAll(itemAll, itemNothing, itemFav, itemBought);
+
 
 
         itemAll.setOnAction(new EventHandler<ActionEvent>() {
@@ -232,8 +308,8 @@ public class MainWindow extends Application  {
 
         Button buttonBought;
         Button buttonFav;
-        Button buttonModify;
         Button buttonDel;
+
         actions = new Button[] {
                 buttonNew = new Button("Nuevo"),
                 buttonDel = new Button("Eliminar"),
@@ -242,6 +318,8 @@ public class MainWindow extends Application  {
                 buttonFav = new Button("Marcar como favorito")
         };
         vbox.getChildren().addAll(actions);
+
+
 
         buttonDel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
