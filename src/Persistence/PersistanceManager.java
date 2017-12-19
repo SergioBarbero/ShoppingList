@@ -1,5 +1,6 @@
 package Persistence;
-import Utilities.*;
+import Utilities.GeneralUtilities;
+
 import java.io.IOException;
 
 public abstract class PersistanceManager {
@@ -29,15 +30,10 @@ public abstract class PersistanceManager {
 
     public abstract void loadDB() throws IOException;
 
-    public abstract void checkFolder(String folderName);
-
     public abstract void checkDB() throws IOException;
 
     protected abstract void readDB() throws IOException;
 
     public abstract void writeDB() throws IOException;
 
-    public abstract String getDBFolder();
-
-    public abstract String getDBFile();
 }

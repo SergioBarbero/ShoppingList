@@ -1,7 +1,4 @@
 import java.io.IOException;
-
-import Persistence.FilePersistence;
-import Persistence.PersistanceManager;
 import UserInterface.*;
 import javafx.application.Application;
 
@@ -16,7 +13,7 @@ public class Main {
      * Allows to change between UserInterface.UI and UserInterface.GUI more easy
      */
 
-    private static boolean GUI = true;
+    private static boolean GUI = false;
 
     /**
      * Main program

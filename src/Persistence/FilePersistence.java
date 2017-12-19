@@ -90,7 +90,6 @@ public class FilePersistence extends PersistanceManager{
      * @param folderName folder where the file should be
      */
 
-    @Override
     public void checkFolder(String folderName){
         File dir = new File(folderName);
         if ((!dir.exists()) || (dir.exists() && !dir.isDirectory())) {
@@ -230,7 +229,6 @@ public class FilePersistence extends PersistanceManager{
      * @return folder name
      */
 
-    @Override
     public String getDBFolder() {
         return this.folderName;
     }
@@ -240,7 +238,6 @@ public class FilePersistence extends PersistanceManager{
      * @return file name
      */
 
-    @Override
     public String getDBFile(){
         return this.fileName;
     }

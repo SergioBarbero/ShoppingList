@@ -1,13 +1,12 @@
-package Utilities;
-import Products.*;
+package Products;
 
-public class ListUtilities {
+public class ProductListOperations {
 
     /**
-     * Utilities.ListUtilities constructor
+     * Products.ProductListOperations constructor
      */
 
-    public ListUtilities(){
+    public ProductListOperations(){
 
     }
 

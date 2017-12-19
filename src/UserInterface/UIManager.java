@@ -1,6 +1,8 @@
 package UserInterface;
 import Persistence.*;
-import Utilities.*;
+import Products.ProductListOperations;
+import Utilities.GeneralUtilities;
+
 import java.io.IOException;
 
 public abstract class UIManager {
@@ -15,7 +17,7 @@ public abstract class UIManager {
      * List utilities
      */
 
-    private ListUtilities lUtil = null;
+    private ProductListOperations lUtil = null;
 
     /**
      * Gernal utilities
@@ -25,22 +27,29 @@ public abstract class UIManager {
 
     UIManager() throws IOException {
         this.pManager = askPersistenceSystem();
-        this.lUtil = new ListUtilities();
+        this.lUtil = new ProductListOperations();
         this.gUtil = new GeneralUtilities();
     }
 
     /**
-     * Select persistence system
-     * @return new instance for persistence system
+     * Creates file persistem system
+     * @return new file persistence
      */
 
-    private PersistanceManager askPersistenceSystem() throws IOException {
-        boolean file = true;
-
-        return file ? new FilePersistence(): new DBPersistence();
+    FilePersistence NewFilePersistence(){
+        return new FilePersistence();
     }
 
+    /**
+     * Creates database persistem system
+     * @return new database persistence
+     */
 
+    DBPersistence NewDBPersistence(){
+        return new DBPersistence();
+    }
+
+    public abstract PersistanceManager askPersistenceSystem() throws IOException;
 
     /**
      * Gets persistence system
@@ -65,7 +74,7 @@ public abstract class UIManager {
      * @return list util
      */
 
-    ListUtilities getListUtil() {
+    ProductListOperations getListUtil() {
         return lUtil;
     }
 

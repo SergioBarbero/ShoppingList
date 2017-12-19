@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
+import Persistence.PersistanceManager;
 import Products.*;
 
 public class UI extends UIManager {
@@ -13,6 +14,22 @@ public class UI extends UIManager {
 
     public UI() throws IOException {
         super();
+    }
+
+    /**
+     * Select persistence system
+     * @return new instance for persistence system
+     */
+
+    @Override
+    public PersistanceManager askPersistenceSystem() throws IOException {
+
+        boolean file = true;
+
+        // Ask user fot persistence type (file or database) with a message through the console
+        // We have no databse implemented, so it's file persistence by default
+
+        return file ? NewFilePersistence(): NewDBPersistence();
     }
 
     /**
