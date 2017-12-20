@@ -142,26 +142,13 @@ public class Product{
     }
 
     /**
-     * Increases the quantity of the product by 1
+     * In order to print the product quantity, we convert it,
+     *  so if there is no value yet, it desplays " - "
+     * @return quantity of the product or '-' if has no quantity
      */
 
-    public void increaseQuantity(){
-        setQuantity(getQuantity()+1);
-    }
-
-    /**
-     * Decreases the quantity of a product by 1
-     */
-
-    public void decreaseQuantity(){
-        if(getQuantity() > 0) {
-            setQuantity(getQuantity()-1);
-        }else if(getQuantity() <= 0){
-            setQuantity(0);
-            if(!getFavorite()){
-                ProductList.getInstance().deleteProduct(getId());
-            }
-        }
+    public String getQuantityToString(){
+        return ((getQuantity() <= 0) ? " - " : String.valueOf(getQuantity()));
     }
 
     /**
@@ -169,12 +156,8 @@ public class Product{
      * @return price of the product
      */
 
-    public double getPrice(){
+    private double getPrice(){
         return this.price;
-    }
-
-    public String getQuantityToString(){
-        return ((this.quantity <= 0) ? " - " : String.valueOf(this.quantity));
     }
 
     /**
@@ -193,7 +176,7 @@ public class Product{
      */
 
     public String getPriceToString(){
-        return ((this.price <= 0) ? " - " : String.valueOf(this.price));
+        return ((getPrice() <= 0) ? " - " : String.valueOf(getPrice()));
     }
 
     /**

@@ -15,7 +15,7 @@ public abstract class PersistanceManager {
      * Persistence manager constructor
      */
 
-    public PersistanceManager(){
+    PersistanceManager(){
         this.gUtil = new GeneralUtilities();
     }
 

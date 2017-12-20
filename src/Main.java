@@ -13,7 +13,7 @@ public class Main {
      * Allows to change between UserInterface.UI and UserInterface.GUI more easy
      */
 
-    private static boolean GUI = false;
+    private static boolean GUI = true;
 
     /**
      * Main program

@@ -59,8 +59,11 @@ public class ProductList {
      * @param id of the product to be deleted
      */
 
-    public void deleteProduct(int id){
+    void deleteProduct(int id){
         getList().remove(id);
+        for(int i = id; i < getList().size(); i++){
+            getProduct(i).setId(getProduct(i).getId()-1);
+        }
     }
 
     /**
@@ -69,16 +72,9 @@ public class ProductList {
      * @return Products.Product with id
      */
 
-    public Product getProduct(int id){
+    Product getProduct(int id){
         return getList().get(id);
     }
 
-    /**
-     * Clear list
-     */
-
-    public void resetList(){
-        this.myList = new ArrayList<>();
-    }
 
 }

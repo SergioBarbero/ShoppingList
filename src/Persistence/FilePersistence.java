@@ -45,7 +45,7 @@ public class FilePersistence extends PersistanceManager{
      * @return name of the file
      */
 
-    public String getFullFileName(){
+    private String getFullFileName(){
         return this.fullFileName;
     }
 
@@ -90,7 +90,7 @@ public class FilePersistence extends PersistanceManager{
      * @param folderName folder where the file should be
      */
 
-    public void checkFolder(String folderName){
+    private void checkFolder(String folderName){
         File dir = new File(folderName);
         if ((!dir.exists()) || (dir.exists() && !dir.isDirectory())) {
             dir.mkdir();
@@ -229,7 +229,7 @@ public class FilePersistence extends PersistanceManager{
      * @return folder name
      */
 
-    public String getDBFolder() {
+    private String getDBFolder() {
         return this.folderName;
     }
 
@@ -238,7 +238,7 @@ public class FilePersistence extends PersistanceManager{
      * @return file name
      */
 
-    public String getDBFile(){
+    private String getDBFile(){
         return this.fileName;
     }
 

@@ -133,7 +133,7 @@ public class UI extends UIManager {
             return false;
         }
         int quantity = Integer.parseInt(askUser("Introduce la cantidad: "));
-        String noQuantity = "NO";
+        String noQuantity;
         if(quantity < 1){
             quantity = 0;
             noQuantity = askUser("Cantidad insuficiente.\n" +
@@ -143,9 +143,8 @@ public class UI extends UIManager {
             }
         }
         getListUtil().addToList(name, quantity);
-        if(noQuantity.equals("SI")){
-            getListUtil().markAsFavList(getListUtil().productIDByName(name));
-        }
+        getListUtil().markAsFavList(getListUtil().productIDByName(name));
+
         return true;
     }
 
