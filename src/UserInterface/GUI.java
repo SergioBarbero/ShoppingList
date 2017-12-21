@@ -35,6 +35,11 @@ public class GUI extends Application  {
         operation.getPersistence().loadDB();
     }
 
+    /**
+     * Starts the main Window
+     * @param primaryStage Stage to use
+     * @throws Exception if it fails
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         root = new BorderPane();
@@ -48,79 +53,76 @@ public class GUI extends Application  {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        buttonModify.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Stage modProductStage = new Stage();
-                GridPane modProductPane = new GridPane();
+        buttonModify.setOnAction(event -> {
+            Stage modProductStage = new Stage();
+            GridPane modProductPane = new GridPane();
 
-                //Blocking our parent Stage until this one is closed
-                modProductStage.initModality(Modality.WINDOW_MODAL);
-                modProductStage.initOwner(primaryStage);
+            //Blocking our parent Stage until this one is closed
+            modProductStage.initModality(Modality.WINDOW_MODAL);
+            modProductStage.initOwner(primaryStage);
 
-                //New Window
-                Scene scene = new Scene(modProductPane, 700, 100);
+            //New Window
+            Scene scene1 = new Scene(modProductPane, 700, 100);
 
-                modProductStage.setTitle("New Product");
-                modProductStage.setScene(scene);
-                modProductStage.show();
+            modProductStage.setTitle("New Product");
+            modProductStage.setScene(scene1);
+            modProductStage.show();
 
-                modProductPane.setHgap(10);
-                modProductPane.setVgap(10);
-                modProductPane.setPadding(new Insets(10, 10, 10, 10));
+            modProductPane.setHgap(10);
+            modProductPane.setVgap(10);
+            modProductPane.setPadding(new Insets(10, 10, 10, 10));
 
-                Text nameLab = new Text("Nombre");
-                nameLab.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+            Text nameLab = new Text("Nombre");
+            nameLab.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 
-                Text quantityLab = new Text("Cantidad");
-                quantityLab.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+            Text quantityLab = new Text("Cantidad");
+            quantityLab.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 
-                Text priceLab = new Text("Precio");
-                priceLab.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+            Text priceLab = new Text("Precio");
+            priceLab.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 
-                Text[] labs = new Text[]{
-                        nameLab, quantityLab, priceLab
-                };
+            Text[] labs = new Text[]{
+                    nameLab, quantityLab, priceLab
+            };
 
-                //Adding labels to our grid
-                for(int i = 2, index=0; i <= 4; i++, index++){
-                    modProductPane.add(labs[index], i, 0);
+            //Adding labels to our grid
+            for(int i = 2, index=0; i <= 4; i++, index++){
+                modProductPane.add(labs[index], i, 0);
+            }
+
+            TextField name = new TextField ();
+            TextField quantity = new TextField ();
+            TextField price = new TextField();
+            Button submit = new Button("Modificar");
+
+
+            modProductPane.add(name, 2,1);
+            modProductPane.add(quantity, 3,1);
+            modProductPane.add(price, 4,1);
+            modProductPane.add(submit, 7,1);
+
+
+            for(Map.Entry<Product, CheckBox> entry : selectedProducts.entrySet()){
+                if(entry.getValue().isSelected()){
+                    Product prodToMod = entry.getKey();
+                    name.setText(prodToMod.getName());
+                    quantity.setText(prodToMod.getQuantityToString());
+                    price.setText(prodToMod.getPriceToString());
+
+                    submit.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            operation.getListUtil().modifyNameList(prodToMod.getId(),name.getText());
+                            operation.getListUtil().modifyQuantityList(prodToMod.getId(),Integer.parseInt(quantity.getText()));
+                            if(!price.getText().equals(" - "))
+                                operation.getListUtil().modifyPriceList(prodToMod.getId(),Double.parseDouble(price.getText()));
+                            root.setCenter(content());
+                            modProductStage.close();
+                            disableEnableButtons();
+                        }
+                    });
                 }
 
-                TextField name = new TextField ();
-                TextField quantity = new TextField ();
-                TextField price = new TextField();
-                Button submit = new Button("Modificar");
-
-
-                modProductPane.add(name, 2,1);
-                modProductPane.add(quantity, 3,1);
-                modProductPane.add(price, 4,1);
-                modProductPane.add(submit, 7,1);
-
-
-                for(Map.Entry<Product, CheckBox> entry : selectedProducts.entrySet()){
-                    if(entry.getValue().isSelected()){
-                        Product prodToMod = entry.getKey();
-                        name.setText(prodToMod.getName());
-                        quantity.setText(prodToMod.getQuantityToString());
-                        price.setText(prodToMod.getPriceToString());
-
-                        submit.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent event) {
-                                operation.getListUtil().modifyNameList(prodToMod.getId(),name.getText());
-                                operation.getListUtil().modifyQuantityList(prodToMod.getId(),Integer.parseInt(quantity.getText()));
-                                if(!price.getText().equals(" - "))
-                                    operation.getListUtil().modifyPriceList(prodToMod.getId(),Double.parseDouble(price.getText()));
-                                root.setCenter(content());
-                                modProductStage.close();
-                                disableEnableButtons();
-                            }
-                        });
-                    }
-
-                }
             }
         });
 
@@ -162,13 +164,10 @@ public class GUI extends Application  {
                 newProductPane.add(quantity, 3,1);
                 newProductPane.add(submit, 7,1);
 
-                submit.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        Integer q = Integer.parseInt(quantity.getText());
-                        operation.getListUtil().addToList(name.getText(),q);
-                        root.setCenter(content());
-                    }
+                submit.setOnAction(event1 -> {
+                    Integer q = Integer.parseInt(quantity.getText());
+                    operation.getListUtil().addToList(name.getText(),q);
+                    root.setCenter(content());
                 });
 
             }
@@ -176,6 +175,10 @@ public class GUI extends Application  {
     }
 
 
+    /**
+     * It creates the content into the stage
+     * @return grid to load into the stage
+     */
     private GridPane content() {
         GridPane grid = new GridPane();
         grid.setHgap(10);
@@ -197,50 +200,38 @@ public class GUI extends Application  {
 
 
 
-        itemAll.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                for (CheckBox aSelected : selected) {
-                    aSelected.setSelected(true);
-                }
-                disableEnableButtons();
+        itemAll.setOnAction(event -> {
+            for (CheckBox aSelected : selected) {
+                aSelected.setSelected(true);
             }
+            disableEnableButtons();
         });
 
-        itemNothing.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                for (CheckBox aSelected : selected) {
-                    aSelected.setSelected(false);
-                }
-                disableEnableButtons();
+        itemNothing.setOnAction(event -> {
+            for (CheckBox aSelected : selected) {
+                aSelected.setSelected(false);
             }
+            disableEnableButtons();
         });
 
-        itemBought.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                for(int i = 0; i <selected.length; i++){
-                    selected[i].setSelected(false);
-                    if(list.get(i).getBought()) {
-                        selected[i].setSelected(true);
-                    }
+        itemBought.setOnAction(event -> {
+            for(int i = 0; i <selected.length; i++){
+                selected[i].setSelected(false);
+                if(list.get(i).getBought()) {
+                    selected[i].setSelected(true);
                 }
-                disableEnableButtons();
             }
+            disableEnableButtons();
         });
 
-        itemFav.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                for(int i = 0; i <selected.length; i++){
-                    selected[i].setSelected(false);
-                    if(list.get(i).getFavorite()) {
-                        selected[i].setSelected(true);
-                    }
+        itemFav.setOnAction(event -> {
+            for(int i = 0; i <selected.length; i++){
+                selected[i].setSelected(false);
+                if(list.get(i).getFavorite()) {
+                    selected[i].setSelected(true);
                 }
-                disableEnableButtons();
             }
+            disableEnableButtons();
         });
 
         grid.add(selection, 1, 0);
@@ -268,6 +259,10 @@ public class GUI extends Application  {
 
     }
 
+    /**
+     * Add header to the grid
+     * @param grid to load the header in
+     */
     private void addHeader(GridPane grid){
         //Header
         Text name = new Text("Nombre");
@@ -292,6 +287,10 @@ public class GUI extends Application  {
     }
 
 
+    /**
+     * Add left margin set of actions
+     * @return
+     */
     private VBox actions() {
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(10));
@@ -321,59 +320,47 @@ public class GUI extends Application  {
 
 
 
-        buttonDel.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                for(Map.Entry<Product, CheckBox> entry : selectedProducts.entrySet()) {
-                    Product myProd = entry.getKey();
-                    String name = myProd.getName();
-                    if(entry.getValue().isSelected()) {
-                        int id = operation.getListUtil().productIDByName(name);
-                        operation.getListUtil().deleteFromList(id);
-                    }
+        buttonDel.setOnAction(event -> {
+            for(Map.Entry<Product, CheckBox> entry : selectedProducts.entrySet()) {
+                Product myProd = entry.getKey();
+                String name = myProd.getName();
+                if(entry.getValue().isSelected()) {
+                    int id = operation.getListUtil().productIDByName(name);
+                    operation.getListUtil().deleteFromList(id);
                 }
-                root.setCenter(content());
             }
+            root.setCenter(content());
         });
 
-        buttonFav.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                for(Map.Entry<Product, CheckBox> entry : selectedProducts.entrySet()) {
-                    Product myProd = entry.getKey();
-                    String name = myProd.getName();
-                    if(entry.getValue().isSelected()) {
-                        int id = operation.getListUtil().productIDByName(name);
-                        operation.getListUtil().markAsFavList(id);
-                    }
+        buttonFav.setOnAction(event -> {
+            for(Map.Entry<Product, CheckBox> entry : selectedProducts.entrySet()) {
+                Product myProd = entry.getKey();
+                String name = myProd.getName();
+                if(entry.getValue().isSelected()) {
+                    int id = operation.getListUtil().productIDByName(name);
+                    operation.getListUtil().markAsFavList(id);
                 }
-                root.setCenter(content());
             }
+            root.setCenter(content());
         });
 
-        buttonBought.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                for(Map.Entry<Product, CheckBox> entry : selectedProducts.entrySet()) {
-                    Product myProd = entry.getKey();
-                    String name = myProd.getName();
-                    if(entry.getValue().isSelected()) {
-                        int id = operation.getListUtil().productIDByName(name);
-                        operation.getListUtil().markAsBoughtList(id);
-                    }
+        buttonBought.setOnAction(event -> {
+            for(Map.Entry<Product, CheckBox> entry : selectedProducts.entrySet()) {
+                Product myProd = entry.getKey();
+                String name = myProd.getName();
+                if(entry.getValue().isSelected()) {
+                    int id = operation.getListUtil().productIDByName(name);
+                    operation.getListUtil().markAsBoughtList(id);
                 }
-                root.setCenter(content());
             }
+            root.setCenter(content());
         });
 
-        buttonSave.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    operation.getPersistence().writeDB();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        buttonSave.setOnAction(event -> {
+            try {
+                operation.getPersistence().writeDB();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
 
@@ -385,6 +372,9 @@ public class GUI extends Application  {
     }
 
 
+    /**
+     * Check if just new button is enabled
+     */
     private void onlyNewButtonEnabled(){
         for (int i=0; i<5; i++) {
             if (i != 0)
@@ -392,6 +382,10 @@ public class GUI extends Application  {
         }
     }
 
+    /**
+     * Display the content of the list into the grid
+     * @param grid to load the content in
+     */
     private void displayContent(GridPane grid){
         selected = new CheckBox[list.size()];
         selectedProducts = new HashMap<>();
@@ -416,12 +410,7 @@ public class GUI extends Application  {
         }
 
         for (CheckBox aSelected : selected) {
-            aSelected.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    disableEnableButtons();
-                }
-            });
+            aSelected.setOnAction(event -> disableEnableButtons());
         }
 
     }
