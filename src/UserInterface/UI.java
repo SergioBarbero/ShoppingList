@@ -21,17 +21,6 @@ public class UI extends UIManager {
      * @return new instance for persistence system
      */
 
-    @Override
-    public PersistanceManager askPersistenceSystem() throws IOException {
-
-        boolean file = true;
-
-        // Ask user fot persistence type (file or database) with a message through the console
-        // We have no databse implemented, so it's file persistence by default
-
-        return file ? NewFilePersistence(): NewDBPersistence();
-    }
-
     /**
      * Gets a String from the user
      * @return String returned

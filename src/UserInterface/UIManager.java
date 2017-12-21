@@ -49,7 +49,15 @@ public abstract class UIManager {
         return new DBPersistence();
     }
 
-    public abstract PersistanceManager askPersistenceSystem() throws IOException;
+    public PersistanceManager askPersistenceSystem() throws IOException{
+
+        boolean file = true;
+
+        // Ask user fot persistence type (file or database) with a message through the console
+        // We have no databse implemented, so it's file persistence by default
+
+        return file ? NewFilePersistence(): NewDBPersistence();
+    }
 
     /**
      * Gets persistence system
