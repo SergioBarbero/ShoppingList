@@ -44,7 +44,7 @@ public class Main {
      * Function calling graphic interface
      */
 
-    private static void mainGUI(String[] args) throws IOException {
+    private static void mainGUI(String[] args) {
         Application.launch(GUI.class, args);
     }
 
