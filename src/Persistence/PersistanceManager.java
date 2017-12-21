@@ -1,6 +1,5 @@
 package Persistence;
 import Utilities.GeneralUtilities;
-
 import java.io.IOException;
 
 public abstract class PersistanceManager {

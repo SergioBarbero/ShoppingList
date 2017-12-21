@@ -3,23 +3,18 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
-import Persistence.PersistanceManager;
 import Products.*;
 
 public class UI extends UIManager {
 
     /**
      * UserInterface.UI constructor
+     * @throws IOException exception management for write/read from files
      */
 
     public UI() throws IOException {
         super();
     }
-
-    /**
-     * Select persistence system
-     * @return new instance for persistence system
-     */
 
     /**
      * Gets a String from the user
@@ -37,7 +32,7 @@ public class UI extends UIManager {
      */
 
 
-    public String askUser(String question){
+    private String askUser(String question){
         System.out.println(question);
         return getIntroduced();
     }
@@ -47,8 +42,7 @@ public class UI extends UIManager {
      * @throws IOException exception management for write/read from files
      */
 
-
-    public void askInfoProduct(String[] args) throws IOException {
+    public void askInfoProduct() throws IOException {
 
         boolean inLoop = true;
         boolean cambios = false;
@@ -320,7 +314,7 @@ public class UI extends UIManager {
      */
 
 
-    public void displayList(){
+    private void displayList(){
         System.out.println("\nID\tName\t\tQuantity\tBought\tPrice\tFavorite");
         for(Product pr: ProductList.getInstance().getList()){
             System.out.println(

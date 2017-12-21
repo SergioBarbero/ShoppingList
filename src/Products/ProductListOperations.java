@@ -3,14 +3,6 @@ package Products;
 public class ProductListOperations {
 
     /**
-     * Products.ProductListOperations constructor
-     */
-
-    public ProductListOperations(){
-
-    }
-
-    /**
      * Know if a product exists by his name
      * @param name of the product
      * @return true/false

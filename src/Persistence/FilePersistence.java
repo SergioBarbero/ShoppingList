@@ -76,7 +76,7 @@ public class FilePersistence extends PersistanceManager{
     }
 
     /**
-     * Sets name of the list
+     * Load product list from file
      * @throws IOException exception management for write/read from files
      */
 
@@ -98,7 +98,8 @@ public class FilePersistence extends PersistanceManager{
     }
 
     /**
-     *  Checks if the file for this user already exists to open it, or creates a new list
+     *  Checks if the file already exists to open it, or creates a new list
+     *  @throws IOException exception management for write/read from files
      */
 
     @Override
@@ -114,6 +115,7 @@ public class FilePersistence extends PersistanceManager{
 
     /**
      * Read a list of products from a file
+     * @throws IOException exception management for write/read from files
      */
 
     @Override

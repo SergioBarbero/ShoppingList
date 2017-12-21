@@ -25,7 +25,7 @@ public class Main {
         if(GUI) {
             mainGUI(args);
         } else{
-            mainUI(args);
+            mainUI();
         }
     }
 
@@ -34,10 +34,10 @@ public class Main {
      * @throws IOException exception management for writing/reading from files
      */
 
-    private static void mainUI(String[] args) throws IOException {
+    private static void mainUI() throws IOException {
         UI managerUI = new UI();
         managerUI.getPersistence().loadDB();
-        managerUI.askInfoProduct(args);
+        managerUI.askInfoProduct();
     }
 
     /**

@@ -25,6 +25,11 @@ public class UIManager {
 
     private GeneralUtilities gUtil = null;
 
+    /**
+     * UIMaager constructor
+     * @throws IOException exception management for write/read from files
+     */
+
     UIManager() throws IOException {
         this.pManager = askPersistenceSystem();
         this.lUtil = new ProductListOperations();
@@ -36,7 +41,7 @@ public class UIManager {
      * @return new file persistence
      */
 
-    FilePersistence NewFilePersistence(){
+    private FilePersistence NewFilePersistence(){
         return new FilePersistence();
     }
 
@@ -45,11 +50,17 @@ public class UIManager {
      * @return new database persistence
      */
 
-    DBPersistence NewDBPersistence(){
+    private DBPersistence NewDBPersistence(){
         return new DBPersistence();
     }
 
-    public PersistanceManager askPersistenceSystem() throws IOException{
+    /**
+     * Gets persistence system denpending on what the user wants
+     * @return persistence system
+     * @throws IOException exception management for write/read from files
+     */
+
+    private PersistanceManager askPersistenceSystem() throws IOException{
 
         boolean file = true;
 
