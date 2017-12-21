@@ -25,10 +25,10 @@ public class MainWindow extends Application  {
     private Button buttonNew;
     private Button buttonModify;
     private List<Product> list = ProductList.getInstance().getList();
-    CheckBox[] selected;
+    private CheckBox[] selected;
     private GUI operation;
-    BorderPane root;
-    HashMap<Product, CheckBox> selectedProducts;
+    private BorderPane root;
+    private HashMap<Product, CheckBox> selectedProducts;
 
     public MainWindow() throws IOException {
         operation = new GUI();
@@ -111,7 +111,6 @@ public class MainWindow extends Application  {
                             public void handle(ActionEvent event) {
                                 operation.getListUtil().modifyNameList(prodToMod.getId(),name.getText());
                                 operation.getListUtil().modifyQuantityList(prodToMod.getId(),Integer.parseInt(quantity.getText()));
-                                String a = price.getText();
                                 if(!price.getText().equals(" - "))
                                     operation.getListUtil().modifyPriceList(prodToMod.getId(),Double.parseDouble(price.getText()));
                                 root.setCenter(content());
@@ -177,7 +176,7 @@ public class MainWindow extends Application  {
     }
 
 
-    public GridPane content() {
+    private GridPane content() {
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
@@ -201,8 +200,8 @@ public class MainWindow extends Application  {
         itemAll.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                for(int i = 0; i <selected.length; i++){
-                    selected[i].setSelected(true);
+                for (CheckBox aSelected : selected) {
+                    aSelected.setSelected(true);
                 }
                 disableEnableButtons();
             }
@@ -211,8 +210,8 @@ public class MainWindow extends Application  {
         itemNothing.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                for(int i = 0; i <selected.length; i++){
-                    selected[i].setSelected(false);
+                for (CheckBox aSelected : selected) {
+                    aSelected.setSelected(false);
                 }
                 disableEnableButtons();
             }
@@ -251,16 +250,15 @@ public class MainWindow extends Application  {
         return grid;
     }
 
-    public void disableEnableButtons(){
-        boolean unique = true;
+    private void disableEnableButtons(){
         int counter = 0;
-        for(int i = 0; i <selected.length; i++){
-            if(selected[i].isSelected()) {
+        for (CheckBox aSelected : selected) {
+            if (aSelected.isSelected()) {
                 counter++;
             }
         }
-        for(int i= 0; i < actions.length; i++){
-            actions[i].setDisable(false);
+        for (Button action : actions) {
+            action.setDisable(false);
         }
         if(counter == 0){
             onlyNewButtonEnabled();
@@ -270,7 +268,7 @@ public class MainWindow extends Application  {
 
     }
 
-    public void addHeader(GridPane grid){
+    private void addHeader(GridPane grid){
         //Header
         Text name = new Text("Nombre");
         name.setFont(Font.font("Arial", FontWeight.BOLD, 20));
@@ -394,7 +392,7 @@ public class MainWindow extends Application  {
         }
     }
 
-    public void displayContent(GridPane grid){
+    private void displayContent(GridPane grid){
         selected = new CheckBox[list.size()];
         selectedProducts = new HashMap<>();
 
@@ -417,8 +415,8 @@ public class MainWindow extends Application  {
             selectedProducts.put(list.get(i), selected[i]);
         }
 
-       for(int i= 0; i < selected.length; i++){
-            selected[i].setOnAction(new EventHandler<ActionEvent>() {
+        for (CheckBox aSelected : selected) {
+            aSelected.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
                     disableEnableButtons();

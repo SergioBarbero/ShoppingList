@@ -44,6 +44,4 @@ public class GUI extends UIManager {
     public void displayList() {
     }
 
-
-
 }
