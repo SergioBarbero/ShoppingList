@@ -69,8 +69,8 @@ public class GUI extends Application  {
     public void start(Stage primaryStage) {
         root = new BorderPane();
 
-        root.setLeft(actions());
-        root.setCenter(content());
+        root.setLeft(setActions());
+        root.setCenter(setContent());
 
         Scene scene = new Scene(root, 900, 600);
 
@@ -139,7 +139,7 @@ public class GUI extends Application  {
                         operation.getListUtil().modifyQuantityList(prodToMod.getId(),Integer.parseInt(quantity.getText()));
                         if(!price.getText().equals(" - "))
                             operation.getListUtil().modifyPriceList(prodToMod.getId(),Double.parseDouble(price.getText()));
-                        root.setCenter(content());
+                        root.setCenter(setContent());
                         modProductStage.close();
                         disableEnableButtons();
                     });
@@ -187,7 +187,7 @@ public class GUI extends Application  {
             submit.setOnAction(event1 -> {
                 Integer q = Integer.parseInt(quantity.getText());
                 operation.getListUtil().addToList(name.getText(),q);
-                root.setCenter(content());
+                root.setCenter(setContent());
             });
 
         });
@@ -198,7 +198,7 @@ public class GUI extends Application  {
      * It creates the content into the stage
      * @return grid to load into the stage
      */
-    private GridPane content() {
+    private GridPane setContent() {
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
@@ -310,7 +310,7 @@ public class GUI extends Application  {
      * Add left margin set of actions
      * @return grid to load such set of actions in
      */
-    private VBox actions() {
+    private VBox setActions() {
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(10));
         vbox.setSpacing(8);
@@ -348,7 +348,7 @@ public class GUI extends Application  {
                     operation.getListUtil().deleteFromList(id);
                 }
             }
-            root.setCenter(content());
+            root.setCenter(setContent());
         });
 
         buttonFav.setOnAction(event -> {
@@ -360,7 +360,7 @@ public class GUI extends Application  {
                     operation.getListUtil().markAsFavList(id);
                 }
             }
-            root.setCenter(content());
+            root.setCenter(setContent());
         });
 
         buttonBought.setOnAction(event -> {
@@ -372,7 +372,7 @@ public class GUI extends Application  {
                     operation.getListUtil().markAsBoughtList(id);
                 }
             }
-            root.setCenter(content());
+            root.setCenter(setContent());
         });
 
         buttonSave.setOnAction(event -> {
