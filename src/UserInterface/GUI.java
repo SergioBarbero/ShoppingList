@@ -3,8 +3,6 @@ package UserInterface;
 import Products.Product;
 import Products.ProductList;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -21,15 +19,43 @@ import java.util.Map;
 
 public class GUI extends Application  {
 
-    private Button actions[];
+    /**
+     * Array of actions, delete element, new element...
+     */
+    private Button[] actions;
+    /**
+     * Button new
+     */
     private Button buttonNew;
+    /**
+     * Button modify
+     */
     private Button buttonModify;
+    /**
+     * My list of products
+     */
     private List<Product> list = ProductList.getInstance().getList();
+    /**
+     * Array of selected products
+     */
     private CheckBox[] selected;
+    /**
+     * Reference to UIManager to save and load lists
+     */
     private UIManager operation;
+    /**
+     * Main pane to insert into the Stage
+     */
     private BorderPane root;
+    /**
+     * Hashmap of products and CheckBoxes, in order to see if a product has been selected
+     */
     private HashMap<Product, CheckBox> selectedProducts;
 
+    /**
+     * Constructor of the class, it instances a new UIManager and loads our db
+     * @throws IOException IOException exception management for write/read from files
+     */
     public GUI() throws IOException {
         operation = new UIManager();
         operation.getPersistence().loadDB();
@@ -38,10 +64,9 @@ public class GUI extends Application  {
     /**
      * Starts the main Window
      * @param primaryStage Stage to use
-     * @throws Exception if it fails
      */
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         root = new BorderPane();
 
         root.setLeft(actions());
@@ -109,68 +134,62 @@ public class GUI extends Application  {
                     quantity.setText(prodToMod.getQuantityToString());
                     price.setText(prodToMod.getPriceToString());
 
-                    submit.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent event) {
-                            operation.getListUtil().modifyNameList(prodToMod.getId(),name.getText());
-                            operation.getListUtil().modifyQuantityList(prodToMod.getId(),Integer.parseInt(quantity.getText()));
-                            if(!price.getText().equals(" - "))
-                                operation.getListUtil().modifyPriceList(prodToMod.getId(),Double.parseDouble(price.getText()));
-                            root.setCenter(content());
-                            modProductStage.close();
-                            disableEnableButtons();
-                        }
+                    submit.setOnAction(event12 -> {
+                        operation.getListUtil().modifyNameList(prodToMod.getId(),name.getText());
+                        operation.getListUtil().modifyQuantityList(prodToMod.getId(),Integer.parseInt(quantity.getText()));
+                        if(!price.getText().equals(" - "))
+                            operation.getListUtil().modifyPriceList(prodToMod.getId(),Double.parseDouble(price.getText()));
+                        root.setCenter(content());
+                        modProductStage.close();
+                        disableEnableButtons();
                     });
                 }
 
             }
         });
 
-        buttonNew.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Stage newProductStage = new Stage();
-                GridPane newProductPane = new GridPane();
+        buttonNew.setOnAction(event -> {
+            Stage newProductStage = new Stage();
+            GridPane newProductPane = new GridPane();
 
-                //Blocking our parent Stage until this one is closed
-                newProductStage.initModality(Modality.WINDOW_MODAL);
-                newProductStage.initOwner(primaryStage);
+            //Blocking our parent Stage until this one is closed
+            newProductStage.initModality(Modality.WINDOW_MODAL);
+            newProductStage.initOwner(primaryStage);
 
-                //New Window
-                Scene scene = new Scene(newProductPane, 500, 100);
+            //New Window
+            Scene scene12 = new Scene(newProductPane, 500, 100);
 
-                newProductStage.setTitle("Nuevo producto");
-                newProductStage.setScene(scene);
-                newProductStage.show();
+            newProductStage.setTitle("Nuevo producto");
+            newProductStage.setScene(scene12);
+            newProductStage.show();
 
-                newProductPane.setHgap(10);
-                newProductPane.setVgap(10);
-                newProductPane.setPadding(new Insets(10, 10, 10, 10));
+            newProductPane.setHgap(10);
+            newProductPane.setVgap(10);
+            newProductPane.setPadding(new Insets(10, 10, 10, 10));
 
-                Text nameLab = new Text("Nombre");
-                nameLab.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-                newProductPane.add(nameLab, 2, 0);
+            Text nameLab = new Text("Nombre");
+            nameLab.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+            newProductPane.add(nameLab, 2, 0);
 
-                Text quantityLab = new Text("Cantidad");
-                quantityLab.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-                newProductPane.add(quantityLab, 3, 0);
+            Text quantityLab = new Text("Cantidad");
+            quantityLab.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+            newProductPane.add(quantityLab, 3, 0);
 
-                TextField name = new TextField ();
-                TextField quantity = new TextField ();
-                Button submit = new Button("Añadir");
+            TextField name = new TextField ();
+            TextField quantity = new TextField ();
+            Button submit = new Button("Añadir");
 
 
-                newProductPane.add(name, 2,1);
-                newProductPane.add(quantity, 3,1);
-                newProductPane.add(submit, 7,1);
+            newProductPane.add(name, 2,1);
+            newProductPane.add(quantity, 3,1);
+            newProductPane.add(submit, 7,1);
 
-                submit.setOnAction(event1 -> {
-                    Integer q = Integer.parseInt(quantity.getText());
-                    operation.getListUtil().addToList(name.getText(),q);
-                    root.setCenter(content());
-                });
+            submit.setOnAction(event1 -> {
+                Integer q = Integer.parseInt(quantity.getText());
+                operation.getListUtil().addToList(name.getText(),q);
+                root.setCenter(content());
+            });
 
-            }
         });
     }
 
@@ -289,7 +308,7 @@ public class GUI extends Application  {
 
     /**
      * Add left margin set of actions
-     * @return
+     * @return grid to load such set of actions in
      */
     private VBox actions() {
         VBox vbox = new VBox();
