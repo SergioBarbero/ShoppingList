@@ -132,7 +132,9 @@ public class UI extends UIManager {
             }
         }
         getListUtil().addToList(name, quantity);
-        getListUtil().markAsFavList(getListUtil().productIDByName(name));
+        if (quantity == 0) {
+            getListUtil().markAsFavList(getListUtil().productIDByName(name));
+        }
 
         return true;
     }

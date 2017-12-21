@@ -13,7 +13,7 @@ public class Main {
      * Allows to change between UI and GUI easier
      */
 
-    private static boolean GUI = true;
+    private static boolean GUI = false;
 
     /**
      * Main program
