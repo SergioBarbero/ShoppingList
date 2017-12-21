@@ -5,7 +5,7 @@ import Utilities.GeneralUtilities;
 
 import java.io.IOException;
 
-public abstract class UIManager {
+public class UIManager {
 
     /**
      * Persistance manager
@@ -85,11 +85,5 @@ public abstract class UIManager {
     ProductListOperations getListUtil() {
         return lUtil;
     }
-
-    public abstract String askUser(String question);
-
-    public abstract void askInfoProduct(String[] args) throws IOException;
-
-    public abstract void displayList();
 
 }

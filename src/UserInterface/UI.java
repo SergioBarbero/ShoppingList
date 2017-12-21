@@ -36,7 +36,7 @@ public class UI extends UIManager {
      * @return answer from user
      */
 
-    @Override
+
     public String askUser(String question){
         System.out.println(question);
         return getIntroduced();
@@ -47,7 +47,7 @@ public class UI extends UIManager {
      * @throws IOException exception management for write/read from files
      */
 
-    @Override
+
     public void askInfoProduct(String[] args) throws IOException {
 
         boolean inLoop = true;
@@ -317,7 +317,7 @@ public class UI extends UIManager {
      * Print list into shell
      */
 
-    @Override
+
     public void displayList(){
         System.out.println("\nID\tName\t\tQuantity\tBought\tPrice\tFavorite");
         for(Product pr: ProductList.getInstance().getList()){

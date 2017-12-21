@@ -10,7 +10,7 @@ import javafx.application.Application;
 public class Main {
 
     /**
-     * Allows to change between UserInterface.UI and UserInterface.GUI more easy
+     * Allows to change between UI and GUI easier
      */
 
     private static boolean GUI = true;
@@ -18,7 +18,7 @@ public class Main {
     /**
      * Main program
      * @param args standard input
-     * @throws IOException exception management for write/read from files
+     * @throws IOException exception management for writing/reading from files
      */
 
     public static void main(String args[]) throws IOException {
@@ -31,11 +31,11 @@ public class Main {
 
     /**
      * Function calling text interface
-     * @throws IOException exception management for write/read from files
+     * @throws IOException exception management for writing/reading from files
      */
 
     private static void mainUI(String[] args) throws IOException {
-        UIManager managerUI = new UI();
+        UI managerUI = new UI();
         managerUI.getPersistence().loadDB();
         managerUI.askInfoProduct(args);
     }
@@ -45,7 +45,7 @@ public class Main {
      */
 
     private static void mainGUI(String[] args) throws IOException {
-        Application.launch(MainWindow.class, args);
+        Application.launch(GUI.class, args);
     }
 
 }
